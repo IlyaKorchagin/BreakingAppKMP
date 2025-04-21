@@ -13,6 +13,7 @@ plugins {
 
 kotlin {
     androidTarget {
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_17)
         }
@@ -47,6 +48,8 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+
+            //Firebase
             implementation(project.dependencies.platform(libs.android.firebase.bom))
             implementation(libs.firebase.database)
 
@@ -66,11 +69,14 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.firebase.database)
             implementation(libs.kotlinx.coroutines.core)
+
+            //Ktor
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)
+
+            //Coil
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor3)
-
 
             //DI
             api(libs.koin.core)
@@ -79,7 +85,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodel)
 
             //Project modules
-
+            implementation(project(":module_main:data"))
 
 
         }
@@ -123,6 +129,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":module_main:data"))
     debugImplementation(compose.uiTooling)
 }
 

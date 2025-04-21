@@ -1,6 +1,7 @@
-package org.korchagin.kmp.data.repository
+package com.korchagin.data.repository
 
 
+import com.korchagin.data.models.PupilEntry
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.database.database
 import kotlinx.coroutines.coroutineScope
@@ -8,7 +9,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import org.korchagin.kmp.data.models.PupilEntry
 
 
 class UserRepositotyImplementation: UserRepository {

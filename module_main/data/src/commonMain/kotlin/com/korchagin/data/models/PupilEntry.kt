@@ -1,4 +1,4 @@
-package org.korchagin.kmp.data.models
+package com.korchagin.data.models
 
 @kotlinx.serialization.Serializable
 // Описание класса Pupils

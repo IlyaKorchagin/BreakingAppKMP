@@ -19,12 +19,10 @@ import androidx.compose.ui.unit.dp
 import breakingkmpapp.composeapp.generated.resources.Res
 import breakingkmpapp.composeapp.generated.resources.compose_multiplatform
 import coil3.compose.AsyncImage
+import com.korchagin.data.repository.UserRepository
 import org.jetbrains.compose.resources.painterResource
-import org.koin.core.annotation.KoinExperimentalAPI
-import org.korchagin.kmp.data.repository.UserRepository
 import org.koin.compose.koinInject
 
-@OptIn(KoinExperimentalAPI::class)
 @Composable
 fun Ratings() {
     val repository: UserRepository = koinInject()
