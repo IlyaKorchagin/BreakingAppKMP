@@ -1,0 +1,18 @@
+{
+  "name": "Platforma 2.0",
+  "short_name": "Platforma 2.0",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "appIcon.png",
+      "sizes": "200x200",
+      "type": "image/png"
+    }
+  ],
+  "define-override": {
+    "display": "window-controls-overlay"
+  }
+}
