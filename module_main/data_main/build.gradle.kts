@@ -1,14 +1,14 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.androidLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.serialization)
-    alias(libs.plugins.googleServices)
+    alias(libs.plugins.kotlinCocoapods)
 }
 
 kotlin {
@@ -19,32 +19,27 @@ kotlin {
         }
     }
 
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach { iosTarget ->
-        iosTarget.binaries.framework {
-            baseName = "ComposeApp"
+    js(IR) {
+        browser {}
+        binaries.executable()
+    }
+
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+
+    cocoapods {
+        summary = "Some description for the Shared Module"
+        homepage = "Link to the Shared Module homepage"
+        version = "1.0"
+        ios.deploymentTarget = "16.0"
+        framework {
+            baseName = "data_main"
             isStatic = true
         }
     }
 
-    js(IR) {
-        moduleName = "composeApp"
-        browser {
-            dependencies {
-                implementation(compose.html.core)
-            }
-            commonWebpackConfig {
-                outputFileName = "BreakingKMPApp.js"
-            }
-        }
-        binaries.executable()
-    }
-
     sourceSets {
-
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
@@ -57,8 +52,9 @@ kotlin {
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
 
-            implementation("io.coil-kt:coil-gif:2.6.0")
-            implementation ("io.coil-kt:coil-compose:2.4.0")
+            //Ktor
+            implementation(libs.ktor.client.cio)
+
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -81,22 +77,12 @@ kotlin {
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor3)
 
+
             //DI
             api(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.androidx.lifecycle.viewmodel)
-
-            //Navigation
-            implementation(libs.navigation.compose)
-            implementation(libs.navigation.compose.extra)
-
-            //UI elements
-            implementation(libs.material.extension)
-
-            //Project modules
-            implementation(project(":module_main:di_main"))
-            implementation(project(":module_main:presentation_main"))
 
 
         }
@@ -104,43 +90,24 @@ kotlin {
         val jsMain by getting {
             dependencies {
                 implementation(compose.html.core) // Compose for Web
-
             }
         }
     }
 }
-
 android {
-    namespace = "org.korchagin.kmp"
+    namespace = "org.korchagin.kmp.module_main.data_main"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "org.korchagin.kmp"
         minSdk = libs.versions.android.minSdk.get().toInt()
-        targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
     }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-        }
-    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
 }
 
-dependencies {
-    implementation(project(":module_main:data_main"))
-    implementation(libs.androidx.media3.exoplayer)
-    debugImplementation(compose.uiTooling)
-}
+
 
 

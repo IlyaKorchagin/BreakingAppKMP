@@ -26,10 +26,19 @@ dependencyResolutionManagement {
             }
         }
         mavenCentral()
+        maven {
+            credentials {
+                username = "Platforma"
+                password = "Platforma"
+            }
+            url = uri("https://nexus.x840.ru/repository/maven-releases/")
+        }
     }
 }
 
 include(":composeApp")
 
-include(":module_main:presentation")
-include(":module_main:data")
+include(":module_main:presentation_main")
+include(":module_main:data_main")
+include(":module_main:domain_main")
+include(":module_main:di_main")
