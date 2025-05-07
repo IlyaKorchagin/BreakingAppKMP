@@ -1,22 +1,15 @@
 package org.korchagin.kmp.activity.splash.fragments.screen
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import breakingkmpapp.composeapp.generated.resources.Res
-import breakingkmpapp.composeapp.generated.resources.break_splash1
-import breakingkmpapp.composeapp.generated.resources.break_splash2
-import breakingkmpapp.composeapp.generated.resources.break_splash3
-import breakingkmpapp.composeapp.generated.resources.break_splash4
-import breakingkmpapp.composeapp.generated.resources.break_splash5
 import kotlinx.coroutines.delay
-import org.jetbrains.compose.resources.DrawableResource
-import org.jetbrains.compose.resources.painterResource
 import org.korchagin.kmp.GifImage
+import org.korchagin.kmp.PlatformType
 import org.korchagin.kmp.activity.main.MainActivity
+import org.korchagin.kmp.currentPlatform
 import team.platforma.extra_nav.navigator.activity.GlobalNavigation
 import team.platforma.extra_nav.navigator.component.api.ComponentNavigator
 
@@ -26,26 +19,24 @@ fun SplashScreen(componentNavigator: ComponentNavigator) {
         delay(3000) // время показа .gif
         GlobalNavigation.navigateToActivity(MainActivity)
     }
-    val gifNames = listOf("break_splash1", "break_splash2", "break_splash3")
+    val gifNames = listOf("break_splash1", "break_splash2", "break_splash3", "break_splash4", "break_splash5")
     val randomGifName = gifNames.random()
+    val gifUrl =
+        "https://firebasestorage.googleapis.com/v0/b/goodfootbreaking.appspot.com/o/Logo%2Fbreak_splash1.gif?alt=media&token=7086ff5c-a41e-4740-8358-f31a2d4c53b6"
+
 
 
     Box(modifier = Modifier.fillMaxSize()) {
-        GifImage(
-            modifier = Modifier.fillMaxSize(),
-            drawable = randomGifName
-        )
+        when (currentPlatform) {
+            PlatformType.JS -> {
+                GifImage(
+                    drawable = gifUrl
+                )
+            }
+            else -> {
+                GifImage(randomGifName)
+            }
         }
-}
 
-
-
-fun Int.getSplashGif(): DrawableResource {
-    return when(this){
-        0 -> Res.drawable.break_splash1
-        1 -> Res.drawable.break_splash2
-        2 -> Res.drawable.break_splash3
-        3 -> Res.drawable.break_splash4
-        else -> Res.drawable.break_splash5
     }
 }

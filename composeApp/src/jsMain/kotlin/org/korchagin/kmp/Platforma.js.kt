@@ -1,27 +1,32 @@
 package org.korchagin.kmp
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import org.jetbrains.compose.web.css.height
-import org.jetbrains.compose.web.css.keywords.auto
-import org.jetbrains.compose.web.css.percent
-import org.jetbrains.compose.web.css.width
-import org.jetbrains.compose.web.dom.Img
-
+import androidx.compose.runtime.DisposableEffect
+import kotlinx.browser.document
+import org.w3c.dom.HTMLImageElement
 
 @Composable
-actual fun GifImage(modifier: Modifier, drawable: String) {
-    println("drawable: $drawable")
-    val gifUri = "/composeResources/drawable/$drawable.gif"
+actual fun GifImage(drawable: String) {
 
-    Img(
-        src = gifUri,
-        alt = "",
-        attrs = {
-            style {
-                width(100.percent)
-                height(auto)
-            }
+    DisposableEffect(drawable) {
+        val img = document.createElement("img") as HTMLImageElement
+        img.src = drawable
+        img.style.width = "50%"
+        img.style.height = "50%"
+        img.style.position = "absolute"
+        img.style.top = "50%"
+        img.style.left = "50%"
+        img.style.transform = "translate(-50%, -50%)"
+        img.style.zIndex = "999"
+
+        val root = document.getElementById("root")
+        root?.appendChild(img)
+
+        onDispose {
+            root?.removeChild(img)
         }
-    )
+    }
 }
+
+actual val currentPlatform: PlatformType
+    get() = PlatformType.JS
