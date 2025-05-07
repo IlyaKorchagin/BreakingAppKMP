@@ -1,9 +1,13 @@
 package org.korchagin.kmp
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import org.jetbrains.compose.resources.DrawableResource
 
 
 @Composable
-    expect fun GifImage(modifier: Modifier = Modifier, drawable: String)
+expect fun GifImage(drawable: String)
+
+expect val currentPlatform: PlatformType
+
+enum class PlatformType {
+    ANDROID, JS, IOS
+}

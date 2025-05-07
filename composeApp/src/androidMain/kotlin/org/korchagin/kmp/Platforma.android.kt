@@ -2,10 +2,9 @@ package org.korchagin.kmp
 
 
 import android.annotation.SuppressLint
-import android.graphics.ImageDecoder
 import android.os.Build
-import android.os.Build.VERSION.SDK_INT
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -15,22 +14,20 @@ import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
 import coil.request.ImageRequest
 import coil.size.Size
-import org.jetbrains.compose.resources.DrawableResource
 
 
 @SuppressLint("DiscouragedApi")
 @Composable
-actual fun GifImage(modifier: Modifier, drawable: String) {
+actual fun GifImage(drawable: String) {
     val context = LocalContext.current
-    // Get the drawable resource ID using the provided gifName
     val resId = context.resources.getIdentifier(drawable, "drawable", context.packageName)
 
     val imageLoader = coil.ImageLoader.Builder(context)
         .components {
             if (Build.VERSION.SDK_INT >= 28) {
-                add(ImageDecoderDecoder.Factory()) // For API >= 28
+                add(ImageDecoderDecoder.Factory())
             } else {
-                add(GifDecoder.Factory()) // For older APIs
+                add(GifDecoder.Factory())
             }
         }
         .build()
@@ -40,7 +37,7 @@ actual fun GifImage(modifier: Modifier, drawable: String) {
 
     // Image composable with Coil
     Image(
-        modifier = modifier,
+        modifier = Modifier.fillMaxSize(),
         contentScale = ContentScale.FillWidth,
         painter = rememberAsyncImagePainter(
             model = ImageRequest.Builder(context)
@@ -53,3 +50,6 @@ actual fun GifImage(modifier: Modifier, drawable: String) {
         contentDescription = null
     )
 }
+
+actual val currentPlatform: PlatformType
+    get() = PlatformType.ANDROID

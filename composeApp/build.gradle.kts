@@ -1,4 +1,4 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -33,9 +33,6 @@ kotlin {
     js(IR) {
         moduleName = "composeApp"
         browser {
-            dependencies {
-                implementation(compose.html.core)
-            }
             commonWebpackConfig {
                 outputFileName = "BreakingKMPApp.js"
             }
@@ -57,8 +54,8 @@ kotlin {
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
 
-            implementation("io.coil-kt:coil-gif:2.6.0")
-            implementation ("io.coil-kt:coil-compose:2.4.0")
+            implementation(libs.coil.gif)
+            implementation (libs.coil.kt.coil.compose)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -103,8 +100,7 @@ kotlin {
 
         val jsMain by getting {
             dependencies {
-                implementation(compose.html.core) // Compose for Web
-
+                implementation(libs.html.core)
             }
         }
     }
@@ -139,7 +135,6 @@ android {
 
 dependencies {
     implementation(project(":module_main:data_main"))
-    implementation(libs.androidx.media3.exoplayer)
     debugImplementation(compose.uiTooling)
 }
 
