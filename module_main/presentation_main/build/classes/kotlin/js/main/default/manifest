@@ -1,0 +1,10 @@
+abi_version=1.8.0
+builtins_platform=JS
+compiler_version=2.0.20
+depends=BreakingKMPApp.module_main\:domain_main io.insert-koin\:koin-compose-viewmodel io.insert-koin\:koin-compose io.insert-koin\:koin-core org.jetbrains.androidx.navigation\:navigation-compose org.jetbrains.androidx.lifecycle\:lifecycle-viewmodel-compose org.jetbrains.androidx.navigation\:navigation-runtime org.jetbrains.androidx.navigation\:navigation-common org.jetbrains.androidx.lifecycle\:lifecycle-viewmodel-savedstate org.jetbrains.androidx.lifecycle\:lifecycle-viewmodel co.touchlab\:stately-concurrent-collections co.touchlab\:stately-concurrency org.jetbrains.compose.animation\:animation org.jetbrains.compose.foundation\:foundation-layout org.jetbrains.compose.ui\:ui org.jetbrains.compose.runtime\:runtime-saveable org.jetbrains.compose.runtime\:runtime org.jetbrains.androidx.savedstate\:savedstate org.jetbrains.androidx.lifecycle\:lifecycle-runtime org.jetbrains.androidx.lifecycle\:lifecycle-common org.jetbrains.compose.annotation-internal\:annotation org.jetbrains.compose.animation\:animation-core org.jetbrains.kotlinx\:kotlinx-coroutines-core org.jetbrains.kotlinx\:atomicfu org.jetbrains.androidx.core\:core-bundle org.jetbrains.compose.ui\:ui-text org.jetbrains.compose.ui\:ui-graphics org.jetbrains.compose.ui\:ui-unit org.jetbrains.compose.ui\:ui-geometry org.jetbrains.compose.ui\:ui-util org.jetbrains.skiko\:skiko org.jetbrains.compose.collection-internal\:collection org.jetbrains.kotlin\:kotlin-dom-api-compat kotlin
+ir_signature_versions=1,2
+jsOutputName=BreakingKMPApp-module_main-presentation_main
+metadata_version=1.4.1
+serializedIrFileFingerprints=177kbbg1voxi6.3hvo3zply6lff 3kv3c3fhx9osy.29zuxmhq0jyga 1kvokvvpzonk4.qjh3k0aj09gr
+serializedKlibFingerprint=1vi13pl29ia4x.2zmavetkvcnys
+unique_name=BreakingKMPApp.module_main\:presentation_main

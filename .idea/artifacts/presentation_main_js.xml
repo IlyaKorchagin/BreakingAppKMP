@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="presentation_main-js">
+    <output-path>$PROJECT_DIR$/module_main/presentation_main/build/libs</output-path>
+    <root id="archive" name="presentation_main-js.jar">
+      <element id="module-output" name="BreakingKMPApp.module_main.presentation_main.jsMain" />
+    </root>
+  </artifact>
+</component>

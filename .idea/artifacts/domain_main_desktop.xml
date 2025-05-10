@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="domain_main-desktop">
+    <output-path>$PROJECT_DIR$/module_main/domain_main/build/libs</output-path>
+    <root id="archive" name="domain_main-desktop.jar">
+      <element id="module-output" name="BreakingKMPApp.module_main.domain_main.desktopMain" />
+    </root>
+  </artifact>
+</component>
