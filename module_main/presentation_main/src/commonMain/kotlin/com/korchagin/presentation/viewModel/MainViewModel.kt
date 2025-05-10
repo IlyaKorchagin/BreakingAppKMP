@@ -1,7 +1,6 @@
 package com.korchagin.presentation.viewModel
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.korchagin.domain_main.MainUseCase
 import com.korchagin.presentation.models.PupilModel
 import com.korchagin.presentation.models.toPupilModel
@@ -47,7 +46,9 @@ class MainViewModel(
         singletonMainScope.launch {
             val pupils = singletonMainScope.launch {
                 mainUseCase.getAllPupils.getAllPupils().collect { pupilsList ->
-                    _pupils.value = pupilsList.map { it.toPupilModel() }
+                    _pupils.value = pupilsList
+                        .map { it.toPupilModel() }
+                        .sortedByDescending { it.rating }
                 }
             }
 
