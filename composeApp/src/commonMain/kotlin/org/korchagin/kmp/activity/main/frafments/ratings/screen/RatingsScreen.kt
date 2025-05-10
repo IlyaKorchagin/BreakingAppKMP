@@ -48,7 +48,7 @@ fun RatingsScreen(componentNavigator: ComponentNavigator) {
                     )
                 } else {
                     AsyncImage(
-                        model = "https://avatars.githubusercontent.com/u/583231?v=4",
+                        model = users[index].avatar,
                         contentDescription = null,
                         modifier = Modifier.width(64.dp).aspectRatio(1.0f)
                     )

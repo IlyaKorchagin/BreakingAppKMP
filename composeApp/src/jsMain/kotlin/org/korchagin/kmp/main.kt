@@ -5,8 +5,7 @@ import androidx.compose.ui.window.CanvasBasedWindow
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.FirebaseOptions
 import dev.gitlive.firebase.initialize
-import org.jetbrains.compose.web.dom.Div
-import org.jetbrains.compose.web.renderComposable
+import kotlinx.browser.window
 import org.jetbrains.skiko.wasm.onWasmReady
 import org.korchagin.kmp.di.initKoin
 
@@ -20,6 +19,14 @@ fun main() {
             databaseUrl = "https://goodfootbreaking.firebaseio.com"
         )
     )
+    println("Hello, PWA!")
+
+    if (js("typeof window !== 'undefined' && 'serviceWorker' in navigator") as Boolean) {
+        window.navigator.serviceWorker
+            .register("/service-worker.js")
+            .then { console.log("Service Worker registered") }
+            .catch { console.error("Service Worker registration failed", it) }
+    }
     onWasmReady {
         initKoin()
         // После инициализации запускаем CanvasBasedWindow

@@ -24,8 +24,6 @@ fun SplashScreen(componentNavigator: ComponentNavigator) {
     val gifUrl =
         "https://firebasestorage.googleapis.com/v0/b/goodfootbreaking.appspot.com/o/Logo%2Fbreak_splash1.gif?alt=media&token=7086ff5c-a41e-4740-8358-f31a2d4c53b6"
 
-
-
     Box(modifier = Modifier.fillMaxSize()) {
         when (currentPlatform) {
             PlatformType.JS -> {

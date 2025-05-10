@@ -1,6 +1,6 @@
 {
-  "name": "Platforma 2.0",
-  "short_name": "Platforma 2.0",
+  "name": "BreakingApp",
+  "short_name": "BreakingApp",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
