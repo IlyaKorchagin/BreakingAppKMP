@@ -30,3 +30,6 @@ actual fun GifImage(drawable: String) {
 
 actual val currentPlatform: PlatformType
     get() = PlatformType.JS
+
+
+
