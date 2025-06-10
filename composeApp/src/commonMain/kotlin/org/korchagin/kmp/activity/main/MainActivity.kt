@@ -1,6 +1,11 @@
 package org.korchagin.kmp.activity.main
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -10,20 +15,26 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import breakingkmpapp.composeapp.generated.resources.Res
-import breakingkmpapp.composeapp.generated.resources.compose_multiplatform
+import breakingkmpapp.composeapp.generated.resources.app_logo
 import com.korchagin.presentation.viewModel.MainViewModel
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import org.korchagin.kmp.ScreenSizeHandler.getScreenSize
+import org.korchagin.kmp.activity.main.components.BboysComponent
 import org.korchagin.kmp.activity.main.components.HomeComponent
-import org.korchagin.kmp.activity.main.components.ProfileComponent
 import org.korchagin.kmp.activity.main.components.RatingsComponent
+import org.korchagin.kmp.activity.main.fragments.ratings.topBar.TopBarRatingActions
+import org.korchagin.kmp.activity.main.topBarComponent.ProfileIcon
 import team.platforma.extra_nav.component.activity_component.Activity
 import team.platforma.extra_nav.component.activity_component.ActivityScaffold
 import team.platforma.extra_nav.ui.SimpleBottomNavigationBar
@@ -34,7 +45,7 @@ import team.platforma.extra_nav.ui.SimpleNavigationRail
 object MainActivity : Activity(
     route = "main_activity",
     components = listOf(
-        HomeComponent, RatingsComponent, ProfileComponent
+        HomeComponent, RatingsComponent, BboysComponent
     ),
     activityScaffold = { components ->
 
@@ -77,30 +88,29 @@ object MainActivity : Activity(
                         if (component.route == backStack!!.destination.route) {
                             TopAppBar(
                                 title = {
-                                    when (component) {
-                                        HomeComponent -> {
-                                            Image(
-                                                painter = painterResource(Res.drawable.compose_multiplatform),
-                                                contentDescription = null
-                                            )
-                                        }
-
-                                        else -> {
-                                            Text(text = component.label?.let { stringResource(it) }
+                                    Row(verticalAlignment = Alignment.CenterVertically) {
+                                        Image(
+                                            painter = painterResource(Res.drawable.app_logo),
+                                            contentDescription = null,
+                                            modifier = Modifier
+                                                .size(46.dp)
+                                                .clip(CircleShape)
+                                                .border(3.dp, Color.Gray, CircleShape)
+                                        )
+                                        Text(
+                                            modifier = Modifier.padding(start = 8.dp),
+                                            text = component.label?.let { stringResource(it) }
                                                 ?: "")
-                                        }
+
                                     }
                                 },
                                 colors = topAppBarColors,
-                               /* actions = {
+                                actions = {
                                     when (component) {
-                                        HomeComponent -> TopBarHomeActions()
-                                        EventsComponent -> TopBarEventsActions()
                                         RatingsComponent -> TopBarRatingActions()
-                                        NewsComponent -> TopBarNewsActions()
-                                        ProfileComponent -> TopBarProfileActions()
                                     }
-                                }*/
+                                    ProfileIcon()
+                                }
                             )
                         }
                     }
@@ -119,10 +129,10 @@ object MainActivity : Activity(
                 SimpleNavigationRail(
                     components = components,
                     componentNavigator = componentNavigator,
-                   /* mobile = when (getDeviceType()) {
-                        DeviceType.Phone -> true
-                        DeviceType.Tablet, DeviceType.Desktop -> false
-                    }*/
+                    /* mobile = when (getDeviceType()) {
+                         DeviceType.Phone -> true
+                         DeviceType.Tablet, DeviceType.Desktop -> false
+                     }*/
                 )
             },
             showNavRail = isLargeScreen

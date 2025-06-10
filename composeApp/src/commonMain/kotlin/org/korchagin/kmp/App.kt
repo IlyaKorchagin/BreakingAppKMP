@@ -8,7 +8,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.rememberNavController
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.korchagin.kmp.activity.auth.AuthActivity
+import org.korchagin.kmp.activity.bboysDetails.BboysDetailsActivity
+import org.korchagin.kmp.activity.elementDetails.ElementDetailsActivity
 import org.korchagin.kmp.activity.main.MainActivity
+import org.korchagin.kmp.activity.profile.ProfileActivity
 import org.korchagin.kmp.activity.splash.SplashActivity
 import org.korchagin.kmp.theme.colors.AppColorsTheme
 import org.korchagin.kmp.theme.global.NavViewStyle
@@ -53,7 +57,11 @@ fun App() {
     ) {
         val activityList = listOf(
             MainActivity,
-            SplashActivity
+            SplashActivity,
+            ProfileActivity,
+            ElementDetailsActivity,
+            BboysDetailsActivity,
+            AuthActivity
         )
         globalNavigator.setupNavHost(
             activities = activityList,

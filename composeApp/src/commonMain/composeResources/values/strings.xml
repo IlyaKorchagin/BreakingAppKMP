@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">Infoteam</string>
+    <string name="app_name">BreakinApp</string>
+    <string name="home_title">Home</string>
+    <string name="ratings_title">Ratings</string>
+    <string name="hall_of_fame_title">Hall of Fame</string>
+    <string name="profile_title">Profile</string>
+    <string name="bboys_title">Bboys/Bgirls</string>
+
+    <string name="freeze_title">Freeze</string>
+    <string name="power_move_title">Power</string>
+    <string name="ofp_title">Strength</string>
+    <string name="stretch_title">Stretch</string>
 </resources>

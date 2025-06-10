@@ -1,6 +1,7 @@
 package com.korchagin.presentation.models
 
 import com.korchagin.domain_main.models.PupilDomainModel
+import com.korchagin.presentation.constants.*
 
 
 data class PupilModel(
@@ -104,8 +105,8 @@ data class PupilModel(
     var finger: Int,
     var handstand: Int,
     var horizont: Int,
-    var pushups: Int,
-    var sit_ups: Int,
+    var pushUps: Int,
+    var sitUps: Int,
     var pressUpHandstand: Int,
 
     //<----------- OFP <-------------
@@ -184,8 +185,8 @@ fun PupilDomainModel.toPupilModel() = PupilModel(
     finger = finger,
     handstand = handstand,
     horizont = horizont,
-    pushups = pushups,
-    sit_ups = sit_ups,
+    pushUps = pushups,
+    sitUps = sit_ups,
     pressUpHandstand = pressUpHandstand,
 
     butterfly = butterfly,
@@ -193,3 +194,98 @@ fun PupilDomainModel.toPupilModel() = PupilModel(
     shoulders = shoulders,
     twine = twine,
 )
+
+fun PupilModel.getElementRating(title: String): Int {
+    return when (title) {
+        "Baby" -> babyfrezze
+        "Chair" -> chairfrezze
+        "Elbow" -> elbowfrezze
+        "Head" -> headfrezze
+        "HeadHollowback" -> headhollowbackfrezze
+        "Hollowback" -> hollowbackfrezze
+        "Invert" -> invertfrezze
+        "OneHand" -> onehandfrezze
+        "Shoulder" -> shoulderfrezze
+        "Turtle" -> turtlefrezze
+
+        "Airflare" -> airflare
+        "Backspin" -> backspin
+        "Cricket" -> cricket
+        "ElbowAirflare" -> elbowairflare
+        "Flare" -> flare
+        "Jackhammer" -> jackhammer
+        "Muchmill" -> munchmill
+        "Ninetynine" -> ninetyNine
+        "Web" -> web
+        "Swipes" -> swipes
+        "TurtleMove" -> turtle
+        "Ufo" -> ufo
+        "Windmill" -> windmill
+        "Halo" -> halo
+        "Wolf" -> wolf
+        "HeadSpin" -> headspin
+
+        "Angle" -> angle
+        "Bridge" -> bridge
+        "Fingers" -> finger
+        "Handstand" -> handstand
+        "PressToHandstand" -> pressUpHandstand
+        "PushUps" -> pushUps
+        "SitUps" -> sitUps
+        "Horizont" -> horizont
+
+        "Butterfly" -> butterfly
+        "Fold" -> fold
+        "Shoulders" -> shoulders
+        "Twine" -> twine
+
+        else -> 0
+    }
+}
+
+fun PupilModel.setProgress(elementTitle: String): Float {
+    return when (elementTitle) {
+        BABY -> babyfrezze.toFloat()
+        SHOULDER -> shoulderfrezze.toFloat()
+        TURTLE -> turtlefrezze.toFloat()
+        HEAD -> headfrezze.toFloat()
+        CHAIR -> chairfrezze.toFloat()
+        ELBOW -> elbowfrezze.toFloat()
+        HEAD_HOLLOWBACK -> headhollowbackfrezze.toFloat()
+        ONE_HAND -> onehandfrezze.toFloat()
+        INVERT -> invertfrezze.toFloat()
+        HOLLOWBACK -> hollowbackfrezze.toFloat()
+
+        BACKSPIN -> backspin.toFloat()
+        TURTLEMOVE -> turtle.toFloat()
+        HEADSPIN -> headspin.toFloat()
+        WINDMILL -> windmill.toFloat()
+        MUCHMILL -> munchmill.toFloat()
+        HALO -> halo.toFloat()
+        FLARE -> flare.toFloat()
+        WOLF -> wolf.toFloat()
+        WEB -> web.toFloat()
+        CRICKET -> cricket.toFloat()
+        AIRFLARE -> airflare.toFloat()
+        NINETYNINE -> ninetyNine.toFloat()
+        UFO -> ufo.toFloat()
+        ELBOW_AIRFLARE -> elbowairflare.toFloat()
+        JACKHAMMER -> jackhammer.toFloat()
+        SWIPES -> swipes.toFloat()
+
+        ANGLE -> angle.toFloat()
+        BRIDGE -> bridge.toFloat()
+        FINGERS -> finger.toFloat()
+        PUSHUPS -> pushUps.toFloat()
+        SITUPS -> sitUps.toFloat()
+        HANDSTAND -> handstand.toFloat()
+        HORIZONT -> horizont.toFloat()
+        PRESS_TO_HANDSTAND -> pressUpHandstand.toFloat()
+
+        TWINE -> twine.toFloat()
+        BUTTERFLY -> butterfly.toFloat()
+        FOLD -> fold.toFloat()
+        SHOULDERS -> shoulders.toFloat()
+        else -> 0.0f
+    }
+}

@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinCocoapods)
+    alias(libs.plugins.compose.compiler)
 }
 
 kotlin {
@@ -54,9 +55,10 @@ kotlin {
 
 android {
     namespace = "org.korchagin.kmp.module_main.presentation_main"
-    compileSdk = 34
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
+
     defaultConfig {
-        minSdk = 24
+        minSdk = libs.versions.android.minSdk.get().toInt()
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

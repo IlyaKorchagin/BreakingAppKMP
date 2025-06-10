@@ -1,4 +1,3 @@
-
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -55,7 +54,10 @@ kotlin {
             implementation(libs.koin.androidx.compose)
 
             implementation(libs.coil.gif)
-            implementation (libs.coil.kt.coil.compose)
+            implementation (libs.coil.compose)
+
+            // YouTube
+            implementation(libs.core.youtubeplayer)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -75,8 +77,8 @@ kotlin {
             implementation(libs.ktor.client.content.negotiation)
 
             //Coil
-            implementation(libs.coil.compose)
-            implementation(libs.coil.network.ktor3)
+            implementation(libs.coil3.compose)
+            implementation(libs.coil3.network.ktor3)
 
             //DI
             api(libs.koin.core)
@@ -91,9 +93,20 @@ kotlin {
             //UI elements
             implementation(libs.material.extension)
 
+            //Date
+            implementation(libs.kotlinx.datetime)
+
+            //Firebase
+            implementation(libs.firebase.auth)
+
             //Project modules
             implementation(project(":module_main:di_main"))
             implementation(project(":module_main:presentation_main"))
+
+            implementation(project(":module_auth:di_auth"))
+            implementation(project(":module_auth:presentation_auth"))
+            implementation(project(":module_auth:domain_auth"))
+            implementation(project(":module_auth:data_auth"))
 
 
         }
@@ -134,8 +147,8 @@ android {
 }
 
 dependencies {
-    implementation(project(":module_main:data_main"))
     debugImplementation(compose.uiTooling)
 }
+
 
 

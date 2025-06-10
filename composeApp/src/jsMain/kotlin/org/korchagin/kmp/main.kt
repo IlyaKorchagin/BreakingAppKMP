@@ -19,7 +19,6 @@ fun main() {
             databaseUrl = "https://goodfootbreaking.firebaseio.com"
         )
     )
-    println("Hello, PWA!")
 
     if (js("typeof window !== 'undefined' && 'serviceWorker' in navigator") as Boolean) {
         window.navigator.serviceWorker
@@ -29,7 +28,6 @@ fun main() {
     }
     onWasmReady {
         initKoin()
-        // После инициализации запускаем CanvasBasedWindow
         CanvasBasedWindow(canvasElementId = "ComposeTarget") {
             App()
         }

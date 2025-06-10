@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Инфотим</string>
+    <string name="home_title">Главная</string>
+    <string name="ratings_title">Рейтинги</string>
+    <string name="hall_of_fame_title">Зал славы</string>
+    <string name="profile_title">Профиль</string>
+
+    <string name="ofp_title">Подкачка</string>
+    <string name="stretch_title">Растяжка</string>
 </resources>

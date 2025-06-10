@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 expect fun GifImage(drawable: String)
 
 expect val currentPlatform: PlatformType
-
 enum class PlatformType {
     ANDROID, JS, IOS
 }

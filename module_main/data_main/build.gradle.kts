@@ -1,3 +1,4 @@
+
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -74,8 +75,8 @@ kotlin {
             implementation(libs.ktor.client.content.negotiation)
 
             //Coil
-            implementation(libs.coil.compose)
-            implementation(libs.coil.network.ktor3)
+            implementation(libs.coil3.compose)
+            implementation(libs.coil3.network.ktor3)
 
 
             //DI
@@ -107,6 +108,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 }
+
 
 
 

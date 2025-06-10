@@ -4,6 +4,32 @@ import androidx.compose.ui.graphics.Color
 
 private object AppColorsDefined {
     object LightTheme {
+        val teal200 = Color(0xFF03DAC5)
+        val mainGreen = Color(0xFF01A2A6)
+        val easy = Color(0xFFFCFC98)
+        val medium = Color(0xFFfce300)
+        val hard = Color(0xFFfc9700)
+        val progress = Color(0xFF05fa26)
+
+        val silver = Color(0xFFC0C0C0)
+        val gold = Color(0xFFFFD700)
+        val bronze = Color(0xFFCD7F32)
+        val default = Color(0xFF737373)
+        val startAvatar = Color(0xFFf0f1f2)
+        val startGold = Color(0xFFf9faaa)
+        val startBronze = Color(0xFFebd0a4)
+
+        val onePosition = Color(0xFFD64C08)
+        val twoPosition = Color(0xFFfc5700)
+        val threePosition = Color(0xFFfc7200)
+        val fourPosition = Color(0xFFfc9700)
+        val fivePosition = Color(0xFFfcae00)
+        val sixPosition = Color(0xFFfcd000)
+        val sevenPosition = Color(0xFFfce300)
+        val eightPosition = Color(0xFFfcfa08)
+        val ninePosition = Color(0xFFfcfa58)
+        val tenPosition = Color(0xFFfcfa98)
+
         val primaryColor = Color(0xFF2261AE)
 
         val textDefault = Color(0xFF222224)
@@ -34,6 +60,33 @@ private object AppColorsDefined {
     }
 
     object DarkTheme {
+
+        val teal200 = Color(0xFF03DAC5)
+        val mainGreen = Color(0xFF01A2A6)
+        val easy = Color(0xFFFCFC98)
+        val medium = Color(0xFFfce300)
+        val hard = Color(0xFFfc9700)
+        val progress = Color(0xFF05fa26)
+
+        val silver = Color(0xFFC0C0C0)
+        val gold = Color(0xFFFFD700)
+        val bronze = Color(0xFFCD7F32)
+        val default = Color(0xFF737373)
+        val startAvatar = Color(0xFFf0f1f2)
+        val startGold = Color(0xFFf9faaa)
+        val startBronze = Color(0xFFebd0a4)
+
+        val onePosition = Color(0xFFD64C08)
+        val twoPosition = Color(0xFFfc5700)
+        val threePosition = Color(0xFFfc7200)
+        val fourPosition = Color(0xFFfc9700)
+        val fivePosition = Color(0xFFfcae00)
+        val sixPosition = Color(0xFFfcd000)
+        val sevenPosition = Color(0xFFfce300)
+        val eightPosition = Color(0xFFfcfa08)
+        val ninePosition = Color(0xFFfcfa58)
+        val tenPosition = Color(0xFFfcfa98)
+
         val primaryColor = Color(0xFF2261AE)
 
         val textDefault = Color(0xFFFFFFFF)
@@ -76,6 +129,29 @@ class AppColorsTheme() {
     fun light() {
         AppColors.define(
             Colors(
+                teal200 = AppColorsDefined.LightTheme.teal200,
+                mainGreen = AppColorsDefined.LightTheme.mainGreen,
+                easy = AppColorsDefined.LightTheme.easy,
+                medium = AppColorsDefined.LightTheme.medium,
+                hard = AppColorsDefined.LightTheme.hard,
+                progress = AppColorsDefined.LightTheme.progress,
+                silver = AppColorsDefined.LightTheme.silver,
+                gold = AppColorsDefined.LightTheme.gold,
+                bronze = AppColorsDefined.LightTheme.bronze,
+                default = AppColorsDefined.LightTheme.default,
+                startAvatar = AppColorsDefined.LightTheme.startAvatar,
+                startGold = AppColorsDefined.LightTheme.startGold,
+                startBronze = AppColorsDefined.LightTheme.startBronze,
+                onePosition = AppColorsDefined.LightTheme.onePosition,
+                twoPosition = AppColorsDefined.LightTheme.twoPosition,
+                threePosition = AppColorsDefined.LightTheme.threePosition,
+                fourPosition = AppColorsDefined.LightTheme.fourPosition,
+                fivePosition = AppColorsDefined.LightTheme.fivePosition,
+                sixPosition = AppColorsDefined.LightTheme.sixPosition,
+                sevenPosition = AppColorsDefined.LightTheme.sevenPosition,
+                eightPosition = AppColorsDefined.LightTheme.eightPosition,
+                ninePosition = AppColorsDefined.LightTheme.ninePosition,
+                tenPosition = AppColorsDefined.LightTheme.tenPosition,
                 primaryColor = AppColorsDefined.LightTheme.primaryColor,
                 textDefault = AppColorsDefined.LightTheme.textDefault,
                 textOnPrimary = AppColorsDefined.LightTheme.textOnPrimary,
@@ -104,6 +180,29 @@ class AppColorsTheme() {
     fun dark() {
         AppColors.define(
             Colors(
+                teal200 = AppColorsDefined.DarkTheme.teal200,
+                mainGreen = AppColorsDefined.DarkTheme.mainGreen,
+                easy = AppColorsDefined.DarkTheme.easy,
+                medium = AppColorsDefined.DarkTheme.medium,
+                hard = AppColorsDefined.DarkTheme.hard,
+                progress = AppColorsDefined.DarkTheme.progress,
+                silver = AppColorsDefined.DarkTheme.silver,
+                gold = AppColorsDefined.DarkTheme.gold,
+                bronze = AppColorsDefined.DarkTheme.bronze,
+                default = AppColorsDefined.DarkTheme.default,
+                startAvatar = AppColorsDefined.DarkTheme.startAvatar,
+                startGold = AppColorsDefined.DarkTheme.startGold,
+                startBronze = AppColorsDefined.DarkTheme.startBronze,
+                onePosition = AppColorsDefined.DarkTheme.onePosition,
+                twoPosition = AppColorsDefined.DarkTheme.twoPosition,
+                threePosition = AppColorsDefined.DarkTheme.threePosition,
+                fourPosition = AppColorsDefined.DarkTheme.fourPosition,
+                fivePosition = AppColorsDefined.DarkTheme.fivePosition,
+                sixPosition = AppColorsDefined.DarkTheme.sixPosition,
+                sevenPosition = AppColorsDefined.DarkTheme.sevenPosition,
+                eightPosition = AppColorsDefined.DarkTheme.eightPosition,
+                ninePosition = AppColorsDefined.DarkTheme.ninePosition,
+                tenPosition = AppColorsDefined.DarkTheme.tenPosition,
                 primaryColor = AppColorsDefined.DarkTheme.primaryColor,
                 textDefault = AppColorsDefined.DarkTheme.textDefault,
                 textOnPrimary = AppColorsDefined.DarkTheme.textOnPrimary,
@@ -132,6 +231,29 @@ class AppColorsTheme() {
 }
 
 data class Colors(
+    val teal200: Color = Color(0xFFFFFFFF),
+    val mainGreen: Color = Color(0xFFFFFFFF),
+    val easy: Color = Color(0xFFFFFFFF),
+    val medium: Color = Color(0xFFFFFFFF),
+    val hard: Color = Color(0xFFFFFFFF),
+    val progress: Color = Color(0xFFFFFFFF),
+    val silver: Color = Color(0xFFFFFFFF),
+    val gold: Color = Color(0xFFFFFFFF),
+    val bronze: Color = Color(0xFFFFFFFF),
+    val default: Color = Color(0xFFFFFFFF),
+    val startAvatar: Color = Color(0xFFFFFFFF),
+    val startGold: Color = Color(0xFFFFFFFF),
+    val startBronze: Color = Color(0xFFFFFFFF),
+    val onePosition: Color = Color(0xFFFFFFFF),
+    val twoPosition: Color = Color(0xFFFFFFFF),
+    val threePosition: Color = Color(0xFFFFFFFF),
+    val fourPosition: Color = Color(0xFFFFFFFF),
+    val fivePosition: Color = Color(0xFFFFFFFF),
+    val sixPosition: Color = Color(0xFFFFFFFF),
+    val sevenPosition: Color = Color(0xFFFFFFFF),
+    val eightPosition: Color = Color(0xFFFFFFFF),
+    val ninePosition: Color = Color(0xFFFFFFFF),
+    val tenPosition: Color = Color(0xFFFFFFFF),
     val primaryColor: Color = Color(0xFFFFFFFF),
     val textDefault: Color = Color(0xFFFFFFFF),
     val textOnPrimary: Color = Color(0xFFFFFFFF),

@@ -1,24 +1,29 @@
-*.iml
-.kotlin
-.gradle
+# Gradle
+.gradle/
 **/build/
-xcuserdata
-!src/**/build/
+gradle-wrapper.jar
+gradle-wrapper.properties
+gradle/
+
+# Android
 local.properties
-.idea
+*.iml
+.idea/
+
+# macOS
 .DS_Store
-captures
-.externalNativeBuild
-.cxx
+
+# Node.js
+node_modules/
+
+# Xcode
+xcuserdata/
 *.xcodeproj/*
 !*.xcodeproj/project.pbxproj
 !*.xcodeproj/xcshareddata/
 !*.xcodeproj/project.xcworkspace/
 !*.xcworkspace/contents.xcworkspacedata
 **/xcshareddata/WorkspaceSettings.xcsettings
-.idea
-gradle
-gradlew
-gradlew.bat
+
+# JetBrains Fleet
 .fleet
-node_modules
