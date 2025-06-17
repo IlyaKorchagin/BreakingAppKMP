@@ -1,12 +1,19 @@
 package org.korchagin.kmp.activity.splash.fragments.screen
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import com.korchagin.presentation.viewModel.MainViewModel
 import com.korchagin.presentation_auth.viewModel.AuthViewModel
 import kotlinx.coroutines.delay
@@ -26,8 +33,14 @@ fun SplashScreen(componentNavigator: ComponentNavigator) {
     val authViewModel = koinViewModel<AuthViewModel>()
     val mainViewModel = koinViewModel<MainViewModel>()
     val currentUser by authViewModel.authState.collectAsState()
+
+    val visible = remember { mutableStateOf(true) }
+
     LaunchedEffect(Unit) {
         delay(3000) // время показа .gif
+
+        visible.value = false // начинаем fadeOut
+        delay(1000)
         if (currentUser != null) {
             println("currentUser: ${currentUser!!.email}")
             mainViewModel.loadCurrentUser(currentUser = currentUser!!.email!!)
@@ -40,7 +53,23 @@ fun SplashScreen(componentNavigator: ComponentNavigator) {
     val gifUrl =
         "https://firebasestorage.googleapis.com/v0/b/goodfootbreaking.appspot.com/o/Logo%2Fbreak_splash1.gif?alt=media&token=7086ff5c-a41e-4740-8358-f31a2d4c53b6"
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    AnimatedVisibility(
+        visible = visible.value,
+        exit = fadeOut(animationSpec = tween(durationMillis = 1000))
+    ) {
+        Box(modifier = Modifier.fillMaxSize().background(Color.White)) {
+            when (currentPlatform) {
+                PlatformType.JS -> {
+                    GifImage(drawable = gifUrl)
+                }
+                else -> {
+                    GifImage(randomGifName)
+                }
+            }
+        }
+    }
+    /*Box(modifier = Modifier.fillMaxSize()
+        .background(Color.White)) {
         when (currentPlatform) {
             PlatformType.JS -> {
                 GifImage(
@@ -52,5 +81,5 @@ fun SplashScreen(componentNavigator: ComponentNavigator) {
             }
         }
 
-    }
+    }*/
 }

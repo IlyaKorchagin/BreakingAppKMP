@@ -46,6 +46,10 @@ class MainViewModel(
     private val _currentPupil = MutableStateFlow<PupilModel?>(null)
     val currentPupil: StateFlow<PupilModel?> = _currentPupil
 
+    private val _clickedPupil = MutableStateFlow<PupilModel?>(null)
+    var clickedPupil: StateFlow<PupilModel?> = _clickedPupil
+
+
     private val _screenWidth = MutableStateFlow(379)
     val screenWidth: StateFlow<Int> = _screenWidth
 
@@ -93,6 +97,10 @@ class MainViewModel(
         loadData()
     }
 
+    fun setClickedPupil(pupil: PupilModel?) {
+        _clickedPupil.value = pupil
+        println("clicked pupil: ${_clickedPupil.value}")
+    }
     fun loadCurrentUser(currentUser: String) {
         singletonMainScope.launch {
             mainUseCase.getPupilById.getAllPupils(currentUser).collect {

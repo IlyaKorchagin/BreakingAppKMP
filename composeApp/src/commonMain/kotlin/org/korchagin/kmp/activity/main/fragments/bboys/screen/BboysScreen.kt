@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
@@ -26,6 +27,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
@@ -66,64 +68,72 @@ fun BboysScreen(
             tween(1000, easing = LinearEasing)
         )
     )
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(3),
-        modifier = Modifier
-            .fillMaxSize()
-            .background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(Color.White, Color.LightGray)
-                )
-            ),
-        contentPadding = PaddingValues(
-            start = 8.dp,
-            end = 8.dp,
-            top = 8.dp,
-            bottom = 90.dp ),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.TopCenter // Центрируем по ширине
     ) {
-        itemsIndexed(bboysList) { index, bboy ->
-            Box(
-                modifier = Modifier
-                    .border(
-                        width = 1.dp,
-                        brush = Brush.horizontalGradient(listOf(Color.Black, Color.DarkGray)),
-                        shape = RoundedCornerShape(percent = 50)
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(3),
+            modifier = Modifier
+                .widthIn(max = 900.dp)
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(Color.White, Color.LightGray)
                     )
-            ) {
-                AsyncImage(
-                    model = if (pupil.rating.toInt() >= bboy.rating.toInt()) bboy.avatar else LOCK,
-                    contentDescription = bboy.name,
+                ),
+            contentPadding = PaddingValues(
+                start = 8.dp,
+                end = 8.dp,
+                top = 8.dp,
+                bottom = 90.dp
+            ),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            itemsIndexed(bboysList) { index, bboy ->
+                Box(
                     modifier = Modifier
-                        .drawBehind {
-                            rotate(rotationValue.value) {
-                                drawCircle(
-                                    Brush.horizontalGradient(
-                                        listOf(Color.White, Color.LightGray)
-                                    ), style = Stroke(10f)
-                                )
-                            }
-                        }
-                        .aspectRatio(1f)
-                        .size(130.dp)
-                        .padding(2.dp)
-                        .clip(CircleShape)
-                        .background(
-                            ShimmerBrush(
-                                targetValue = 1300f,
-                                showShimmer = showShimmer.value
-                            )
+                        .border(
+                            width = 1.dp,
+                            brush = Brush.horizontalGradient(listOf(Color.Black, Color.DarkGray)),
+                            shape = RoundedCornerShape(percent = 50)
                         )
-                        .clickable {
-                            scope.launch {
-                                   mainViewModel.addBboy(bboy)
+                ) {
+                    AsyncImage(
+                        model = if (pupil.rating.toInt() >= bboy.rating.toInt()) bboy.avatar else LOCK,
+                        contentDescription = bboy.name,
+                        modifier = Modifier
+                            .drawBehind {
+                                rotate(rotationValue.value) {
+                                    drawCircle(
+                                        Brush.horizontalGradient(
+                                            listOf(Color.White, Color.LightGray)
+                                        ), style = Stroke(10f)
+                                    )
+                                }
                             }
-                             if (pupil.rating.toInt() >= bboy.rating.toInt()) findNavHost().navigateToActivity(BboysDetailsActivity)
+                            .aspectRatio(1f)
+                            .size(130.dp)
+                            .padding(2.dp)
+                            .clip(CircleShape)
+                            .background(
+                                ShimmerBrush(
+                                    targetValue = 1300f,
+                                    showShimmer = showShimmer.value
+                                )
+                            )
+                            .clickable {
+                                scope.launch {
+                                    mainViewModel.addBboy(bboy)
+                                }
+                                if (pupil.rating.toInt() >= bboy.rating.toInt()) findNavHost().navigateToActivity(
+                                    BboysDetailsActivity
+                                )
 
-                        },
-                    onSuccess = { showShimmer.value = false },
-                    contentScale = ContentScale.Crop
-                )
+                            },
+                        onSuccess = { showShimmer.value = false },
+                        contentScale = ContentScale.Crop
+                    )
+                }
             }
         }
     }

@@ -4,6 +4,9 @@ import androidx.compose.ui.graphics.Color
 
 private object AppColorsDefined {
     object LightTheme {
+        val textDefault = Color(0x00000000)
+        val textDisabled = Color(0xFF787F88)
+
         val teal200 = Color(0xFF03DAC5)
         val mainGreen = Color(0xFF01A2A6)
         val easy = Color(0xFFFCFC98)
@@ -32,7 +35,6 @@ private object AppColorsDefined {
 
         val primaryColor = Color(0xFF2261AE)
 
-        val textDefault = Color(0xFF222224)
         val textOnPrimary = Color(0xFFFFFFFF)
         val iconOnPrimary = Color(0xFFFFFFFF)
 
@@ -60,6 +62,8 @@ private object AppColorsDefined {
     }
 
     object DarkTheme {
+        val textDefault = Color(0xFFFFFFFF)
+        val textDisabled = Color(0xFF50555C)
 
         val teal200 = Color(0xFF03DAC5)
         val mainGreen = Color(0xFF01A2A6)
@@ -89,7 +93,6 @@ private object AppColorsDefined {
 
         val primaryColor = Color(0xFF2261AE)
 
-        val textDefault = Color(0xFFFFFFFF)
         val textOnPrimary = Color(0xFFFFFFFF)
         val iconOnPrimary = Color(0xFFFFFFFF)
 
@@ -154,6 +157,7 @@ class AppColorsTheme() {
                 tenPosition = AppColorsDefined.LightTheme.tenPosition,
                 primaryColor = AppColorsDefined.LightTheme.primaryColor,
                 textDefault = AppColorsDefined.LightTheme.textDefault,
+                textDisabled = AppColorsDefined.LightTheme.textDisabled,
                 textOnPrimary = AppColorsDefined.LightTheme.textOnPrimary,
                 iconOnPrimary = AppColorsDefined.LightTheme.iconOnPrimary,
                 textGrey = AppColorsDefined.LightTheme.textGrey,
@@ -205,6 +209,7 @@ class AppColorsTheme() {
                 tenPosition = AppColorsDefined.DarkTheme.tenPosition,
                 primaryColor = AppColorsDefined.DarkTheme.primaryColor,
                 textDefault = AppColorsDefined.DarkTheme.textDefault,
+                textDisabled = AppColorsDefined.DarkTheme.textDisabled,
                 textOnPrimary = AppColorsDefined.DarkTheme.textOnPrimary,
                 iconOnPrimary = AppColorsDefined.DarkTheme.iconOnPrimary,
                 textGrey = AppColorsDefined.DarkTheme.textGrey,
@@ -256,6 +261,7 @@ data class Colors(
     val tenPosition: Color = Color(0xFFFFFFFF),
     val primaryColor: Color = Color(0xFFFFFFFF),
     val textDefault: Color = Color(0xFFFFFFFF),
+    val textDisabled: Color = Color(0xFFFFFFFF),
     val textOnPrimary: Color = Color(0xFFFFFFFF),
     val iconOnPrimary: Color = Color(0xFFFFFFFF),
     val textGrey: Color = Color(0xFFFFFFFF),

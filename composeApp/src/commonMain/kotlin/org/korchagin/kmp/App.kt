@@ -18,6 +18,7 @@ import org.korchagin.kmp.theme.colors.AppColorsTheme
 import org.korchagin.kmp.theme.global.NavViewStyle
 import org.korchagin.kmp.theme.global.ToolbarTheme
 import team.platforma.extra_nav.navigator.activity.GlobalNavigator
+import team.platforma.infoteam.theme.typography.Typography
 import team.platforma.multiplatform_material_extension.ui.theme.isDark
 import team.platforma.multiplatform_material_extension.ui.theme.rememberTheme
 
@@ -39,11 +40,13 @@ fun App() {
         colors.dark()
         toolbarTheme.dark()
         navViewStyle.dark()
+        Typography.define(true)
 
     } else {
         colors.light()
         toolbarTheme.light()
         navViewStyle.light()
+        Typography.define(false)
     }
 
     MaterialTheme(

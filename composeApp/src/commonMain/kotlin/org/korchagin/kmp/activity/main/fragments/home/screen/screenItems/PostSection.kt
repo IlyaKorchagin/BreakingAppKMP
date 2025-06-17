@@ -127,6 +127,7 @@ fun PostSection(
                 ) {
                     Text(
                         text = value.title,
+                        color = Color.Black,
                         letterSpacing = 1.sp
                     )
                     Spacer(modifier = Modifier.height(5.dp))
@@ -150,6 +151,7 @@ fun PostSection(
                     Spacer(modifier = Modifier.height(5.dp))
                     Text(
                         text = value.block_description,
+                        color = Color.Black,
                         fontSize = 12.sp
                     )
                 }

@@ -43,6 +43,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.korchagin.kmp.activity.main.fragments.home.screen.screenItems.PostSection
 import org.korchagin.kmp.helper.setElementImage
+import org.korchagin.kmp.theme.colors.AppColors
 
 @OptIn(ExperimentalFoundationApi::class, KoinExperimentalAPI::class)
 @Composable
@@ -112,8 +113,8 @@ fun AnimatedTabWithHorizontalPager(
                     Text(
                         text = tab.text,
                         color = if (selected)
-                            Color.Black
-                        else Color.LightGray
+                            AppColors.colors().textDefault
+                        else Color.Gray
                     )
                 }
             }

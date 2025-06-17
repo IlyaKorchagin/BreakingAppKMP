@@ -27,6 +27,7 @@ import com.korchagin.presentation.viewModel.MainViewModel
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
+import org.korchagin.kmp.activity.profile.ProfileActivity
 import org.korchagin.kmp.helper.setPositionBackgroundColor
 import org.korchagin.kmp.helper.setPositionColor
 import org.korchagin.kmp.helper.setPositionFontSize
@@ -34,6 +35,7 @@ import org.korchagin.kmp.helper.setPositionStar
 import org.korchagin.kmp.theme.colors.AppColors
 import org.korchagin.kmp.uiElements.CustomProgressBar
 import org.korchagin.kmp.uiElements.ShimmerBrush
+import team.platforma.extra_nav.navigator.activity.findNavHost
 import team.platforma.extra_nav.navigator.component.api.ComponentNavigator
 
 
@@ -46,20 +48,21 @@ fun RatingsScreen(
     val pupilsList by mainViewModel.pupils.collectAsState(emptyList())
 
 
-    Column(
-        modifier = Modifier.fillMaxSize()
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.TopCenter // Центрируем по ширине
     ) {
 
         if (mainViewModel.checkedState) NewRatingTable(
             ratingList = pupilsList,
             // navController = navController,
-            sharedViewModel = mainViewModel
+            mainViewModel = mainViewModel
         )
         else {
             RatingTable(
+                mainViewModel = mainViewModel,
                 pupilsList = pupilsList,
                 modifier = Modifier
-                    .fillMaxSize()
                     .background(color = Color.Black)
             )
         }
@@ -69,16 +72,15 @@ fun RatingsScreen(
 @Composable
 fun NewRatingTable(
     ratingList: List<PupilModel>,
-    sharedViewModel: MainViewModel,
-    // navController: NavController,
+    mainViewModel: MainViewModel,
     modifier: Modifier = Modifier
 ) {
     val showShimmer = remember { mutableStateOf(true) }
     LazyColumn(
         modifier = modifier
-            .fillMaxSize()
+            .widthIn(max = 900.dp)
     ) {
-        itemsIndexed(ratingList) { index, value ->
+        itemsIndexed(ratingList) { index, pupil ->
             val startBackgroundColor = Color.White
             val endBackgroundColor = setPositionBackgroundColor(index)
 
@@ -94,15 +96,15 @@ fun NewRatingTable(
                     )
                     .padding(5.dp)
                     .clickable {
-                        //sharedViewModel.addClickedPupil(value)
-                        //    navController.navigate(Screen.UserAccountScreen.route)
+                        mainViewModel.setClickedPupil(pupil)
+                        findNavHost().navigateToActivity(ProfileActivity)
                     },
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 //        Log.d("ILYA","(image = ${value.avatar}")
                 AsyncImage(
-                    model = value.avatar,
+                    model = pupil.avatar,
                     contentDescription = "default crossfade example",
                     modifier = Modifier
                         .size(80.dp)
@@ -121,25 +123,25 @@ fun NewRatingTable(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        text = value.name, letterSpacing = 1.sp
+                        text = pupil.name,
+                        letterSpacing = 1.sp,
+                        color = Color.Black,
                     )
                     Spacer(modifier = Modifier.height(5.dp))
-                    value.rating.let { progress ->
-                        CustomProgressBar(
-                            Modifier
-                                .clip(shape = RoundedCornerShape(5.dp))
-                                .height(25.dp)
-                                .border(
-                                    width = 1.dp,
-                                    color = Color.Gray,
-                                    shape = RoundedCornerShape(5.dp)
-                                ),
-                            Color.White,
-                            Brush.horizontalGradient(listOf(Color.White, AppColors.colors().progress)),
-                            progress.toInt(),
-                            true
-                        )
-                    }
+                    CustomProgressBar(
+                        Modifier
+                            .clip(shape = RoundedCornerShape(5.dp))
+                            .height(25.dp)
+                            .border(
+                                width = 1.dp,
+                                color = Color.Gray,
+                                shape = RoundedCornerShape(5.dp)
+                            ),
+                        Color.White,
+                        Brush.horizontalGradient(listOf(Color.White, AppColors.colors().progress)),
+                        pupil.rating.toInt(),
+                        true
+                    )
                     Spacer(modifier = Modifier.height(5.dp))
                     Row(
                         modifier = Modifier.fillMaxSize(),
@@ -154,7 +156,8 @@ fun NewRatingTable(
                         )
                         Spacer(modifier = Modifier.width(5.dp))
                         Text(
-                            text = "${index + 1} - место", fontSize = positionSize.sp
+                            text = "${index + 1} - место", fontSize = positionSize.sp,
+                            color = Color.Black,
                         )
                     }
                 }
@@ -177,11 +180,11 @@ fun NewRatingTable(
 
 @Composable
 fun RatingTable(
-    pupilsList: List<PupilModel>, modifier: Modifier = Modifier
+    pupilsList: List<PupilModel>, modifier: Modifier = Modifier, mainViewModel: MainViewModel
 ) {
     Column(
         modifier = Modifier
-            .fillMaxSize()
+            .widthIn(max = 900.dp)
             .background(color = Color.Black),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
@@ -197,7 +200,11 @@ fun RatingTable(
             Box(
                 modifier = Modifier.width(80.dp), contentAlignment = Alignment.Center
             ) {
-                Text(text = "Позиция", fontSize = 14.sp, color = Color.White)
+                Text(
+                    text = "Позиция",
+                    fontSize = 14.sp,
+                    color = AppColors.colors().textDefault,
+                )
             }
 
             Box(
@@ -206,23 +213,35 @@ fun RatingTable(
                     .fillMaxWidth(0.7f),
                 contentAlignment = Alignment.Center
             ) {
-                Text(text = "Фамилия и имя", fontSize = 14.sp, color = Color.White)
+                Text(
+                    text = "Фамилия и имя",
+                    fontSize = 14.sp,
+                    color = AppColors.colors().textDefault,
+                )
             }
 
             Box(
                 modifier = Modifier.width(100.dp), contentAlignment = Alignment.Center
             ) {
-                Text(text = "Рейтинг", fontSize = 14.sp, color = Color.White)
+                Text(
+                    text = "Рейтинг",
+                    fontSize = 14.sp,
+                    color = AppColors.colors().textDefault,
+                )
             }
         }
         LazyColumn(
             modifier = modifier
         ) {
-            itemsIndexed(pupilsList) { index, item ->
+            itemsIndexed(pupilsList) { index, pupil ->
                 Row(
                     modifier = Modifier
                         .background(color = Color.Black)
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .clickable {
+                            mainViewModel.setClickedPupil(pupil)
+                            findNavHost().navigateToActivity(ProfileActivity)
+                        },
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
@@ -240,15 +259,14 @@ fun RatingTable(
                             .padding(start = 10.dp, end = 10.dp)
                             .fillMaxWidth(0.7f), contentAlignment = Alignment.Center
                     ) {
-                        Text(text = item.name, fontSize = fontSize.sp, color = color)
+                        Text(text = pupil.name, fontSize = fontSize.sp, color = color)
                     }
 
                     Box(
                         modifier = Modifier.width(100.dp), contentAlignment = Alignment.Center
                     ) {
-                        Text(text = "${item.rating}", fontSize = fontSize.sp, color = color)
+                        Text(text = "${pupil.rating}", fontSize = fontSize.sp, color = color)
                     }
-
                 }
             }
         }

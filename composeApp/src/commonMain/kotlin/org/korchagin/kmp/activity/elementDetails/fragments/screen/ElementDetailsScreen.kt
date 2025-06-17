@@ -6,6 +6,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
@@ -35,8 +37,6 @@ import org.korchagin.kmp.helper.setDescriptionImage
 import org.korchagin.kmp.helper.setDescriptionText
 import team.platforma.extra_nav.navigator.component.api.ComponentNavigator
 
-
-
 @OptIn(ExperimentalFoundationApi::class, KoinExperimentalAPI::class)
 @Composable
 fun ElementDetailsScreen(
@@ -44,22 +44,27 @@ fun ElementDetailsScreen(
 ) {
     val mainViewModel = koinViewModel<MainViewModel>()
     val element = mainViewModel.element
-
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.TopCenter // Центрируем по ширине
     ) {
-        println("element = $element")
 
-        VideoPlayer(modifier = Modifier.fillMaxWidth().height(300.dp), url = element.videoUrl)
+        Column(
+            modifier = Modifier
+                .widthIn(max = 900.dp)
+        ) {
+            println("element = $element")
 
-        if(currentPlatform == PlatformType.JS) {
-            Spacer(modifier = Modifier.height(450.dp))
+            VideoPlayer(topPadding = 100, url = element.videoUrl)
+
+            if (currentPlatform == PlatformType.JS) {
+                Spacer(modifier = Modifier.height(450.dp))
+            }
+            DescriptionSection(
+                element = element,
+                rating = mainViewModel.elementRating / 10,
+            )
         }
-        DescriptionSection(
-            element = element,
-            rating = mainViewModel.elementRating / 10,
-        )
     }
 }
 
@@ -107,6 +112,7 @@ fun DescriptionSection(
                         .fillMaxWidth(1f)
                         .padding(5.dp),
                     text = setDescriptionText(index, element),
+                    color = Color.Black,
                     fontSize = 16.sp,
                     letterSpacing = 1.sp
                 )

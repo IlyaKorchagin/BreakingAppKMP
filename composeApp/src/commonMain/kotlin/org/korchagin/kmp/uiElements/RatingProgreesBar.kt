@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -49,7 +48,7 @@ fun RatingProgreesBar(progress: Float) {
                 .clip(RoundedCornerShape(15.dp))
                 .height(30.dp)
                 .background(Color.White)
-                .width(300.dp)
+                .fillMaxWidth()
         ) {
             Box(
                 modifier = Modifier

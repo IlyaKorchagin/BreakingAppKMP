@@ -45,7 +45,9 @@ fun ProfileIcon() {
             modifier = Modifier.width(46.dp).aspectRatio(1.0f)
                 .clip(CircleShape)
                 .border(3.dp, Color.Gray, CircleShape)
-                .clickable { findNavHost().navigateToActivity(ProfileActivity) }
+                .clickable {
+                    mainViewModel.setClickedPupil(null)
+                    findNavHost().navigateToActivity(ProfileActivity) }
         )
     } else {
         AsyncImage(

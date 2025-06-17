@@ -2,14 +2,13 @@
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Modifier
 import kotlinx.browser.document
 import org.w3c.dom.HTMLDivElement
 import org.w3c.dom.HTMLIFrameElement
 
 
 @Composable
-actual fun VideoPlayer(modifier: Modifier, url: String) {
+actual fun VideoPlayer(topPadding: Int, url: String) {
     val containerId = "video-player-container"
 
     LaunchedEffect(url) {
@@ -30,7 +29,7 @@ actual fun VideoPlayer(modifier: Modifier, url: String) {
                 width = "95%"
                 height = "360px"
                 position = "absolute"
-                top = "100px" // можешь менять в зависимости от экрана
+                top = "${topPadding}px" // можешь менять в зависимости от экрана
                 left = "50%"
                 transform = "translateX(-50%)"
                 zIndex = "1000"
