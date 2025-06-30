@@ -18,7 +18,10 @@ junit = "4.13.2"
 kotlin = "2.0.20"
 
 kotlinxDatetimeVersion = "0.5.0"
-multi_image = "1.1.0"
+multi_image = "1.1.2"
+image_cropper2 = "0.0.1"
+media_picker = "0.0.1-alpha23"
+permissionx = "0.0.1-alpha15"
 
 
 koin = "3.6.0-Beta4"
@@ -26,12 +29,13 @@ koinComposeMultiplatform = "1.2.0-Beta4"
 
 kotlinxDatetime = "0.6.1"
 navigationCompose = "2.8.0-alpha12"
-navigationComposeExtra = "1.1.9"
+navigationComposeExtra = "1.1.20"
 
-material_extension = "0.0.8-alpha54"
+material_extension = "0.0.8-alpha70"
 firebase-bom = "33.4.0"
-firebase = "2.0.0"
+firebase = "2.1.0"
 firebaseAuth = "2.1.0"
+firebaseFirestore = "1.13.0"
 
 googleService = "4.4.2"
 htmlCore = "1.8.0-alpha01"
@@ -41,11 +45,16 @@ coil3Compose = "3.0.4"
 coroutines = "1.8.1"
 
 [libraries]
+permissionX = { module = "team.multi-platforma:permissionX", version.ref = "permissionx" }
+media_picker = { module = "team.multi-platforma:media_picker", version.ref = "media_picker" }
+image_cropper2 = { module = "team.multi-platforma:image_cropper2", version.ref = "image_cropper2" }
 core-youtubeplayer = { module = "com.pierfrancescosoffritti.androidyoutubeplayer:core", version.ref = "core-youtubeplayer" }
 html-core = { module = "org.jetbrains.compose.html:html-core", version.ref = "htmlCore" }
 android-firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
 firebase-database = {module = "dev.gitlive:firebase-database", version.ref = "firebase"}
 firebase-auth = { module = "dev.gitlive:firebase-auth", version.ref = "firebaseAuth" }
+firebase-firestore = { module = "dev.gitlive:firebase-firestore", version.ref = "firebaseFirestore" }
+firebase-storage = { module = "dev.gitlive:firebase-storage", version.ref = "firebase" }
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontroller" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }

@@ -49,6 +49,10 @@ class MainViewModel(
     private val _clickedPupil = MutableStateFlow<PupilModel?>(null)
     var clickedPupil: StateFlow<PupilModel?> = _clickedPupil
 
+    private val _userAvatarOnLoading: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val userAvatarOnLoading: StateFlow<Boolean> = _userAvatarOnLoading
+
+
 
     private val _screenWidth = MutableStateFlow(379)
     val screenWidth: StateFlow<Int> = _screenWidth
@@ -95,6 +99,21 @@ class MainViewModel(
 
     init {
         loadData()
+    }
+
+    fun uploadNewUserAvatar(email: String, bytes: ByteArray) {
+        _userAvatarOnLoading.value = true
+        println(" uploadNewUserAvatar bytes: $bytes")
+        singletonMainScope.launch {
+            mainUseCase.uploadAvatar.uploadAvatar(email,bytes)
+            /*    .onSuccess { data, code ->
+                    _userAvatarOnLoading.value = false
+                }.onFail { message, code ->
+                    _userAvatarOnLoading.value = false
+                }.onException { message, code ->
+                    _userAvatarOnLoading.value = false
+                }*/
+        }
     }
 
     fun setClickedPupil(pupil: PupilModel?) {

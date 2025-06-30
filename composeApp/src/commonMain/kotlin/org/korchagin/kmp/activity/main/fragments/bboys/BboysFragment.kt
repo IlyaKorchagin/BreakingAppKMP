@@ -5,7 +5,7 @@ import team.platforma.extra_nav.component.fragment_component.Fragment
 
 object BboysFragment : Fragment(
     route = "bboys_fragment",
-    fragmentBox = { componentNavigator, fragmentNavigator ->
+    fragmentBox = { componentNavigator, fragmentNavigator, paddingValues ->
         BboysScreen(componentNavigator)
     }
 )

@@ -6,7 +6,7 @@ import team.platforma.extra_nav.component.fragment_component.Fragment
 
 object AuthFragment: Fragment(
     route = "auth_fragment",
-    fragmentBox = { componentNavigator, fragmentNavigator ->
+    fragmentBox = { componentNavigator, fragmentNavigator, paddingValues ->
         AuthScreen(componentNavigator, fragmentNavigator)
     }
 )

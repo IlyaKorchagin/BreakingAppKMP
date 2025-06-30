@@ -14,6 +14,7 @@ import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
 import coil.request.ImageRequest
 import coil.size.Size
+import dev.gitlive.firebase.storage.Data
 
 
 @SuppressLint("DiscouragedApi")
@@ -53,3 +54,7 @@ actual fun GifImage(drawable: String) {
 
 actual val currentPlatform: PlatformType
     get() = PlatformType.ANDROID
+
+actual fun ByteArray.toFirebaseData(): Data {
+    return Data(this)
+}

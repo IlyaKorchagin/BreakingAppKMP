@@ -73,10 +73,15 @@ kotlin {
             //Ktor
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)
+            implementation("io.ktor:ktor-io:2.3.4")
 
             //Coil
             implementation(libs.coil3.compose)
             implementation(libs.coil3.network.ktor3)
+
+            //Firebase Firestore
+            implementation(libs.firebase.firestore)
+            implementation(libs.firebase.storage)
 
 
             //DI

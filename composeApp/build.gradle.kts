@@ -98,6 +98,20 @@ kotlin {
 
             //Firebase
             implementation(libs.firebase.auth)
+            implementation(libs.firebase.firestore)
+            implementation(libs.firebase.storage)
+
+            //MultiImage
+            implementation(libs.multi.image)
+
+            //Permissions
+            implementation(libs.permissionX)
+
+            //Media picker
+            implementation(libs.media.picker)
+
+            //Cropper
+            implementation(libs.image.cropper2)
 
             //Project modules
             implementation(project(":module_main:di_main"))

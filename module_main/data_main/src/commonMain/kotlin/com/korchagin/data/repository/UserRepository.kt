@@ -13,7 +13,8 @@ interface UserRepository {
     fun getOfpElements(): Flow<List<ElementEntry>>
     fun getStretchElements(): Flow<List<ElementEntry>>
     fun getBboysList(): Flow<List<BboyEntry>>
-
     suspend fun createNewPupil(email: String, name: String)
+
+    suspend fun updateAvatar(email: String, data: ByteArray)
 }
 

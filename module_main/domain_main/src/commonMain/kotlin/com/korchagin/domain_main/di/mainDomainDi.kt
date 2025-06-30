@@ -9,6 +9,7 @@ import com.korchagin.domain_main.useCase.GetOfpElements
 import com.korchagin.domain_main.useCase.GetPowerElements
 import com.korchagin.domain_main.useCase.GetPupilById
 import com.korchagin.domain_main.useCase.GetStretchElements
+import com.korchagin.domain_main.useCase.UploadAvatar
 import org.koin.dsl.module
 
 val mainDomainModule = module {
@@ -22,6 +23,7 @@ val mainDomainModule = module {
             getStretchElements = GetStretchElements(repository = get()),
             getBboysList = GetBboysList(repository = get()),
             createNewPupil = CreateNewPupil(repository = get()),
+            uploadAvatar = UploadAvatar(repository = get())
         )
     }
 }

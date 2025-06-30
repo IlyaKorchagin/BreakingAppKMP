@@ -16,7 +16,8 @@ fun main() {
             projectId = "goodfootbreaking",
             applicationId = "1:562023826894:web:673fcd6506381387ae579f",
             apiKey = "AIzaSyBfjWARdMqCo7UZXoY5dDafJFJOazqv-QE",
-            databaseUrl = "https://goodfootbreaking.firebaseio.com"
+            databaseUrl = "https://goodfootbreaking.firebaseio.com",
+            storageBucket = "goodfootbreaking.appspot.com"
         )
     )
 

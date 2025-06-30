@@ -6,7 +6,7 @@ import team.platforma.extra_nav.component.fragment_component.Fragment
 
 object RegistrationFragment: Fragment(
     route = "registration_fragment",
-    fragmentBox = { componentNavigator, fragmentNavigator ->
+    fragmentBox = { componentNavigator, fragmentNavigator, paddingValues ->
         RegistrationScreen(componentNavigator, fragmentNavigator)
     }
 )

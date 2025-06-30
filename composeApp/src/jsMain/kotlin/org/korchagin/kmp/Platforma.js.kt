@@ -2,7 +2,10 @@ package org.korchagin.kmp
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import dev.gitlive.firebase.storage.Data
 import kotlinx.browser.document
+import org.khronos.webgl.Uint8Array
+import org.khronos.webgl.set
 import org.w3c.dom.HTMLImageElement
 
 @Composable
@@ -32,4 +35,10 @@ actual val currentPlatform: PlatformType
     get() = PlatformType.JS
 
 
-
+actual fun ByteArray.toFirebaseData(): Data {
+    val uint8Array = Uint8Array(this.size)
+    for (i in indices) {
+        uint8Array[i] = (this[i].toInt() and 0xFF).toByte()
+    }
+    return Data(uint8Array)
+}
