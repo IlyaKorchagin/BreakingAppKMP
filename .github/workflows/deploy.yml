@@ -3,23 +3,24 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main
+      - main  # или твоя ветка
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Show root directory files (для отладки)
+        run: ls -la
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           distribution: temurin
           java-version: 17
-
-      - name: Install Gradle
-        uses: gradle/gradle-build-action@v2
 
       - name: Build project (production)
         run: ./gradlew :composeApp:jsBrowserProductionWebpack
