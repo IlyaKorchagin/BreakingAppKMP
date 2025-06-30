@@ -1,0 +1,2 @@
+!function(e,t){"object"==typeof exports&&"object"==typeof module?module.exports=t():"function"==typeof define&&define.amd?define([],t):"object"==typeof exports?exports.domain_auth=t():e.domain_auth=t()}(globalThis,(()=>{return e={54:(e,t)=>{var o,r;void 0===(r="function"==typeof(o=function(e){"use strict";return e})?o.apply(t,[t]):o)||(e.exports=r)}},t={},function o(r){var n=t[r];if(void 0!==n)return n.exports;var p=t[r]={exports:{}};return e[r](p,p.exports,o),p.exports}(54);var e,t}));
+//# sourceMappingURL=domain_auth.js.map

@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../../../../module_auth/di_auth/src/commonMain/kotlin/com/korchagin/di_auth/AuthDiProvider.kt"],"sourcesContent":[null],"names":["getAuthModules"],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;yBAOAA,CAAAA,EAAuB;A,IAEtB,OAFsB,OACnB,+BAAwB,8BAAxB,EAAkD,sBAAlD,CADmB,C;EAEvB,C;;;;;;;"}
