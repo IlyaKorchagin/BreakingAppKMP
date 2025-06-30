@@ -1,0 +1,23 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+container.style.apply {
+    width = "95%"
+    height = "360px"
+    position = "absolute"
+    top = "100px"
+    left = "50%"
+    transform = "translateX(-50%)"
+    zIndex = "1000"
+    backgroundColor = "black"
+    pointerEvents = "auto" // 🟢 добавлено
+}
+
+iframe.style.apply {
+    border = "none"
+    pointerEvents = "auto" // 🟢 добавлено
+}

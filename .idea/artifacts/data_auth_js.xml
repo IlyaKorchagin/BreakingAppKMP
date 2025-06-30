@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="data_auth-js">
+    <output-path>$PROJECT_DIR$/module_auth/data_auth/build/libs</output-path>
+    <root id="archive" name="data_auth-js.jar">
+      <element id="module-output" name="BreakingKMPApp.module_auth.data_auth.jsMain" />
+    </root>
+  </artifact>
+</component>

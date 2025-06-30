@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="domain_auth-js">
+    <output-path>$PROJECT_DIR$/module_auth/domain_auth/build/libs</output-path>
+    <root id="archive" name="domain_auth-js.jar">
+      <element id="module-output" name="BreakingKMPApp.module_auth.domain_auth.jsMain" />
+    </root>
+  </artifact>
+</component>

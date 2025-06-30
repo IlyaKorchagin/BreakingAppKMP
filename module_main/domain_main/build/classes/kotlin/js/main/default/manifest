@@ -1,0 +1,10 @@
+abi_version=1.8.0
+builtins_platform=JS
+compiler_version=2.0.20
+depends=BreakingKMPApp.module_main\:data_main io.insert-koin\:koin-compose io.insert-koin\:koin-core org.jetbrains.kotlinx\:kotlinx-coroutines-core org.jetbrains.kotlinx\:atomicfu co.touchlab\:stately-concurrent-collections co.touchlab\:stately-concurrency org.jetbrains.compose.runtime\:runtime org.jetbrains.kotlin\:kotlin-dom-api-compat kotlin
+ir_signature_versions=1,2
+jsOutputName=BreakingKMPApp-module_main-domain_main
+metadata_version=1.4.1
+serializedIrFileFingerprints=7a59c19gfrsb.k1od5805f9td 3aj0hwqgtmug2.1fn9pbajzp9wd ltay2b0m5wce.3llkpk2iuojzf 1od2usyuv1z5w.21jim80zqffm3 2o59yz5k7rr8s.2weghtm2httbw 23m5ucysodoeu.3ucfon09q6jvc 1jkv6lf8b0irj.2m0pypvhm7s9h 3hppkx8mh0gng.8dbab4pe9zd0 19b3wyb7jj1qg.8bao1at8aan4 14t5o66yw82kz.14irjocsuvqtw c125st6vrjx.6umd91p2kge9 3pglnywb78n4n.wx28as4hdto 3mwvac9r0g2ir.3uow831rhjqv5 331bgjskbge2k.ufcxuslwlomv
+serializedKlibFingerprint=12lm8cvdc85b4.bn5jnifuslxa
+unique_name=BreakingKMPApp.module_main\:domain_main

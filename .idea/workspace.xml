@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="98f0d8a1-ddb0-4522-846c-8e19f980b803" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=/Users/ilyakorchagin/.android/avd/Pixel_3a_API_35_extension_level_13_arm64-v8a.avd)]" />
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="KotlinMultiplatform">
+    <executable TARGET="ios_arm64" TARGET_NAME="iosArm64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":module_auth:di_auth:" IS_TEST="true">
+      <variant NAME="Debug" GRADLE_TASK=":module_auth:di_auth:linkDebugTestIosArm64" FILE="$PROJECT_DIR$/module_auth/di_auth/build/bin/iosArm64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
+        <envs />
+      </variant>
+    </executable>
+    <executable TARGET="ios_simulator_arm64" TARGET_NAME="iosSimulatorArm64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":module_main:data_main:" IS_TEST="true">
+      <variant NAME="Debug" GRADLE_TASK=":module_main:data_main:linkDebugTestIosSimulatorArm64" FILE="$PROJECT_DIR$/module_main/data_main/build/bin/iosSimulatorArm64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
+        <envs />
+      </variant>
+    </executable>
+    <executable TARGET="ios_x64" TARGET_NAME="iosX64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":module_main:di_main:" IS_TEST="true">
+      <variant NAME="Debug" GRADLE_TASK=":module_main:di_main:linkDebugTestIosX64" FILE="$PROJECT_DIR$/module_main/di_main/build/bin/iosX64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
+        <envs />
+      </variant>
+    </executable>
+    <executable TARGET="ios_simulator_arm64" TARGET_NAME="iosSimulatorArm64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":module_auth:presentation_auth:" IS_TEST="true">
+      <variant NAME="Debug" GRADLE_TASK=":module_auth:presentation_auth:linkDebugTestIosSimulatorArm64" FILE="$PROJECT_DIR$/module_auth/presentation_auth/build/bin/iosSimulatorArm64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
+        <envs />
+      </variant>
+    </executable>
+    <executable TARGET="ios_simulator_arm64" TARGET_NAME="iosSimulatorArm64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":module_main:presentation_main:" IS_TEST="true">
+      <variant NAME="Debug" GRADLE_TASK=":module_main:presentation_main:linkDebugTestIosSimulatorArm64" FILE="$PROJECT_DIR$/module_main/presentation_main/build/bin/iosSimulatorArm64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
+        <envs />
+      </variant>
+    </executable>
+    <executable TARGET="ios_arm64" TARGET_NAME="iosArm64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":module_main:domain_main:" IS_TEST="true">
+      <variant NAME="Debug" GRADLE_TASK=":module_main:domain_main:linkDebugTestIosArm64" FILE="$PROJECT_DIR$/module_main/domain_main/build/bin/iosArm64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
+        <envs />
+      </variant>
+    </executable>
+    <executable TARGET="ios_simulator_arm64" TARGET_NAME="iosSimulatorArm64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":module_auth:data_auth:" IS_TEST="true">
+      <variant NAME="Debug" GRADLE_TASK=":module_auth:data_auth:linkDebugTestIosSimulatorArm64" FILE="$PROJECT_DIR$/module_auth/data_auth/build/bin/iosSimulatorArm64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
+        <envs />
+      </variant>
+    </executable>
+    <executable TARGET="ios_simulator_arm64" TARGET_NAME="iosSimulatorArm64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":module_main:di_main:" IS_TEST="true">
+      <variant NAME="Debug" GRADLE_TASK=":module_main:di_main:linkDebugTestIosSimulatorArm64" FILE="$PROJECT_DIR$/module_main/di_main/build/bin/iosSimulatorArm64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
+        <envs />
+      </variant>
+    </executable>
+    <executable TARGET="ios_simulator_arm64" TARGET_NAME="iosSimulatorArm64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":module_auth:domain_auth:" IS_TEST="true">
+      <variant NAME="Debug" GRADLE_TASK=":module_auth:domain_auth:linkDebugTestIosSimulatorArm64" FILE="$PROJECT_DIR$/module_auth/domain_auth/build/bin/iosSimulatorArm64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
+        <envs />
+      </variant>
+    </executable>
+    <executable TARGET="ios_x64" TARGET_NAME="iosX64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":module_auth:data_auth:" IS_TEST="true">
+      <variant NAME="Debug" GRADLE_TASK=":module_auth:data_auth:linkDebugTestIosX64" FILE="$PROJECT_DIR$/module_auth/data_auth/build/bin/iosX64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
+        <envs />
+      </variant>
+    </executable>
+    <executable TARGET="ios_x64" TARGET_NAME="iosX64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":module_auth:domain_auth:" IS_TEST="true">
+      <variant NAME="Debug" GRADLE_TASK=":module_auth:domain_auth:linkDebugTestIosX64" FILE="$PROJECT_DIR$/module_auth/domain_auth/build/bin/iosX64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
+        <envs />
+      </variant>
+    </executable>
+    <executable TARGET="ios_arm64" TARGET_NAME="iosArm64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":composeApp:" IS_TEST="true">
+      <variant NAME="Debug" GRADLE_TASK=":composeApp:linkDebugTestIosArm64" FILE="$PROJECT_DIR$/composeApp/build/bin/iosArm64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
+        <envs />
+      </variant>
+    </executable>
+    <executable TARGET="ios_x64" TARGET_NAME="iosX64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":module_main:data_main:" IS_TEST="true">
+      <variant NAME="Debug" GRADLE_TASK=":module_main:data_main:linkDebugTestIosX64" FILE="$PROJECT_DIR$/module_main/data_main/build/bin/iosX64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
+        <envs />
+      </variant>
+    </executable>
+    <executable TARGET="ios_simulator_arm64" TARGET_NAME="iosSimulatorArm64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":module_auth:di_auth:" IS_TEST="true">
+      <variant NAME="Debug" GRADLE_TASK=":module_auth:di_auth:linkDebugTestIosSimulatorArm64" FILE="$PROJECT_DIR$/module_auth/di_auth/build/bin/iosSimulatorArm64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
+        <envs />
+      </variant>
+    </executable>
+    <executable TARGET="ios_arm64" TARGET_NAME="iosArm64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":module_main:data_main:" IS_TEST="true">
+      <variant NAME="Debug" GRADLE_TASK=":module_main:data_main:linkDebugTestIosArm64" FILE="$PROJECT_DIR$/module_main/data_main/build/bin/iosArm64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
+        <envs />
+      </variant>
+    </executable>
+    <executable TARGET="ios_x64" TARGET_NAME="iosX64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":module_auth:di_auth:" IS_TEST="true">
+      <variant NAME="Debug" GRADLE_TASK=":module_auth:di_auth:linkDebugTestIosX64" FILE="$PROJECT_DIR$/module_auth/di_auth/build/bin/iosX64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
+        <envs />
+      </variant>
+    </executable>
+    <executable TARGET="ios_x64" TARGET_NAME="iosX64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":module_main:domain_main:" IS_TEST="true">
+      <variant NAME="Debug" GRADLE_TASK=":module_main:domain_main:linkDebugTestIosX64" FILE="$PROJECT_DIR$/module_main/domain_main/build/bin/iosX64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
+        <envs />
+      </variant>
+    </executable>
+    <executable TARGET="ios_arm64" TARGET_NAME="iosArm64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":module_main:presentation_main:" IS_TEST="true">
+      <variant NAME="Debug" GRADLE_TASK=":module_main:presentation_main:linkDebugTestIosArm64" FILE="$PROJECT_DIR$/module_main/presentation_main/build/bin/iosArm64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
+        <envs />
+      </variant>
+    </executable>
+    <executable TARGET="ios_arm64" TARGET_NAME="iosArm64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":module_auth:presentation_auth:" IS_TEST="true">
+      <variant NAME="Debug" GRADLE_TASK=":module_auth:presentation_auth:linkDebugTestIosArm64" FILE="$PROJECT_DIR$/module_auth/presentation_auth/build/bin/iosArm64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
+        <envs />
+      </variant>
+    </executable>
+    <executable TARGET="ios_simulator_arm64" TARGET_NAME="iosSimulatorArm64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":module_main:domain_main:" IS_TEST="true">
+      <variant NAME="Debug" GRADLE_TASK=":module_main:domain_main:linkDebugTestIosSimulatorArm64" FILE="$PROJECT_DIR$/module_main/domain_main/build/bin/iosSimulatorArm64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
+        <envs />
+      </variant>
+    </executable>
+    <executable TARGET="ios_arm64" TARGET_NAME="iosArm64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":module_auth:data_auth:" IS_TEST="true">
+      <variant NAME="Debug" GRADLE_TASK=":module_auth:data_auth:linkDebugTestIosArm64" FILE="$PROJECT_DIR$/module_auth/data_auth/build/bin/iosArm64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
+        <envs />
+      </variant>
+    </executable>
+    <executable TARGET="ios_arm64" TARGET_NAME="iosArm64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":module_main:di_main:" IS_TEST="true">
+      <variant NAME="Debug" GRADLE_TASK=":module_main:di_main:linkDebugTestIosArm64" FILE="$PROJECT_DIR$/module_main/di_main/build/bin/iosArm64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
+        <envs />
+      </variant>
+    </executable>
+    <executable TARGET="ios_arm64" TARGET_NAME="iosArm64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":module_auth:domain_auth:" IS_TEST="true">
+      <variant NAME="Debug" GRADLE_TASK=":module_auth:domain_auth:linkDebugTestIosArm64" FILE="$PROJECT_DIR$/module_auth/domain_auth/build/bin/iosArm64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
+        <envs />
+      </variant>
+    </executable>
+    <executable TARGET="ios_simulator_arm64" TARGET_NAME="iosSimulatorArm64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":composeApp:" IS_TEST="true">
+      <variant NAME="Debug" GRADLE_TASK=":composeApp:linkDebugTestIosSimulatorArm64" FILE="$PROJECT_DIR$/composeApp/build/bin/iosSimulatorArm64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
+        <envs />
+      </variant>
+    </executable>
+    <executable TARGET="ios_x64" TARGET_NAME="iosX64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":composeApp:" IS_TEST="true">
+      <variant NAME="Debug" GRADLE_TASK=":composeApp:linkDebugTestIosX64" FILE="$PROJECT_DIR$/composeApp/build/bin/iosX64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
+        <envs />
+      </variant>
+    </executable>
+    <executable TARGET="ios_x64" TARGET_NAME="iosX64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":module_main:presentation_main:" IS_TEST="true">
+      <variant NAME="Debug" GRADLE_TASK=":module_main:presentation_main:linkDebugTestIosX64" FILE="$PROJECT_DIR$/module_main/presentation_main/build/bin/iosX64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
+        <envs />
+      </variant>
+    </executable>
+    <executable TARGET="ios_x64" TARGET_NAME="iosX64" EXECUTABLE_NAME="test" PROJECT_PREFIX=":module_auth:presentation_auth:" IS_TEST="true">
+      <variant NAME="Debug" GRADLE_TASK=":module_auth:presentation_auth:linkDebugTestIosX64" FILE="$PROJECT_DIR$/module_auth/presentation_auth/build/bin/iosX64/debugTest/test.kexe" WORKING_DIR="" PROGRAM_PARAMS="">
+        <envs />
+      </variant>
+    </executable>
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "git-widget-placeholder": "gh-pages"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="BreakingKMPApp.module_auth.data_auth" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="BreakingKMPApp.module_auth.data_auth" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="TaskManager">
+    <servers />
+  </component>
+</project>
