@@ -11,8 +11,6 @@ object AuthActivity : Activity(
         AuthComponent
     ),
     activityScaffold = { components ->
-
-
         ActivityScaffold(
             components = components
         )
