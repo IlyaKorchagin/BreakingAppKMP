@@ -18,6 +18,9 @@ jobs:
           distribution: temurin
           java-version: 17
 
+      - name: Install Gradle
+        uses: gradle/gradle-build-action@v2
+
       - name: Build project (production)
         run: ./gradlew :composeApp:jsBrowserProductionWebpack
 
