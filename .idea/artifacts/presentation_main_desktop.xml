@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="presentation_main-desktop">
-    <output-path>$PROJECT_DIR$/module_main/presentation_main/build/libs</output-path>
-    <root id="archive" name="presentation_main-desktop.jar">
-      <element id="module-output" name="BreakingKMPApp.module_main.presentation_main.desktopMain" />
-    </root>
-  </artifact>
-</component>

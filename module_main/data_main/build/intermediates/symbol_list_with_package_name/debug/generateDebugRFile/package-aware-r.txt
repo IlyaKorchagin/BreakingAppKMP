@@ -1,1 +1,0 @@
-org.korchagin.kmp.module_main.data_main
