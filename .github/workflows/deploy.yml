@@ -18,6 +18,9 @@ jobs:
           distribution: temurin
           java-version: 17
 
+      - name: Change to project directory
+        run: cd composeApp
+
       - name: Build project (production)
         run: ./gradlew jsBrowserProductionWebpack
 
