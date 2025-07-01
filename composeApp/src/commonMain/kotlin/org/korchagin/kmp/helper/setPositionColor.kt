@@ -13,8 +13,6 @@ fun setPositionColor(index: Int): Color {
         5 -> AppColors.colors().sixPosition
         6 -> AppColors.colors().sevenPosition
         7 -> AppColors.colors().eightPosition
-        8 -> AppColors.colors().ninePosition
-        9 -> AppColors.colors().tenPosition
-        else -> Color.White
+        else -> AppColors.colors().ninePosition
     }
 }

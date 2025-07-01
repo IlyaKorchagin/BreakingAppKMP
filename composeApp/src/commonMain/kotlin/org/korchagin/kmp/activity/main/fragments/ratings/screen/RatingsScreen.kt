@@ -61,9 +61,7 @@ fun RatingsScreen(
         else {
             RatingTable(
                 mainViewModel = mainViewModel,
-                pupilsList = pupilsList,
-                modifier = Modifier
-                    .background(color = Color.Black)
+                pupilsList = pupilsList
             )
         }
     }
@@ -184,10 +182,10 @@ fun RatingTable(
 ) {
     Column(
         modifier = Modifier
+            .fillMaxHeight()
             .widthIn(max = 900.dp)
             .background(color = Color.Black),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Top
     ) {
         Row(
             modifier = Modifier
@@ -203,7 +201,7 @@ fun RatingTable(
                 Text(
                     text = "Позиция",
                     fontSize = 14.sp,
-                    color = AppColors.colors().textDefault,
+                    color = Color.White,
                 )
             }
 
@@ -216,7 +214,7 @@ fun RatingTable(
                 Text(
                     text = "Фамилия и имя",
                     fontSize = 14.sp,
-                    color = AppColors.colors().textDefault,
+                    color = Color.White,
                 )
             }
 
@@ -226,7 +224,7 @@ fun RatingTable(
                 Text(
                     text = "Рейтинг",
                     fontSize = 14.sp,
-                    color = AppColors.colors().textDefault,
+                    color = Color.White,
                 )
             }
         }

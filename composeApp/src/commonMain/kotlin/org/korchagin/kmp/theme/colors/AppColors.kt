@@ -31,7 +31,6 @@ private object AppColorsDefined {
         val sevenPosition = Color(0xFFfce300)
         val eightPosition = Color(0xFFfcfa08)
         val ninePosition = Color(0xFFfcfa58)
-        val tenPosition = Color(0xFFfcfa98)
 
         val primaryColor = Color(0xFF2261AE)
 
@@ -89,7 +88,7 @@ private object AppColorsDefined {
         val sevenPosition = Color(0xFFfce300)
         val eightPosition = Color(0xFFfcfa08)
         val ninePosition = Color(0xFFfcfa58)
-        val tenPosition = Color(0xFFfcfa98)
+
 
         val primaryColor = Color(0xFF2261AE)
 
@@ -154,7 +153,6 @@ class AppColorsTheme() {
                 sevenPosition = AppColorsDefined.LightTheme.sevenPosition,
                 eightPosition = AppColorsDefined.LightTheme.eightPosition,
                 ninePosition = AppColorsDefined.LightTheme.ninePosition,
-                tenPosition = AppColorsDefined.LightTheme.tenPosition,
                 primaryColor = AppColorsDefined.LightTheme.primaryColor,
                 textDefault = AppColorsDefined.LightTheme.textDefault,
                 textDisabled = AppColorsDefined.LightTheme.textDisabled,
@@ -206,7 +204,6 @@ class AppColorsTheme() {
                 sevenPosition = AppColorsDefined.DarkTheme.sevenPosition,
                 eightPosition = AppColorsDefined.DarkTheme.eightPosition,
                 ninePosition = AppColorsDefined.DarkTheme.ninePosition,
-                tenPosition = AppColorsDefined.DarkTheme.tenPosition,
                 primaryColor = AppColorsDefined.DarkTheme.primaryColor,
                 textDefault = AppColorsDefined.DarkTheme.textDefault,
                 textDisabled = AppColorsDefined.DarkTheme.textDisabled,
