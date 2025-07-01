@@ -5,30 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BreakingApp</title>
 
+    <!-- Icons -->
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" type="image/png" href="logo.png" sizes="32x32">
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="manifest.json"> <!-- убрали /, если файл в корне -->
 
+    <!-- Stylesheet -->
     <link type="text/css" rel="stylesheet" href="styles.css">
+
+    <!-- Scripts -->
     <script type="application/javascript" src="skiko.js"></script>
     <script src="https://www.youtube.com/iframe_api"></script>
-
-    <base href="/BreakingAppKMP/">
-
 </head>
 <body>
 <div id="root">
     <canvas id="ComposeTarget"></canvas>
-    <script src="BreakingKMPApp.js"></script>
+    <script src="BreakingKMPApp.js"></script> <!-- Убедитесь, что этот файл доступен в корне или указали правильный путь -->
 
     <iframe id="webView" hidden></iframe>
     <canvas id="webViewCanvas" hidden></canvas>
 </div>
 
 <div id="calback-page"></div>
-</body>
-</html>
-
 
 </body>
 </html>

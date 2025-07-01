@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "org.korchagin.kmp.composeApp-mergeDebugResources-3:/values-v30/values-v30.xml",
+            "map": [
+                {
+                    "source": "/Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/f665d320e7168c7b53a0b3eca81c6c25/transformed/material3-release/res/values-v30/values-v30.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "72",
+                        "endOffsets": "123"
+                    }
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,411 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="org.korchagin.kmp"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="26"
+9        android:targetSdkVersion="35" />
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->/Users/ilyakorchagin/StudioProjects/BreakingApp/composeApp/src/androidMain/AndroidManifest.xml:4:5-67
+11-->/Users/ilyakorchagin/StudioProjects/BreakingApp/composeApp/src/androidMain/AndroidManifest.xml:4:22-64
+12    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+12-->/Users/ilyakorchagin/StudioProjects/BreakingApp/composeApp/src/androidMain/AndroidManifest.xml:5:5-75
+12-->/Users/ilyakorchagin/StudioProjects/BreakingApp/composeApp/src/androidMain/AndroidManifest.xml:5:22-72
+13    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+13-->/Users/ilyakorchagin/StudioProjects/BreakingApp/composeApp/src/androidMain/AndroidManifest.xml:6:5-76
+13-->/Users/ilyakorchagin/StudioProjects/BreakingApp/composeApp/src/androidMain/AndroidManifest.xml:6:22-73
+14    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+14-->/Users/ilyakorchagin/StudioProjects/BreakingApp/composeApp/src/androidMain/AndroidManifest.xml:7:5-80
+14-->/Users/ilyakorchagin/StudioProjects/BreakingApp/composeApp/src/androidMain/AndroidManifest.xml:7:22-77
+15    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+15-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:26:5-79
+15-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:26:22-76
+16
+17    <permission
+17-->[androidx.core:core:1.13.1] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/f4492231a9deaba74f24188478178ab1/transformed/core-1.13.1/AndroidManifest.xml:22:5-24:47
+18        android:name="org.korchagin.kmp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+18-->[androidx.core:core:1.13.1] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/f4492231a9deaba74f24188478178ab1/transformed/core-1.13.1/AndroidManifest.xml:23:9-81
+19        android:protectionLevel="signature" />
+19-->[androidx.core:core:1.13.1] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/f4492231a9deaba74f24188478178ab1/transformed/core-1.13.1/AndroidManifest.xml:24:9-44
+20
+21    <uses-permission android:name="org.korchagin.kmp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+21-->[androidx.core:core:1.13.1] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/f4492231a9deaba74f24188478178ab1/transformed/core-1.13.1/AndroidManifest.xml:26:5-97
+21-->[androidx.core:core:1.13.1] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/f4492231a9deaba74f24188478178ab1/transformed/core-1.13.1/AndroidManifest.xml:26:22-94
+22    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+22-->[com.google.android.recaptcha:recaptcha:18.4.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/557dcd6216bb083e3706161bacb63004/transformed/recaptcha-18.4.0/AndroidManifest.xml:9:5-98
+22-->[com.google.android.recaptcha:recaptcha:18.4.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/557dcd6216bb083e3706161bacb63004/transformed/recaptcha-18.4.0/AndroidManifest.xml:9:22-95
+23
+24    <application
+24-->/Users/ilyakorchagin/StudioProjects/BreakingApp/composeApp/src/androidMain/AndroidManifest.xml:9:5-27:19
+25        android:name="org.korchagin.kmp.MyApplication"
+25-->/Users/ilyakorchagin/StudioProjects/BreakingApp/composeApp/src/androidMain/AndroidManifest.xml:10:9-38
+26        android:allowBackup="true"
+26-->/Users/ilyakorchagin/StudioProjects/BreakingApp/composeApp/src/androidMain/AndroidManifest.xml:11:9-35
+27        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+27-->[androidx.core:core:1.13.1] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/f4492231a9deaba74f24188478178ab1/transformed/core-1.13.1/AndroidManifest.xml:28:18-86
+28        android:debuggable="true"
+29        android:extractNativeLibs="false"
+30        android:icon="@mipmap/ic_launcher"
+30-->/Users/ilyakorchagin/StudioProjects/BreakingApp/composeApp/src/androidMain/AndroidManifest.xml:12:9-43
+31        android:label="@string/app_name"
+31-->/Users/ilyakorchagin/StudioProjects/BreakingApp/composeApp/src/androidMain/AndroidManifest.xml:13:9-41
+32        android:roundIcon="@mipmap/ic_launcher_round"
+32-->/Users/ilyakorchagin/StudioProjects/BreakingApp/composeApp/src/androidMain/AndroidManifest.xml:14:9-54
+33        android:supportsRtl="true"
+33-->/Users/ilyakorchagin/StudioProjects/BreakingApp/composeApp/src/androidMain/AndroidManifest.xml:15:9-35
+34        android:testOnly="true"
+35        android:theme="@android:style/Theme.Material.Light.NoActionBar" >
+35-->/Users/ilyakorchagin/StudioProjects/BreakingApp/composeApp/src/androidMain/AndroidManifest.xml:16:9-72
+36        <activity
+36-->/Users/ilyakorchagin/StudioProjects/BreakingApp/composeApp/src/androidMain/AndroidManifest.xml:17:9-26:20
+37            android:name="org.korchagin.kmp.MainActivity"
+37-->/Users/ilyakorchagin/StudioProjects/BreakingApp/composeApp/src/androidMain/AndroidManifest.xml:20:13-41
+38            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden|mnc|colorMode|density|fontScale|fontWeightAdjustment|keyboard|layoutDirection|locale|mcc|navigation|smallestScreenSize|touchscreen|uiMode"
+38-->/Users/ilyakorchagin/StudioProjects/BreakingApp/composeApp/src/androidMain/AndroidManifest.xml:19:13-225
+39            android:exported="true" >
+39-->/Users/ilyakorchagin/StudioProjects/BreakingApp/composeApp/src/androidMain/AndroidManifest.xml:18:13-36
+40            <intent-filter>
+40-->/Users/ilyakorchagin/StudioProjects/BreakingApp/composeApp/src/androidMain/AndroidManifest.xml:21:13-25:29
+41                <action android:name="android.intent.action.MAIN" />
+41-->/Users/ilyakorchagin/StudioProjects/BreakingApp/composeApp/src/androidMain/AndroidManifest.xml:22:17-69
+41-->/Users/ilyakorchagin/StudioProjects/BreakingApp/composeApp/src/androidMain/AndroidManifest.xml:22:25-66
+42
+43                <category android:name="android.intent.category.LAUNCHER" />
+43-->/Users/ilyakorchagin/StudioProjects/BreakingApp/composeApp/src/androidMain/AndroidManifest.xml:24:17-77
+43-->/Users/ilyakorchagin/StudioProjects/BreakingApp/composeApp/src/androidMain/AndroidManifest.xml:24:27-74
+44            </intent-filter>
+45        </activity>
+46
+47        <service
+47-->[com.google.firebase:firebase-auth-ktx:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/aba8dcffa138fc443f13e1f736a9921b/transformed/firebase-auth-ktx-23.0.0/AndroidManifest.xml:8:9-14:19
+48            android:name="com.google.firebase.components.ComponentDiscoveryService"
+48-->[com.google.firebase:firebase-auth-ktx:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/aba8dcffa138fc443f13e1f736a9921b/transformed/firebase-auth-ktx-23.0.0/AndroidManifest.xml:9:13-84
+49            android:directBootAware="true"
+49-->[com.google.firebase:firebase-common:21.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/abcd0fbdee932f4e33e8d12a5062f8c7/transformed/firebase-common-21.0.0/AndroidManifest.xml:32:13-43
+50            android:exported="false" >
+50-->[com.google.firebase:firebase-auth-ktx:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/aba8dcffa138fc443f13e1f736a9921b/transformed/firebase-auth-ktx-23.0.0/AndroidManifest.xml:10:13-37
+51            <meta-data
+51-->[com.google.firebase:firebase-auth-ktx:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/aba8dcffa138fc443f13e1f736a9921b/transformed/firebase-auth-ktx-23.0.0/AndroidManifest.xml:11:13-13:85
+52                android:name="com.google.firebase.components:com.google.firebase.auth.ktx.FirebaseAuthLegacyRegistrar"
+52-->[com.google.firebase:firebase-auth-ktx:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/aba8dcffa138fc443f13e1f736a9921b/transformed/firebase-auth-ktx-23.0.0/AndroidManifest.xml:12:17-119
+53                android:value="com.google.firebase.components.ComponentRegistrar" />
+53-->[com.google.firebase:firebase-auth-ktx:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/aba8dcffa138fc443f13e1f736a9921b/transformed/firebase-auth-ktx-23.0.0/AndroidManifest.xml:13:17-82
+54            <meta-data
+54-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:69:13-71:85
+55                android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
+55-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:70:17-109
+56                android:value="com.google.firebase.components.ComponentRegistrar" />
+56-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:71:17-82
+57            <meta-data
+57-->[com.google.firebase:firebase-firestore:25.1.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/feb6bd431027430e5ac63c3b50f45dd0/transformed/firebase-firestore-25.1.0/AndroidManifest.xml:17:13-19:85
+58                android:name="com.google.firebase.components:com.google.firebase.firestore.FirebaseFirestoreKtxRegistrar"
+58-->[com.google.firebase:firebase-firestore:25.1.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/feb6bd431027430e5ac63c3b50f45dd0/transformed/firebase-firestore-25.1.0/AndroidManifest.xml:18:17-122
+59                android:value="com.google.firebase.components.ComponentRegistrar" />
+59-->[com.google.firebase:firebase-firestore:25.1.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/feb6bd431027430e5ac63c3b50f45dd0/transformed/firebase-firestore-25.1.0/AndroidManifest.xml:19:17-82
+60            <meta-data
+60-->[com.google.firebase:firebase-firestore:25.1.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/feb6bd431027430e5ac63c3b50f45dd0/transformed/firebase-firestore-25.1.0/AndroidManifest.xml:20:13-22:85
+61                android:name="com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar"
+61-->[com.google.firebase:firebase-firestore:25.1.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/feb6bd431027430e5ac63c3b50f45dd0/transformed/firebase-firestore-25.1.0/AndroidManifest.xml:21:17-111
+62                android:value="com.google.firebase.components.ComponentRegistrar" />
+62-->[com.google.firebase:firebase-firestore:25.1.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/feb6bd431027430e5ac63c3b50f45dd0/transformed/firebase-firestore-25.1.0/AndroidManifest.xml:22:17-82
+63            <meta-data
+63-->[com.google.firebase:firebase-storage:21.0.1] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/97c365784b78bc4b336ef1975dc85588/transformed/firebase-storage-21.0.1/AndroidManifest.xml:30:13-32:85
+64                android:name="com.google.firebase.components:com.google.firebase.storage.FirebaseStorageKtxRegistrar"
+64-->[com.google.firebase:firebase-storage:21.0.1] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/97c365784b78bc4b336ef1975dc85588/transformed/firebase-storage-21.0.1/AndroidManifest.xml:31:17-118
+65                android:value="com.google.firebase.components.ComponentRegistrar" />
+65-->[com.google.firebase:firebase-storage:21.0.1] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/97c365784b78bc4b336ef1975dc85588/transformed/firebase-storage-21.0.1/AndroidManifest.xml:32:17-82
+66            <meta-data
+66-->[com.google.firebase:firebase-storage:21.0.1] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/97c365784b78bc4b336ef1975dc85588/transformed/firebase-storage-21.0.1/AndroidManifest.xml:33:13-35:85
+67                android:name="com.google.firebase.components:com.google.firebase.storage.StorageRegistrar"
+67-->[com.google.firebase:firebase-storage:21.0.1] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/97c365784b78bc4b336ef1975dc85588/transformed/firebase-storage-21.0.1/AndroidManifest.xml:34:17-107
+68                android:value="com.google.firebase.components.ComponentRegistrar" />
+68-->[com.google.firebase:firebase-storage:21.0.1] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/97c365784b78bc4b336ef1975dc85588/transformed/firebase-storage-21.0.1/AndroidManifest.xml:35:17-82
+69            <meta-data
+69-->[com.google.firebase:firebase-database-ktx:21.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/9b53ef741e23c690e86b02100b8e0de7/transformed/firebase-database-ktx-21.0.0/AndroidManifest.xml:12:13-14:85
+70                android:name="com.google.firebase.components:com.google.firebase.database.ktx.FirebaseDatabaseLegacyRegistrar"
+70-->[com.google.firebase:firebase-database-ktx:21.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/9b53ef741e23c690e86b02100b8e0de7/transformed/firebase-database-ktx-21.0.0/AndroidManifest.xml:13:17-127
+71                android:value="com.google.firebase.components.ComponentRegistrar" />
+71-->[com.google.firebase:firebase-database-ktx:21.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/9b53ef741e23c690e86b02100b8e0de7/transformed/firebase-database-ktx-21.0.0/AndroidManifest.xml:14:17-82
+72            <meta-data
+72-->[com.google.firebase:firebase-database:21.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/e7fa4ab7ac2ff03d1a2bca853e20c0c8/transformed/firebase-database-21.0.0/AndroidManifest.xml:29:13-31:85
+73                android:name="com.google.firebase.components:com.google.firebase.database.FirebaseDatabaseKtxRegistrar"
+73-->[com.google.firebase:firebase-database:21.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/e7fa4ab7ac2ff03d1a2bca853e20c0c8/transformed/firebase-database-21.0.0/AndroidManifest.xml:30:17-120
+74                android:value="com.google.firebase.components.ComponentRegistrar" />
+74-->[com.google.firebase:firebase-database:21.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/e7fa4ab7ac2ff03d1a2bca853e20c0c8/transformed/firebase-database-21.0.0/AndroidManifest.xml:31:17-82
+75            <meta-data
+75-->[com.google.firebase:firebase-database:21.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/e7fa4ab7ac2ff03d1a2bca853e20c0c8/transformed/firebase-database-21.0.0/AndroidManifest.xml:32:13-34:85
+76                android:name="com.google.firebase.components:com.google.firebase.database.DatabaseRegistrar"
+76-->[com.google.firebase:firebase-database:21.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/e7fa4ab7ac2ff03d1a2bca853e20c0c8/transformed/firebase-database-21.0.0/AndroidManifest.xml:33:17-109
+77                android:value="com.google.firebase.components.ComponentRegistrar" />
+77-->[com.google.firebase:firebase-database:21.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/e7fa4ab7ac2ff03d1a2bca853e20c0c8/transformed/firebase-database-21.0.0/AndroidManifest.xml:34:17-82
+78            <meta-data
+78-->[com.google.firebase:firebase-appcheck:18.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/f8042f610d777f1340106b5e825e384a/transformed/firebase-appcheck-18.0.0/AndroidManifest.xml:25:13-27:85
+79                android:name="com.google.firebase.components:com.google.firebase.appcheck.FirebaseAppCheckKtxRegistrar"
+79-->[com.google.firebase:firebase-appcheck:18.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/f8042f610d777f1340106b5e825e384a/transformed/firebase-appcheck-18.0.0/AndroidManifest.xml:26:17-120
+80                android:value="com.google.firebase.components.ComponentRegistrar" />
+80-->[com.google.firebase:firebase-appcheck:18.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/f8042f610d777f1340106b5e825e384a/transformed/firebase-appcheck-18.0.0/AndroidManifest.xml:27:17-82
+81            <meta-data
+81-->[com.google.firebase:firebase-appcheck:18.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/f8042f610d777f1340106b5e825e384a/transformed/firebase-appcheck-18.0.0/AndroidManifest.xml:28:13-30:85
+82                android:name="com.google.firebase.components:com.google.firebase.appcheck.FirebaseAppCheckRegistrar"
+82-->[com.google.firebase:firebase-appcheck:18.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/f8042f610d777f1340106b5e825e384a/transformed/firebase-appcheck-18.0.0/AndroidManifest.xml:29:17-117
+83                android:value="com.google.firebase.components.ComponentRegistrar" />
+83-->[com.google.firebase:firebase-appcheck:18.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/f8042f610d777f1340106b5e825e384a/transformed/firebase-appcheck-18.0.0/AndroidManifest.xml:30:17-82
+84            <meta-data
+84-->[com.google.firebase:firebase-common-ktx:21.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/f9915e86e7936edfdff1353e9dc536ce/transformed/firebase-common-ktx-21.0.0/AndroidManifest.xml:12:13-14:85
+85                android:name="com.google.firebase.components:com.google.firebase.ktx.FirebaseCommonLegacyRegistrar"
+85-->[com.google.firebase:firebase-common-ktx:21.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/f9915e86e7936edfdff1353e9dc536ce/transformed/firebase-common-ktx-21.0.0/AndroidManifest.xml:13:17-116
+86                android:value="com.google.firebase.components.ComponentRegistrar" />
+86-->[com.google.firebase:firebase-common-ktx:21.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/f9915e86e7936edfdff1353e9dc536ce/transformed/firebase-common-ktx-21.0.0/AndroidManifest.xml:14:17-82
+87            <meta-data
+87-->[com.google.firebase:firebase-common:21.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/abcd0fbdee932f4e33e8d12a5062f8c7/transformed/firebase-common-21.0.0/AndroidManifest.xml:35:13-37:85
+88                android:name="com.google.firebase.components:com.google.firebase.FirebaseCommonKtxRegistrar"
+88-->[com.google.firebase:firebase-common:21.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/abcd0fbdee932f4e33e8d12a5062f8c7/transformed/firebase-common-21.0.0/AndroidManifest.xml:36:17-109
+89                android:value="com.google.firebase.components.ComponentRegistrar" />
+89-->[com.google.firebase:firebase-common:21.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/abcd0fbdee932f4e33e8d12a5062f8c7/transformed/firebase-common-21.0.0/AndroidManifest.xml:37:17-82
+90        </service>
+91
+92        <activity
+92-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:29:9-46:20
+93            android:name="com.google.firebase.auth.internal.GenericIdpActivity"
+93-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:30:13-80
+94            android:excludeFromRecents="true"
+94-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:31:13-46
+95            android:exported="true"
+95-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:32:13-36
+96            android:launchMode="singleTask"
+96-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:33:13-44
+97            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+97-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:34:13-72
+98            <intent-filter>
+98-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:35:13-45:29
+99                <action android:name="android.intent.action.VIEW" />
+99-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:36:17-69
+99-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:36:25-66
+100
+101                <category android:name="android.intent.category.DEFAULT" />
+101-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:38:17-76
+101-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:38:27-73
+102                <category android:name="android.intent.category.BROWSABLE" />
+102-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:39:17-78
+102-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:39:27-75
+103
+104                <data
+104-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:41:17-44:51
+105                    android:host="firebase.auth"
+105-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:42:21-49
+106                    android:path="/"
+106-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:43:21-37
+107                    android:scheme="genericidp" />
+107-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:44:21-48
+108            </intent-filter>
+109        </activity>
+110        <activity
+110-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:47:9-64:20
+111            android:name="com.google.firebase.auth.internal.RecaptchaActivity"
+111-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:48:13-79
+112            android:excludeFromRecents="true"
+112-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:49:13-46
+113            android:exported="true"
+113-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:50:13-36
+114            android:launchMode="singleTask"
+114-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:51:13-44
+115            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+115-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:52:13-72
+116            <intent-filter>
+116-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:53:13-63:29
+117                <action android:name="android.intent.action.VIEW" />
+117-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:36:17-69
+117-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:36:25-66
+118
+119                <category android:name="android.intent.category.DEFAULT" />
+119-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:38:17-76
+119-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:38:27-73
+120                <category android:name="android.intent.category.BROWSABLE" />
+120-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:39:17-78
+120-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:39:27-75
+121
+122                <data
+122-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:41:17-44:51
+123                    android:host="firebase.auth"
+123-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:42:21-49
+124                    android:path="/"
+124-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:43:21-37
+125                    android:scheme="recaptcha" />
+125-->[com.google.firebase:firebase-auth:23.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/d69734229f1e9bb7580b848312c17e6d/transformed/firebase-auth-23.0.0/AndroidManifest.xml:44:21-48
+126            </intent-filter>
+127        </activity>
+128
+129        <provider
+129-->[com.google.firebase:firebase-common:21.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/abcd0fbdee932f4e33e8d12a5062f8c7/transformed/firebase-common-21.0.0/AndroidManifest.xml:23:9-28:39
+130            android:name="com.google.firebase.provider.FirebaseInitProvider"
+130-->[com.google.firebase:firebase-common:21.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/abcd0fbdee932f4e33e8d12a5062f8c7/transformed/firebase-common-21.0.0/AndroidManifest.xml:24:13-77
+131            android:authorities="org.korchagin.kmp.firebaseinitprovider"
+131-->[com.google.firebase:firebase-common:21.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/abcd0fbdee932f4e33e8d12a5062f8c7/transformed/firebase-common-21.0.0/AndroidManifest.xml:25:13-72
+132            android:directBootAware="true"
+132-->[com.google.firebase:firebase-common:21.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/abcd0fbdee932f4e33e8d12a5062f8c7/transformed/firebase-common-21.0.0/AndroidManifest.xml:26:13-43
+133            android:exported="false"
+133-->[com.google.firebase:firebase-common:21.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/abcd0fbdee932f4e33e8d12a5062f8c7/transformed/firebase-common-21.0.0/AndroidManifest.xml:27:13-37
+134            android:initOrder="100" />
+134-->[com.google.firebase:firebase-common:21.0.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/abcd0fbdee932f4e33e8d12a5062f8c7/transformed/firebase-common-21.0.0/AndroidManifest.xml:28:13-36
+135        <provider
+135-->[org.jetbrains.compose.components:components-resources-android:1.7.3] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/1bf71dd1f37af1033bd251ac83f08702/transformed/library-release/AndroidManifest.xml:8:9-13:20
+136            android:name="org.jetbrains.compose.resources.AndroidContextProvider"
+136-->[org.jetbrains.compose.components:components-resources-android:1.7.3] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/1bf71dd1f37af1033bd251ac83f08702/transformed/library-release/AndroidManifest.xml:9:13-82
+137            android:authorities="org.korchagin.kmp.resources.AndroidContextProvider"
+137-->[org.jetbrains.compose.components:components-resources-android:1.7.3] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/1bf71dd1f37af1033bd251ac83f08702/transformed/library-release/AndroidManifest.xml:10:13-84
+138            android:enabled="true"
+138-->[org.jetbrains.compose.components:components-resources-android:1.7.3] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/1bf71dd1f37af1033bd251ac83f08702/transformed/library-release/AndroidManifest.xml:11:13-35
+139            android:exported="false" >
+139-->[org.jetbrains.compose.components:components-resources-android:1.7.3] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/1bf71dd1f37af1033bd251ac83f08702/transformed/library-release/AndroidManifest.xml:12:13-37
+140        </provider>
+141
+142        <activity
+142-->[androidx.compose.ui:ui-tooling-android:1.7.6] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/962061e392eda1d3f6d71860eef18219/transformed/ui-tooling-release/AndroidManifest.xml:23:9-25:39
+143            android:name="androidx.compose.ui.tooling.PreviewActivity"
+143-->[androidx.compose.ui:ui-tooling-android:1.7.6] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/962061e392eda1d3f6d71860eef18219/transformed/ui-tooling-release/AndroidManifest.xml:24:13-71
+144            android:exported="true" />
+144-->[androidx.compose.ui:ui-tooling-android:1.7.6] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/962061e392eda1d3f6d71860eef18219/transformed/ui-tooling-release/AndroidManifest.xml:25:13-36
+145
+146        <provider
+146-->[androidx.emoji2:emoji2:1.3.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/9f668d5ad1a74438a17706734d64f3e9/transformed/emoji2-1.3.0/AndroidManifest.xml:24:9-32:20
+147            android:name="androidx.startup.InitializationProvider"
+147-->[androidx.emoji2:emoji2:1.3.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/9f668d5ad1a74438a17706734d64f3e9/transformed/emoji2-1.3.0/AndroidManifest.xml:25:13-67
+148            android:authorities="org.korchagin.kmp.androidx-startup"
+148-->[androidx.emoji2:emoji2:1.3.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/9f668d5ad1a74438a17706734d64f3e9/transformed/emoji2-1.3.0/AndroidManifest.xml:26:13-68
+149            android:exported="false" >
+149-->[androidx.emoji2:emoji2:1.3.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/9f668d5ad1a74438a17706734d64f3e9/transformed/emoji2-1.3.0/AndroidManifest.xml:27:13-37
+150            <meta-data
+150-->[androidx.emoji2:emoji2:1.3.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/9f668d5ad1a74438a17706734d64f3e9/transformed/emoji2-1.3.0/AndroidManifest.xml:29:13-31:52
+151                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+151-->[androidx.emoji2:emoji2:1.3.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/9f668d5ad1a74438a17706734d64f3e9/transformed/emoji2-1.3.0/AndroidManifest.xml:30:17-75
+152                android:value="androidx.startup" />
+152-->[androidx.emoji2:emoji2:1.3.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/9f668d5ad1a74438a17706734d64f3e9/transformed/emoji2-1.3.0/AndroidManifest.xml:31:17-49
+153            <meta-data
+153-->[androidx.lifecycle:lifecycle-process:2.9.0-alpha03] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/0707c53633f98fd617e821083b8e88f1/transformed/lifecycle-process-2.9.0-alpha03/AndroidManifest.xml:29:13-31:52
+154                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+154-->[androidx.lifecycle:lifecycle-process:2.9.0-alpha03] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/0707c53633f98fd617e821083b8e88f1/transformed/lifecycle-process-2.9.0-alpha03/AndroidManifest.xml:30:17-78
+155                android:value="androidx.startup" />
+155-->[androidx.lifecycle:lifecycle-process:2.9.0-alpha03] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/0707c53633f98fd617e821083b8e88f1/transformed/lifecycle-process-2.9.0-alpha03/AndroidManifest.xml:31:17-49
+156            <meta-data
+156-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/cbcd8e2d28bcff46fc35dd2c10c05bb4/transformed/profileinstaller-1.4.1/AndroidManifest.xml:29:13-31:52
+157                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+157-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/cbcd8e2d28bcff46fc35dd2c10c05bb4/transformed/profileinstaller-1.4.1/AndroidManifest.xml:30:17-85
+158                android:value="androidx.startup" />
+158-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/cbcd8e2d28bcff46fc35dd2c10c05bb4/transformed/profileinstaller-1.4.1/AndroidManifest.xml:31:17-49
+159        </provider>
+160
+161        <service
+161-->[androidx.credentials:credentials-play-services-auth:1.2.0-rc01] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/053e268b9b348eda48a70b545a26210c/transformed/credentials-play-services-auth-1.2.0-rc01/AndroidManifest.xml:24:9-32:19
+162            android:name="androidx.credentials.playservices.CredentialProviderMetadataHolder"
+162-->[androidx.credentials:credentials-play-services-auth:1.2.0-rc01] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/053e268b9b348eda48a70b545a26210c/transformed/credentials-play-services-auth-1.2.0-rc01/AndroidManifest.xml:25:13-94
+163            android:enabled="true"
+163-->[androidx.credentials:credentials-play-services-auth:1.2.0-rc01] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/053e268b9b348eda48a70b545a26210c/transformed/credentials-play-services-auth-1.2.0-rc01/AndroidManifest.xml:26:13-35
+164            android:exported="false" >
+164-->[androidx.credentials:credentials-play-services-auth:1.2.0-rc01] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/053e268b9b348eda48a70b545a26210c/transformed/credentials-play-services-auth-1.2.0-rc01/AndroidManifest.xml:27:13-37
+165            <meta-data
+165-->[androidx.credentials:credentials-play-services-auth:1.2.0-rc01] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/053e268b9b348eda48a70b545a26210c/transformed/credentials-play-services-auth-1.2.0-rc01/AndroidManifest.xml:29:13-31:104
+166                android:name="androidx.credentials.CREDENTIAL_PROVIDER_KEY"
+166-->[androidx.credentials:credentials-play-services-auth:1.2.0-rc01] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/053e268b9b348eda48a70b545a26210c/transformed/credentials-play-services-auth-1.2.0-rc01/AndroidManifest.xml:30:17-76
+167                android:value="androidx.credentials.playservices.CredentialProviderPlayServicesImpl" />
+167-->[androidx.credentials:credentials-play-services-auth:1.2.0-rc01] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/053e268b9b348eda48a70b545a26210c/transformed/credentials-play-services-auth-1.2.0-rc01/AndroidManifest.xml:31:17-101
+168        </service>
+169
+170        <activity
+170-->[androidx.credentials:credentials-play-services-auth:1.2.0-rc01] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/053e268b9b348eda48a70b545a26210c/transformed/credentials-play-services-auth-1.2.0-rc01/AndroidManifest.xml:34:9-41:20
+171            android:name="androidx.credentials.playservices.HiddenActivity"
+171-->[androidx.credentials:credentials-play-services-auth:1.2.0-rc01] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/053e268b9b348eda48a70b545a26210c/transformed/credentials-play-services-auth-1.2.0-rc01/AndroidManifest.xml:35:13-76
+172            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+172-->[androidx.credentials:credentials-play-services-auth:1.2.0-rc01] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/053e268b9b348eda48a70b545a26210c/transformed/credentials-play-services-auth-1.2.0-rc01/AndroidManifest.xml:36:13-87
+173            android:enabled="true"
+173-->[androidx.credentials:credentials-play-services-auth:1.2.0-rc01] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/053e268b9b348eda48a70b545a26210c/transformed/credentials-play-services-auth-1.2.0-rc01/AndroidManifest.xml:37:13-35
+174            android:exported="false"
+174-->[androidx.credentials:credentials-play-services-auth:1.2.0-rc01] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/053e268b9b348eda48a70b545a26210c/transformed/credentials-play-services-auth-1.2.0-rc01/AndroidManifest.xml:38:13-37
+175            android:fitsSystemWindows="true"
+175-->[androidx.credentials:credentials-play-services-auth:1.2.0-rc01] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/053e268b9b348eda48a70b545a26210c/transformed/credentials-play-services-auth-1.2.0-rc01/AndroidManifest.xml:39:13-45
+176            android:theme="@style/Theme.Hidden" >
+176-->[androidx.credentials:credentials-play-services-auth:1.2.0-rc01] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/053e268b9b348eda48a70b545a26210c/transformed/credentials-play-services-auth-1.2.0-rc01/AndroidManifest.xml:40:13-48
+177        </activity>
+178        <activity
+178-->[com.google.android.gms:play-services-auth:20.7.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/5ba1539d2fa4f4566b63d71bc1a889d1/transformed/play-services-auth-20.7.0/AndroidManifest.xml:23:9-27:75
+179            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
+179-->[com.google.android.gms:play-services-auth:20.7.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/5ba1539d2fa4f4566b63d71bc1a889d1/transformed/play-services-auth-20.7.0/AndroidManifest.xml:24:13-93
+180            android:excludeFromRecents="true"
+180-->[com.google.android.gms:play-services-auth:20.7.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/5ba1539d2fa4f4566b63d71bc1a889d1/transformed/play-services-auth-20.7.0/AndroidManifest.xml:25:13-46
+181            android:exported="false"
+181-->[com.google.android.gms:play-services-auth:20.7.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/5ba1539d2fa4f4566b63d71bc1a889d1/transformed/play-services-auth-20.7.0/AndroidManifest.xml:26:13-37
+182            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+182-->[com.google.android.gms:play-services-auth:20.7.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/5ba1539d2fa4f4566b63d71bc1a889d1/transformed/play-services-auth-20.7.0/AndroidManifest.xml:27:13-72
+183        <!--
+184            Service handling Google Sign-In user revocation. For apps that do not integrate with
+185            Google Sign-In, this service will never be started.
+186        -->
+187        <service
+187-->[com.google.android.gms:play-services-auth:20.7.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/5ba1539d2fa4f4566b63d71bc1a889d1/transformed/play-services-auth-20.7.0/AndroidManifest.xml:33:9-37:51
+188            android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"
+188-->[com.google.android.gms:play-services-auth:20.7.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/5ba1539d2fa4f4566b63d71bc1a889d1/transformed/play-services-auth-20.7.0/AndroidManifest.xml:34:13-89
+189            android:exported="true"
+189-->[com.google.android.gms:play-services-auth:20.7.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/5ba1539d2fa4f4566b63d71bc1a889d1/transformed/play-services-auth-20.7.0/AndroidManifest.xml:35:13-36
+190            android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION"
+190-->[com.google.android.gms:play-services-auth:20.7.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/5ba1539d2fa4f4566b63d71bc1a889d1/transformed/play-services-auth-20.7.0/AndroidManifest.xml:36:13-107
+191            android:visibleToInstantApps="true" />
+191-->[com.google.android.gms:play-services-auth:20.7.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/5ba1539d2fa4f4566b63d71bc1a889d1/transformed/play-services-auth-20.7.0/AndroidManifest.xml:37:13-48
+192
+193        <activity
+193-->[com.google.android.gms:play-services-base:18.1.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/935a70a0f7015921d42163e92ebbf6d0/transformed/play-services-base-18.1.0/AndroidManifest.xml:20:9-22:45
+194            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+194-->[com.google.android.gms:play-services-base:18.1.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/935a70a0f7015921d42163e92ebbf6d0/transformed/play-services-base-18.1.0/AndroidManifest.xml:20:19-85
+195            android:exported="false"
+195-->[com.google.android.gms:play-services-base:18.1.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/935a70a0f7015921d42163e92ebbf6d0/transformed/play-services-base-18.1.0/AndroidManifest.xml:22:19-43
+196            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+196-->[com.google.android.gms:play-services-base:18.1.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/935a70a0f7015921d42163e92ebbf6d0/transformed/play-services-base-18.1.0/AndroidManifest.xml:21:19-78
+197
+198        <meta-data
+198-->[com.google.android.gms:play-services-basement:18.3.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/888cf9fa7a426baa65a23a11d28ff184/transformed/play-services-basement-18.3.0/AndroidManifest.xml:21:9-23:69
+199            android:name="com.google.android.gms.version"
+199-->[com.google.android.gms:play-services-basement:18.3.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/888cf9fa7a426baa65a23a11d28ff184/transformed/play-services-basement-18.3.0/AndroidManifest.xml:22:13-58
+200            android:value="@integer/google_play_services_version" />
+200-->[com.google.android.gms:play-services-basement:18.3.0] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/888cf9fa7a426baa65a23a11d28ff184/transformed/play-services-basement-18.3.0/AndroidManifest.xml:23:13-66
+201
+202        <receiver
+202-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/cbcd8e2d28bcff46fc35dd2c10c05bb4/transformed/profileinstaller-1.4.1/AndroidManifest.xml:34:9-52:20
+203            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+203-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/cbcd8e2d28bcff46fc35dd2c10c05bb4/transformed/profileinstaller-1.4.1/AndroidManifest.xml:35:13-76
+204            android:directBootAware="false"
+204-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/cbcd8e2d28bcff46fc35dd2c10c05bb4/transformed/profileinstaller-1.4.1/AndroidManifest.xml:36:13-44
+205            android:enabled="true"
+205-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/cbcd8e2d28bcff46fc35dd2c10c05bb4/transformed/profileinstaller-1.4.1/AndroidManifest.xml:37:13-35
+206            android:exported="true"
+206-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/cbcd8e2d28bcff46fc35dd2c10c05bb4/transformed/profileinstaller-1.4.1/AndroidManifest.xml:38:13-36
+207            android:permission="android.permission.DUMP" >
+207-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/cbcd8e2d28bcff46fc35dd2c10c05bb4/transformed/profileinstaller-1.4.1/AndroidManifest.xml:39:13-57
+208            <intent-filter>
+208-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/cbcd8e2d28bcff46fc35dd2c10c05bb4/transformed/profileinstaller-1.4.1/AndroidManifest.xml:40:13-42:29
+209                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+209-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/cbcd8e2d28bcff46fc35dd2c10c05bb4/transformed/profileinstaller-1.4.1/AndroidManifest.xml:41:17-91
+209-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/cbcd8e2d28bcff46fc35dd2c10c05bb4/transformed/profileinstaller-1.4.1/AndroidManifest.xml:41:25-88
+210            </intent-filter>
+211            <intent-filter>
+211-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/cbcd8e2d28bcff46fc35dd2c10c05bb4/transformed/profileinstaller-1.4.1/AndroidManifest.xml:43:13-45:29
+212                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+212-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/cbcd8e2d28bcff46fc35dd2c10c05bb4/transformed/profileinstaller-1.4.1/AndroidManifest.xml:44:17-85
+212-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/cbcd8e2d28bcff46fc35dd2c10c05bb4/transformed/profileinstaller-1.4.1/AndroidManifest.xml:44:25-82
+213            </intent-filter>
+214            <intent-filter>
+214-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/cbcd8e2d28bcff46fc35dd2c10c05bb4/transformed/profileinstaller-1.4.1/AndroidManifest.xml:46:13-48:29
+215                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+215-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/cbcd8e2d28bcff46fc35dd2c10c05bb4/transformed/profileinstaller-1.4.1/AndroidManifest.xml:47:17-88
+215-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/cbcd8e2d28bcff46fc35dd2c10c05bb4/transformed/profileinstaller-1.4.1/AndroidManifest.xml:47:25-85
+216            </intent-filter>
+217            <intent-filter>
+217-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/cbcd8e2d28bcff46fc35dd2c10c05bb4/transformed/profileinstaller-1.4.1/AndroidManifest.xml:49:13-51:29
+218                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+218-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/cbcd8e2d28bcff46fc35dd2c10c05bb4/transformed/profileinstaller-1.4.1/AndroidManifest.xml:50:17-95
+218-->[androidx.profileinstaller:profileinstaller:1.4.1] /Users/ilyakorchagin/StudioProjects/material-extension-android-ios-web/gradle/wrapper/caches/8.14/transforms/cbcd8e2d28bcff46fc35dd2c10c05bb4/transformed/profileinstaller-1.4.1/AndroidManifest.xml:50:25-92
+219            </intent-filter>
+220        </receiver>
+221    </application>
+222
+223</manifest>

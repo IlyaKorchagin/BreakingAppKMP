@@ -1,0 +1,16 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/ilyakorchagin/StudioProjects/BreakingApp/module_main/di_main/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest4889060584086277527.xml:2:13-83
+INJECTED from /Users/ilyakorchagin/StudioProjects/BreakingApp/module_main/di_main/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest4889060584086277527.xml:2:13-83
+	package
+		INJECTED from /Users/ilyakorchagin/StudioProjects/BreakingApp/module_main/di_main/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest4889060584086277527.xml
+	xmlns:android
+		ADDED from /Users/ilyakorchagin/StudioProjects/BreakingApp/module_main/di_main/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest4889060584086277527.xml:2:23-81
+uses-sdk
+INJECTED from /Users/ilyakorchagin/StudioProjects/BreakingApp/module_main/di_main/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest4889060584086277527.xml reason: use-sdk injection requested
+INJECTED from /Users/ilyakorchagin/StudioProjects/BreakingApp/module_main/di_main/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest4889060584086277527.xml
+INJECTED from /Users/ilyakorchagin/StudioProjects/BreakingApp/module_main/di_main/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest4889060584086277527.xml
+	android:targetSdkVersion
+		INJECTED from /Users/ilyakorchagin/StudioProjects/BreakingApp/module_main/di_main/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest4889060584086277527.xml
+	android:minSdkVersion
+		INJECTED from /Users/ilyakorchagin/StudioProjects/BreakingApp/module_main/di_main/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest4889060584086277527.xml
