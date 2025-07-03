@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="AutoImportSettings">
-    <option name="autoReloadType" value="SELECTIVE" />
+    <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="98f0d8a1-ddb0-4522-846c-8e19f980b803" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -176,11 +175,27 @@
       </variant>
     </executable>
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 4
+}]]></component>
+  <component name="ProjectId" id="2zKZ0EHREf6BBL7N97jvHskywdo" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;git-widget-placeholder&quot;: &quot;gh-pages&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="BreakingApp [./gradlew :composeApp:jsBrowserProductionWebpack]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
@@ -208,19 +223,78 @@
     <recent_temporary>
       <list>
         <item itemvalue="Gradle.BreakingApp [./gradlew :composeApp:jsBrowserProductionWebpack]" />
+        <item itemvalue="Gradle.BreakingApp [./gradlew :composeApp:jsBrowserProductionWebpack]" />
       </list>
     </recent_temporary>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SwiftWorkspaceSettings">
+    <option name="detectedToolchain" value="true" />
+    <option name="toolchainPathValue" value="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain" />
+  </component>
   <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="19c4bf85-155f-49cc-b17e-7911bac52073" name="Changes" comment="" />
+      <created>1751481501713</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1751481501713</updated>
+    </task>
+    <task id="LOCAL-00001" summary="generate js product file">
+      <option name="closed" value="true" />
+      <created>1751481676307</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1751481676307</updated>
+    </task>
+    <task id="LOCAL-00002" summary="generate js product file">
+      <option name="closed" value="true" />
+      <created>1751481802800</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1751481802800</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="generate js product file" />
+    <option name="LAST_COMMIT_MESSAGE" value="generate js product file" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/composeApp/src/androidMain/kotlin/org/korchagin/kmp/Platforma.android.kt</url>
-          <line>23</line>
+          <line>24</line>
           <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/composeApp/src/commonMain/kotlin/org/korchagin/kmp/activity/main/fragments/ratings/screen/RatingsScreen.kt</url>
+          <line>241</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/module_main/data_main/src/commonMain/kotlin/com/korchagin/data/repository/UserRepositotyImplementation.kt</url>
+          <line>223</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/module_main/presentation_main/src/commonMain/kotlin/com/korchagin/presentation/viewModel/MainViewModel.kt</url>
+          <line>107</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/composeApp/src/commonMain/kotlin/org/korchagin/kmp/activity/profile/fragments/screen/ProfileScreen.kt</url>
+          <line>165</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/composeApp/src/commonMain/kotlin/org/korchagin/kmp/activity/profile/fragments/AvatarCropperFragment.kt</url>
+          <line>50</line>
+          <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
