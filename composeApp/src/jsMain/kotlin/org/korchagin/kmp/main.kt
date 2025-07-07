@@ -23,7 +23,7 @@ fun main() {
 
     if (js("typeof window !== 'undefined' && 'serviceWorker' in navigator") as Boolean) {
         window.navigator.serviceWorker
-            .register("/service-worker.js")
+            .register("/BreakingAppKMP/service-worker.js")
             .then { console.log("Service Worker registered") }
             .catch { console.error("Service Worker registration failed", it) }
     }
