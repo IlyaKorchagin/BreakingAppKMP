@@ -49,3 +49,4 @@ include(":module_auth:data_auth")
 include(":module_auth:domain_auth")
 include(":module_auth:presentation_auth")
 
+include(":module_common")

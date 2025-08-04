@@ -90,6 +90,8 @@ kotlin {
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.androidx.lifecycle.viewmodel)
 
+            implementation(project(":module_common"))
+
 
         }
 

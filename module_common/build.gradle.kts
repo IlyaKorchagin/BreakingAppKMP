@@ -3,9 +3,8 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinCocoapods)
-    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.androidLibrary)
 }
 
 kotlin {
@@ -20,7 +19,6 @@ kotlin {
         browser {}
         binaries.executable()
     }
-
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -31,22 +29,14 @@ kotlin {
         version = "1.0"
         ios.deploymentTarget = "16.0"
         framework {
-            baseName = "presentation_main"
+            baseName = "module_common"
             isStatic = true
         }
     }
-
+    
     sourceSets {
         commonMain.dependencies {
-            //DI
-            api(libs.koin.core)
-            implementation(libs.koin.compose)
-            implementation(libs.koin.compose.viewmodel)
-            implementation(libs.androidx.lifecycle.viewmodel)
-
-            //Project modules
-            implementation(project(":module_main:domain_main"))
-            implementation(project(":module_common"))
+            //put your multiplatform dependencies here
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -55,12 +45,13 @@ kotlin {
 }
 
 android {
-    namespace = "org.korchagin.kmp.module_main.presentation_main"
+    namespace = "com.korchagin.module_common"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17

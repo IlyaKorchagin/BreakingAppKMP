@@ -46,6 +46,7 @@ kotlin {
 
             //Project modules
             implementation(project(":module_main:data_main"))
+            implementation(project(":module_common"))
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

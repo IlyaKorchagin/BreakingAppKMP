@@ -5,6 +5,7 @@ import com.korchagin.data.models.BboyEntry
 import com.korchagin.data.models.ElementEntry
 import com.korchagin.data.models.PupilEntry
 import com.korchagin.data.utils.toFirebaseData
+import com.korchagin.module_common.Response
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.database.database
 import dev.gitlive.firebase.storage.storage
@@ -219,7 +220,7 @@ class UserRepositotyImplementation : UserRepository {
     }
 
 
-    override suspend fun updateAvatar(email: String, data: ByteArray) {
+    override suspend fun updateAvatar(email: String, data: ByteArray): Response<Unit> {
         val normalizedEmail = email.trim().lowercase()
         val avatarRef = fireStorage
             .reference("ImageDB")
@@ -247,11 +248,14 @@ class UserRepositotyImplementation : UserRepository {
             if (uid != null) {
                 pupilsDB.child(uid).child("avatar").setValue(downloadUrl)
                 println("✅ Avatar URL updated in database for user: $email")
+                return Response.Success(data = Unit, statusCode = 200)
             } else {
                 println("❌ UID is null for email: $email")
+                return Response.Fail("", 404)
             }
         } else {
             println("❌ User with email $email not found in database")
+            return Response.Fail("", 404)
         }
     }
 }

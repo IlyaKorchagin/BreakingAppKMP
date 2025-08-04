@@ -16,15 +16,14 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
-import org.korchagin.kmp.theme.colors.AppColors
 
 @Composable
 fun StyledTextScreen(title: String, description: String) {
     val styledText = buildAnnotatedString {
-        withStyle(style = SpanStyle(color = AppColors.colors().textDefault, fontSize = 11.sp)) {
+        withStyle(style = SpanStyle( fontSize = 11.sp)) {
             append(title)
         }
-        withStyle(style = SpanStyle(color = AppColors.colors().textDefault, fontWeight = FontWeight.Bold, fontSize = 14.sp)) {
+        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold, fontSize = 14.sp)) {
             append(description)
         }
     }

@@ -3,6 +3,7 @@ package com.korchagin.data.repository
 import com.korchagin.data.models.BboyEntry
 import com.korchagin.data.models.ElementEntry
 import com.korchagin.data.models.PupilEntry
+import com.korchagin.module_common.Response
 import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
@@ -15,6 +16,6 @@ interface UserRepository {
     fun getBboysList(): Flow<List<BboyEntry>>
     suspend fun createNewPupil(email: String, name: String)
 
-    suspend fun updateAvatar(email: String, data: ByteArray)
+    suspend fun updateAvatar(email: String, data: ByteArray):Response<Unit>
 }
 

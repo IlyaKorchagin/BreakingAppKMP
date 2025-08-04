@@ -106,13 +106,13 @@ class MainViewModel(
         println(" uploadNewUserAvatar bytes: $bytes")
         singletonMainScope.launch {
             mainUseCase.uploadAvatar.uploadAvatar(email,bytes)
-            /*    .onSuccess { data, code ->
+                .onSuccess { data, code ->
                     _userAvatarOnLoading.value = false
                 }.onFail { message, code ->
                     _userAvatarOnLoading.value = false
                 }.onException { message, code ->
                     _userAvatarOnLoading.value = false
-                }*/
+                }
         }
     }
 
