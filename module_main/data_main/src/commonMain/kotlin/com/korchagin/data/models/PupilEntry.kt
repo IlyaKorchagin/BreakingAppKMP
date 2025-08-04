@@ -24,7 +24,7 @@ data class PupilEntry(
         6 - преподаватель
     */
 
-    var subscription: Long,
+    var subscription: Int,
     /* ? = 0,
         5 - 1 месяц;
         2 - 3 месяца;
@@ -131,7 +131,7 @@ fun toPupilEntry(data: Map<String, Any>): PupilEntry {
         video = data["video"] as String,
         status = (data["status"] as Long).toInt(),
 
-        subscription = data["subscription"] as Long,
+        subscription = (data["subscription"] as Long).toInt(),
         subscriptionDay = (data["subscriptionDay"] as Long).toInt(),
         subscriptionMonth = (data["subscriptionMonth"] as Long).toInt(),
         subscriptionYear = (data["subscriptionYear"] as Long).toInt(),

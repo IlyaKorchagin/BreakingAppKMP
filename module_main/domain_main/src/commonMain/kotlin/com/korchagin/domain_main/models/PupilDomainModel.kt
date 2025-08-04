@@ -24,7 +24,7 @@ data class PupilDomainModel(
         6 - преподаватель
     */
 
-    var subscription: Long,
+    var subscription: Int,
     /* ? = 0,
         5 - 1 месяц;
         2 - 3 месяца;
