@@ -1,0 +1,26 @@
+# Gradle
+.gradle/
+**/build/
+
+# Android
+local.properties
+*.iml
+.idea/
+
+# macOS
+.DS_Store
+
+# Node.js
+node_modules/
+
+# Xcode
+xcuserdata/
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcodeproj/project.xcworkspace/
+!*.xcworkspace/contents.xcworkspacedata
+**/xcshareddata/WorkspaceSettings.xcsettings
+
+# JetBrains Fleet
+.fleet
