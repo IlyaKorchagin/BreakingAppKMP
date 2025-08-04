@@ -62,7 +62,9 @@ fun ProfileIcon() {
                     )
                 )
                 .border(3.dp, Color.Gray, CircleShape)
-                .clickable { findNavHost().navigateToActivity(ProfileActivity) },
+                .clickable {
+                    mainViewModel.setClickedPupil(null)
+                    findNavHost().navigateToActivity(ProfileActivity) },
             onSuccess = { showShimmer.value = false },
             contentScale = ContentScale.Crop
         )
