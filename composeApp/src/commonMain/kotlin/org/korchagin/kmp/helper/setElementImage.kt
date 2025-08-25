@@ -35,6 +35,18 @@ fun setElementImage(
             if (currentPupil.handstand >= 50 && currentPupil.bridge >= 80 && currentPupil.headhollowbackfrezze >= 60) info.image
             else LOCK
         }
+        HAND_WALK -> {
+            if (currentPupil.handstand >= 40) info.image
+            else LOCK
+        }
+        HAND_TOUCH_LEGS -> {
+            if (currentPupil.handstand >= 40) info.image
+            else LOCK
+        }
+        HAND_JUMP -> {
+            if (currentPupil.handstand >= 50) info.image
+            else LOCK
+        }
         AIRFLARE -> {
             if (currentPupil.handstand >= 80) info.image
             else LOCK
