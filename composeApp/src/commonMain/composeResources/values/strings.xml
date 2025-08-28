@@ -5,6 +5,10 @@
     <string name="hall_of_fame_title">Hall of Fame</string>
     <string name="profile_title">Profile</string>
     <string name="bboys_title">Bboys/Bgirls</string>
+    <string name="ratings_freeze_title">Ratings for Freezes: </string>
+    <string name="ratings_power_title">Ratings for PowerMoves: </string>
+    <string name="ratings_ofp_title">Ratings for OFP: </string>
+    <string name="ratings_stretch_title">Ratings for Stretch: </string>
 
     <string name="freeze_title">Freeze</string>
     <string name="power_move_title">Power</string>

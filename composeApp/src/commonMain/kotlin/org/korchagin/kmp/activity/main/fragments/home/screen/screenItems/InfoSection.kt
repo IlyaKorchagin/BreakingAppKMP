@@ -13,8 +13,14 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
+import breakingkmpapp.composeapp.generated.resources.Res
+import breakingkmpapp.composeapp.generated.resources.ratings_freeze_title
+import breakingkmpapp.composeapp.generated.resources.ratings_ofp_title
+import breakingkmpapp.composeapp.generated.resources.ratings_power_title
+import breakingkmpapp.composeapp.generated.resources.ratings_stretch_title
 import com.korchagin.presentation.models.ElementsTab
 import com.korchagin.presentation.models.PupilModel
+import org.jetbrains.compose.resources.stringResource
 import org.korchagin.kmp.helper.setLevel
 import org.korchagin.kmp.uiElements.RatingProgreesBar
 
@@ -74,22 +80,22 @@ fun InfoSection(
 
         when (selectedElementsTab) {
             ElementsTab.FREEZE.ordinal -> {
-                text = "Рейтинг по фризам: "
+                text = stringResource(Res.string.ratings_freeze_title)
                 rating = curPupil.freezeRating.toInt()
             }
 
             ElementsTab.POWER.ordinal -> {
-                text = "Рейтинг по PowerMoves: "
+                text =  stringResource(Res.string.ratings_power_title)
                 rating = curPupil.powermoveRating.toInt()
             }
 
             ElementsTab.OFP.ordinal -> {
-                text = "Рейтинг по ОФП: "
+                text =  stringResource(Res.string.ratings_ofp_title)
                 rating = curPupil.ofpRating.toInt()
             }
 
             ElementsTab.STRETCH.ordinal -> {
-                text = "Рейтинг по растяжке: "
+                text =  stringResource(Res.string.ratings_stretch_title)
                 rating = curPupil.strechingRating.toInt()
             }
         }

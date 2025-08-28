@@ -5,6 +5,13 @@
     <string name="hall_of_fame_title">Зал славы</string>
     <string name="profile_title">Профиль</string>
 
+    <string name="ratings_freeze_title">Рейтинг по стойкам: </string>
+    <string name="ratings_power_title">Рейтинг по элементам: </string>
+    <string name="ratings_ofp_title">Рейтинг по подкачке: </string>
+    <string name="ratings_stretch_title">Рейтинг по растяжке: </string>
+
+    <string name="freeze_title">Стойки</string>
+    <string name="power_move_title">Вращения</string>
     <string name="ofp_title">Подкачка</string>
     <string name="stretch_title">Растяжка</string>
 </resources>

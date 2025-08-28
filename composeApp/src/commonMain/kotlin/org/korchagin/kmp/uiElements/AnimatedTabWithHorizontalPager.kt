@@ -106,14 +106,14 @@ fun AnimatedTabWithHorizontalPager(
                             .graphicsLayer(scaleX = scale.value, scaleY = scale.value)
                             .border(
                                 width = 1.dp,
-                                color = if (selected) Color.Black else Color.LightGray,
+                                color = if (selected) AppColors.colors().mainGreen else Color.LightGray,
                                 shape = CircleShape
                             )
                     )
                     Text(
                         text = tab.text,
                         color = if (selected)
-                            AppColors.colors().textDefault
+                            AppColors.colors().mainGreen
                         else Color.Gray
                     )
                 }

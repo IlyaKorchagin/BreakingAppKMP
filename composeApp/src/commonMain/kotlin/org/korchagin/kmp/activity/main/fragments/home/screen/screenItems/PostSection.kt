@@ -44,6 +44,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.korchagin.kmp.activity.elementDetails.ElementDetailsActivity
 import org.korchagin.kmp.helper.setElementColor
+import org.korchagin.kmp.helper.setElementTitle
 import org.korchagin.kmp.theme.colors.AppColors
 import org.korchagin.kmp.uiElements.CustomProgressBar
 import org.korchagin.kmp.uiElements.ShimmerBrush
@@ -126,7 +127,7 @@ fun PostSection(
                         .fillMaxWidth()
                 ) {
                     Text(
-                        text = value.title,
+                        text = setElementTitle(value.title),
                         color = Color.Black,
                         letterSpacing = 1.sp
                     )
