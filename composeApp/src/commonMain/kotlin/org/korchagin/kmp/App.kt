@@ -25,6 +25,7 @@ import team.platforma.multiplatform_material_extension.ui.theme.rememberTheme
 
 @Composable
 @Preview
+
 fun App() {
     val navHostController = rememberNavController()
     val globalNavigator = remember { GlobalNavigator(navHostController) }
@@ -72,3 +73,4 @@ fun App() {
         )
     }
 }
+

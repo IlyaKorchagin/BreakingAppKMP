@@ -145,6 +145,7 @@ class UserRepositotyImplementation : UserRepository {
             val newPupil = PupilEntry(
                 id = uid,        // будет установлен ниже
                 email = normalizedEmail,
+                nick = "",
                 name = name,
                 avatar = "",
                 born = "",

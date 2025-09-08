@@ -9,6 +9,7 @@ data class PupilModel(
     //---------> Personal information ---------->
     var id: String,
     var name: String,
+    var nick: String,
     var email: String,
     var avatar: String,
     var born: String,
@@ -126,6 +127,7 @@ data class PupilModel(
 fun PupilDomainModel.toPupilModel() = PupilModel(
     id = id,
     name = name,
+    nick = nick,
     email = email,
     avatar = avatar,
     born = born,

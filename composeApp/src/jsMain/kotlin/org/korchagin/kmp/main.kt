@@ -1,7 +1,7 @@
 package org.korchagin.kmp
 
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.window.CanvasBasedWindow
+import androidx.compose.ui.window.ComposeViewport
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.FirebaseOptions
 import dev.gitlive.firebase.initialize
@@ -29,7 +29,8 @@ fun main() {
     }
     onWasmReady {
         initKoin()
-        CanvasBasedWindow(canvasElementId = "ComposeTarget") {
+
+        ComposeViewport(viewportContainerId = "root") {
             App()
         }
     }

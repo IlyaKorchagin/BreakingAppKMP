@@ -30,14 +30,17 @@ kotlin {
     }
 
     js(IR) {
-        moduleName = "composeApp"
         browser {
             commonWebpackConfig {
-                outputFileName = "BreakingKMPApp.js"
+                outputFileName = "composeApp.js"
+                cssSupport {
+                    enabled = true
+                }
             }
         }
         binaries.executable()
     }
+
 
     sourceSets {
 
@@ -110,8 +113,6 @@ kotlin {
             //Media picker
             implementation(libs.media.picker)
 
-            //Cropper
-            implementation(libs.image.cropper2)
 
             //Project modules
             implementation(project(":module_main:di_main"))

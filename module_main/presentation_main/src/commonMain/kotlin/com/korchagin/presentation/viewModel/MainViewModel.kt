@@ -129,7 +129,7 @@ class MainViewModel(
         }
     }
 
-    private fun loadData() {
+    fun loadData() {
         singletonMainScope.launch {
             val pupils = singletonMainScope.launch {
                 mainUseCase.getAllPupils.getAllPupils().collect { pupilsList ->
