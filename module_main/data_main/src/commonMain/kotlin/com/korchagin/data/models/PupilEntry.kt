@@ -7,6 +7,7 @@ data class PupilEntry(
     //---------> Personal information ---------->
     var id: String,
     var name: String,
+    var nick: String,
     var email: String,
     var avatar: String,
     var born: String,
@@ -126,6 +127,7 @@ fun toPupilEntry(data: Map<String, Any>): PupilEntry {
     return PupilEntry(
         id = data["id"] as String,
         name = data["name"] as String,
+        nick = data["nick"] as String,
         email = data["email"] as String,
         avatar = data["avatar"] as String,
         born = data["born"] as String,

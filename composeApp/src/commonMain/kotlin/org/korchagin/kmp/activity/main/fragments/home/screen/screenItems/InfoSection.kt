@@ -39,7 +39,8 @@ fun InfoSection(
         verticalArrangement = Arrangement.SpaceAround,
         modifier = modifier
     ) {
-        Text(curPupil.name,
+        Text(
+            curPupil.name,
             style = TextStyle(
                 textAlign = TextAlign.Center,
                 fontSize = 20.sp,
@@ -60,6 +61,14 @@ fun InfoSection(
                         )
                     }
                 }*/
+        )
+        Text(
+            curPupil.nick,
+            style = TextStyle(
+                textAlign = TextAlign.Center,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold
+            ),
         )
         /*  Text(
               setStatus(curPupil.status),
@@ -85,17 +94,17 @@ fun InfoSection(
             }
 
             ElementsTab.POWER.ordinal -> {
-                text =  stringResource(Res.string.ratings_power_title)
+                text = stringResource(Res.string.ratings_power_title)
                 rating = curPupil.powermoveRating.toInt()
             }
 
             ElementsTab.OFP.ordinal -> {
-                text =  stringResource(Res.string.ratings_ofp_title)
+                text = stringResource(Res.string.ratings_ofp_title)
                 rating = curPupil.ofpRating.toInt()
             }
 
             ElementsTab.STRETCH.ordinal -> {
-                text =  stringResource(Res.string.ratings_stretch_title)
+                text = stringResource(Res.string.ratings_stretch_title)
                 rating = curPupil.strechingRating.toInt()
             }
         }

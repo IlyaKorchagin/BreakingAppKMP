@@ -1,9 +1,9 @@
 [versions]
 accompanistSystemuicontroller = "0.36.0"
-agp = "8.3.0-alpha18"
-android-compileSdk = "35"
+agp = "8.12.2"
+android-compileSdk = "36"
 android-minSdk = "26"
-android-targetSdk = "35"
+android-targetSdk = "36"
 androidx-activityCompose = "1.10.1"
 androidx-appcompat = "1.7.0"
 androidx-constraintlayout = "2.2.1"
@@ -15,11 +15,10 @@ androidx-test-junit = "1.2.1"
 compose-multiplatform = "1.7.3"
 core-youtubeplayer = "12.1.0"
 junit = "4.13.2"
-kotlin = "2.0.20"
+kotlin = "2.2.10"
 
 kotlinxDatetimeVersion = "0.5.0"
 multi_image = "1.1.2"
-image_cropper2 = "0.0.1"
 media_picker = "0.0.1-alpha23"
 permissionx = "0.0.1-alpha15"
 
@@ -47,7 +46,6 @@ coroutines = "1.8.1"
 [libraries]
 permissionX = { module = "team.multi-platforma:permissionX", version.ref = "permissionx" }
 media_picker = { module = "team.multi-platforma:media_picker", version.ref = "media_picker" }
-image_cropper2 = { module = "team.multi-platforma:image_cropper2", version.ref = "image_cropper2" }
 core-youtubeplayer = { module = "com.pierfrancescosoffritti.androidyoutubeplayer:core", version.ref = "core-youtubeplayer" }
 html-core = { module = "org.jetbrains.compose.html:html-core", version.ref = "htmlCore" }
 android-firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }

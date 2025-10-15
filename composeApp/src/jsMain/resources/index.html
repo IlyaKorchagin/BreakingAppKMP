@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
     <title>BreakingApp</title>
 
     <link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -15,14 +15,27 @@
 
 </head>
 <body>
-<div id="root">
-    <canvas id="ComposeTarget"></canvas>
-    <script src="BreakingKMPApp.js"></script>
+<div id="root"></div>
+    <script src="composeApp.js"></script>
 
-    <iframe id="webView" hidden></iframe>
-    <canvas id="webViewCanvas" hidden></canvas>
-</div>
+  <!--  <iframe id="webView" hidden></iframe>
+    <canvas id="webViewCanvas" hidden></canvas>-->
+<script>
+    function updateRootHeight() {
+      const root = document.getElementById('root');
+      if (root) {
+        root.style.height = window.innerHeight + 'px';
+      }
+    }
 
+    window.addEventListener('resize', updateRootHeight);
+    window.addEventListener('orientationchange', updateRootHeight);
+    document.addEventListener('DOMContentLoaded', updateRootHeight);
+    window.addEventListener('load', updateRootHeight);
+
+    // Вызовем сразу
+    updateRootHeight();
+</script>
 <div id="calback-page"></div>
 
 </body>

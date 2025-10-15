@@ -29,7 +29,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -47,7 +46,6 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
-import androidx.core.bundle.Bundle
 import breakingkmpapp.composeapp.generated.resources.Res
 import breakingkmpapp.composeapp.generated.resources.camera_img
 import breakingkmpapp.composeapp.generated.resources.people
@@ -57,8 +55,6 @@ import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.korchagin.kmp.PlatformType
-import org.korchagin.kmp.activity.profile.fragments.AvatarCropperFragment
-import org.korchagin.kmp.activity.profile.fragments.USER_AVATAR_KEY
 import org.korchagin.kmp.currentPlatform
 import org.korchagin.kmp.theme.colors.AppColors
 import org.korchagin.kmp.uiElements.ShimmerBrush
@@ -67,7 +63,6 @@ import org.korchagin.kmp.uiElements.calculateAge
 import team.platforma.apppermissions.PermissionX
 import team.platforma.extra_nav.navigator.component.api.ComponentNavigator
 import team.platforma.extra_nav.navigator.fragment.api.FragmentNavigator
-import team.platforma.extra_nav.utils.getResult
 import team.platforma.infoteam.theme.typography.FontWeights
 import team.platforma.infoteam.theme.typography.Typography
 import team.platforma.kotlinmultiplatformsharedmodule.MediaPicker
@@ -83,7 +78,6 @@ fun ProfileScreen(componentNavigator: ComponentNavigator, fragmentNavigator: Fra
     val showShimmer = remember { mutableStateOf(true) }
 
     val isOwnProfile = clickedPupil?.id == currentPupil?.id || clickedPupil == null
-    var debugAvatar by remember { mutableStateOf<ByteArray?>(null) }
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -165,12 +159,7 @@ fun ProfileScreen(componentNavigator: ComponentNavigator, fragmentNavigator: Fra
                                         PermissionX.gallery { _, granted ->
                                             if (granted) {
                                                 MediaPicker.pickSingleImage { bytes ->
-                                                    fragmentNavigator.navigate(
-                                                        AvatarCropperFragment,
-                                                        args = Bundle().apply {
-                                                            putByteArray(USER_AVATAR_KEY, bytes)
-                                                        }
-                                                    )
+                                                    mainViewModel.uploadNewUserAvatar(pupil.email, bytes)
                                                 }
                                             }
                                         }
@@ -184,10 +173,10 @@ fun ProfileScreen(componentNavigator: ComponentNavigator, fragmentNavigator: Fra
                             }
                         }
                     }
-                    getResult(USER_AVATAR_KEY) { bytes: ByteArray ->
+                   /* getResult(USER_AVATAR_KEY) { bytes: ByteArray ->
                         debugAvatar = bytes
                         mainViewModel.uploadNewUserAvatar(pupil.email, bytes)
-                    }
+                    }*/
                   /*  Box(
                         modifier = Modifier
                             .border(
@@ -250,6 +239,9 @@ fun ProfileScreen(componentNavigator: ComponentNavigator, fragmentNavigator: Fra
                                         }
                                     }
                             )
+                        }
+                        if(pupil.nick.isNotEmpty()) {
+                            StyledTextScreen(title = "Ник: ", description = pupil.nick)
                         }
                         StyledTextScreen(
                             title = "Возраст: ",
