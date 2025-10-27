@@ -3,7 +3,7 @@ package com.korchagin.data.repository
 
 import com.korchagin.data.models.BboyEntry
 import com.korchagin.data.models.ElementEntry
-import com.korchagin.data.models.PupilEntry
+import com.korchagin.data.models.UserEntry
 import com.korchagin.data.utils.toFirebaseData
 import com.korchagin.module_common.Response
 import dev.gitlive.firebase.Firebase
@@ -36,29 +36,29 @@ class UserRepositotyImplementation : UserRepository {
 
     private val fireStorage = Firebase.storage
 
-    override fun getUsers(): Flow<List<PupilEntry>> = channelFlow {
+    override fun getUsers(): Flow<List<UserEntry>> = channelFlow {
         pupilsDB.valueEvents.collect { pupil ->
             val users = pupil.children.mapNotNull {
                 try {
-                    it.value<PupilEntry>()
+                    it.value<UserEntry>()
                 } catch (e: Exception) {
                     println("Error decoding user: ${e.message}")
                     null
                 }
-            }
+            }.filter { it.role == "user" }
             send(users)
         }
     }
 
 
-    override fun getUserById(id: String): Flow<PupilEntry> = channelFlow {
+    override fun getUserById(id: String): Flow<UserEntry> = channelFlow {
         coroutineScope {
             pupilsDB
                 .orderByChild("email")
                 .equalTo(id)
                 .valueEvents
                 .onEach { snapshot ->
-                    val user = snapshot.children.firstOrNull()?.value<PupilEntry>()
+                    val user = snapshot.children.firstOrNull()?.value<UserEntry>()
                     println("Found user: ${user?.name}")
                     if (user != null) {
                         trySend(user)
@@ -142,7 +142,7 @@ class UserRepositotyImplementation : UserRepository {
         val normalizedEmail = email.trim().lowercase()
         val uid = pupilsDB.push().key
         if (uid != null) {
-            val newPupil = PupilEntry(
+            val newPupil = UserEntry(
                 id = uid,        // будет установлен ниже
                 email = normalizedEmail,
                 nick = "",
@@ -153,6 +153,7 @@ class UserRepositotyImplementation : UserRepository {
                 city = "",
                 video = "",
                 status = 0,
+                role = "user",
                 subscription = 0,
                 subscriptionDay = 0,
                 subscriptionMonth = 0,
@@ -262,4 +263,65 @@ class UserRepositotyImplementation : UserRepository {
             return Response.Fail("", 404)
         }
     }
+
+    override suspend fun updatePupil(newUserEntry: UserEntry): Response<Unit> {
+        val email = newUserEntry.email
+        val normalizedEmail = email.trim().lowercase()
+
+        // Шаг 1: Найти пользователя по email
+        val snapshot = pupilsDB
+            .orderByChild("email")
+            .equalTo(normalizedEmail)
+            .valueEvents
+            .first()  // Получить первый эмит из Flow<DataSnapshot>
+
+        val userSnapshot = snapshot.children.firstOrNull()
+
+        if (userSnapshot != null) {
+            val uid = userSnapshot.key
+            if (uid != null) {
+                // Шаг 2: Записать данные полностью (перезаписать)
+                pupilsDB.child(uid).setValue(newUserEntry)
+                println("✅ User data updated in database for user: $email")
+                return Response.Success(data = Unit, statusCode = 200)
+            } else {
+                println("❌ UID is null for email: $email")
+                return Response.Fail("", 404)
+            }
+        } else {
+            println("❌ User with email $email not found in database")
+            return Response.Fail("", 404)
+        }
+    }
+
+    override suspend fun updatePupils(newUserEntries: List<UserEntry>): Response<Unit> {
+        for (newUserEntry in newUserEntries) {
+            val email = newUserEntry.email
+            val normalizedEmail = email.trim().lowercase()
+
+            val snapshot = pupilsDB
+                .orderByChild("email")
+                .equalTo(normalizedEmail)
+                .valueEvents
+                .first()
+
+            val userSnapshot = snapshot.children.firstOrNull()
+
+            if (userSnapshot != null) {
+                val uid = userSnapshot.key
+                if (uid != null) {
+                    pupilsDB.child(uid).setValue(newUserEntry)
+                    println("✅ User data updated in database for user: $email")
+                } else {
+                    println("❌ UID is null for email: $email")
+                    return Response.Fail("UID is null for email: $email", 404)
+                }
+            } else {
+                println("❌ User with email $email not found in database")
+                return Response.Fail("User with email $email not found", 404)
+            }
+        }
+        return Response.Success(Unit, 200)
+    }
+
 }

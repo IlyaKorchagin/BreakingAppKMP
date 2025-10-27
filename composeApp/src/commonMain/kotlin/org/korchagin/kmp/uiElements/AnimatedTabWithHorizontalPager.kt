@@ -36,7 +36,7 @@ import com.korchagin.presentation.models.Elements
 import com.korchagin.presentation.models.ElementsTab
 import com.korchagin.presentation.models.ImageWithText
 import com.korchagin.presentation.models.PupilModel
-import com.korchagin.presentation.models.setProgress
+import com.korchagin.presentation.models.getProgress
 import com.korchagin.presentation.viewModel.MainViewModel
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
@@ -54,7 +54,8 @@ fun AnimatedTabWithHorizontalPager(
     power: List<ElementModel>,
     ofp: List<ElementModel>,
     stretch: List<ElementModel>,
-    pupil: PupilModel
+    pupil: PupilModel,
+    editMode: Boolean = false
 ) {
     val mainViewModel = koinViewModel<MainViewModel>()
     val pagerState = rememberPagerState(initialPage = mainViewModel.elementTabPosition) {
@@ -149,7 +150,7 @@ fun AnimatedTabWithHorizontalPager(
                                     title = it.title,
                                     block_description = it.blockDescription,
                                     progress =
-                                        pupil.setProgress(it.title)
+                                        pupil.getProgress(it.title)
 
                                 )
                             )
@@ -159,7 +160,8 @@ fun AnimatedTabWithHorizontalPager(
                             stateElement = freeze,
                           //  navController = navController,
                             modifier = Modifier.fillMaxWidth(),
-                            pupil = pupil
+                            pupil = pupil,
+                            editMode = editMode
                         )
                     }
 
@@ -179,7 +181,7 @@ fun AnimatedTabWithHorizontalPager(
                                         ),
                                     title = it.title,
                                     block_description = it.blockDescription,
-                                    progress = pupil.setProgress(it.title)
+                                    progress = pupil.getProgress(it.title)
                                 )
                             )
                         }
@@ -188,7 +190,8 @@ fun AnimatedTabWithHorizontalPager(
                             stateElement = power,
                            // navController = navController,
                             modifier = Modifier.fillMaxWidth(),
-                            pupil = pupil
+                            pupil = pupil,
+                            editMode = editMode
                         )
                     }
 
@@ -206,7 +209,7 @@ fun AnimatedTabWithHorizontalPager(
                                     ),
                                     title = it.title,
                                     block_description = it.blockDescription,
-                                    progress = pupil.setProgress(it.title)
+                                    progress = pupil.getProgress(it.title)
                                 )
                             )
                         }
@@ -216,7 +219,8 @@ fun AnimatedTabWithHorizontalPager(
                             stateElement = ofp,
                            // navController = navController,
                             modifier = Modifier.fillMaxWidth(),
-                            pupil = pupil
+                            pupil = pupil,
+                            editMode = editMode
                         )
                     }
 
@@ -234,7 +238,7 @@ fun AnimatedTabWithHorizontalPager(
                                     ),
                                     title = it.title,
                                     block_description = it.blockDescription,
-                                    progress = pupil.setProgress(it.title)
+                                    progress = pupil.getProgress(it.title)
                                 )
                             )
                         }
@@ -243,7 +247,8 @@ fun AnimatedTabWithHorizontalPager(
                             stateElement = stretch,
                            // navController = navController,
                             modifier = Modifier.fillMaxWidth(),
-                            pupil = pupil
+                            pupil = pupil,
+                            editMode = editMode
                         )
                     }
                 }

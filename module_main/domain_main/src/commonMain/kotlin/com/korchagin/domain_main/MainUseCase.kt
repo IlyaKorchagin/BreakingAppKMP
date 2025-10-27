@@ -8,6 +8,7 @@ import com.korchagin.domain_main.useCase.GetOfpElements
 import com.korchagin.domain_main.useCase.GetPowerElements
 import com.korchagin.domain_main.useCase.GetPupilById
 import com.korchagin.domain_main.useCase.GetStretchElements
+import com.korchagin.domain_main.useCase.SavePupil
 import com.korchagin.domain_main.useCase.UploadAvatar
 
 
@@ -20,5 +21,6 @@ data class MainUseCase(
     val getStretchElements: GetStretchElements,
     val getBboysList: GetBboysList,
     val createNewPupil: CreateNewPupil,
-    val uploadAvatar: UploadAvatar
+    val uploadAvatar: UploadAvatar,
+    val savePupil: SavePupil
 )
