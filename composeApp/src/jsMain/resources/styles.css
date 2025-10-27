@@ -1,0 +1,14 @@
+html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      touch-action: none;
+    }
+    #root {
+      width: 100vw;
+      height: 100vh; /* по умолчанию, на случай, если JS не подгрузится */
+      position: relative;
+      overflow: hidden;
+    }
