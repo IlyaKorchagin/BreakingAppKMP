@@ -19,11 +19,14 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,7 +40,8 @@ import com.korchagin.presentation.constants.LOCK
 import com.korchagin.presentation.models.ElementModel
 import com.korchagin.presentation.models.Elements
 import com.korchagin.presentation.models.PupilModel
-import com.korchagin.presentation.models.getElementRating
+import com.korchagin.presentation.models.getProgress
+import com.korchagin.presentation.models.setProgress
 import com.korchagin.presentation.viewModel.MainViewModel
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
@@ -47,6 +51,7 @@ import org.korchagin.kmp.helper.setElementColor
 import org.korchagin.kmp.helper.setElementTitle
 import org.korchagin.kmp.theme.colors.AppColors
 import org.korchagin.kmp.uiElements.CustomProgressBar
+import org.korchagin.kmp.uiElements.CustomProgressBarEdit
 import org.korchagin.kmp.uiElements.ShimmerBrush
 import team.platforma.extra_nav.navigator.activity.findNavHost
 
@@ -58,6 +63,7 @@ fun PostSection(
     stateElement: List<ElementModel>,
     modifier: Modifier = Modifier,
     pupil: PupilModel,
+    editMode: Boolean = false,
 ) {
     val mainViewModel = koinViewModel<MainViewModel>()
     val showShimmer = remember { mutableStateOf(true) }
@@ -67,6 +73,7 @@ fun PostSection(
             .fillMaxSize()
     ) {
         itemsIndexed(posts) { index, value ->
+            var progress by remember { mutableStateOf(value.progress ?: 0f) }
             val startBackgroundColor = Color.White
             val endBackgroundColor = setElementColor(value.title)
             Row(
@@ -108,9 +115,9 @@ fun PostSection(
                             scope.launch {
                                 mainViewModel.addElement(stateElement[index])
                                 mainViewModel.addElementRating(
-                                    pupil.getElementRating(
+                                    pupil.getProgress(
                                         stateElement[index].title
-                                    )
+                                    ).toInt()
                                 )
 
                             }
@@ -133,8 +140,23 @@ fun PostSection(
                     )
                     Spacer(modifier = Modifier.height(5.dp))
 
-                    value.progress?.let { progress ->
-                        CustomProgressBar(
+                    if(!editMode){
+                    CustomProgressBar(
+                        Modifier
+                            .clip(shape = RoundedCornerShape(5.dp))
+                            .height(25.dp)
+                            .border(
+                                width = 1.dp,
+                                color = Color.Gray,
+                                shape = RoundedCornerShape(5.dp)
+                            ),
+                        Color.White,
+                        Brush.horizontalGradient(listOf(Color.White, AppColors.colors().progress)),
+                        progress.toInt(),
+                        true
+                    )}
+                    else{
+                        CustomProgressBarEdit(
                             Modifier
                                 .clip(shape = RoundedCornerShape(5.dp))
                                 .height(25.dp)
@@ -145,16 +167,30 @@ fun PostSection(
                                 ),
                             Color.White,
                             Brush.horizontalGradient(listOf(Color.White, AppColors.colors().progress)),
-                            progress.toInt(),
-                            true
+                            progress.toInt()
                         )
                     }
+
                     Spacer(modifier = Modifier.height(5.dp))
-                    Text(
-                        text = value.block_description,
-                        color = Color.Black,
-                        fontSize = 12.sp
-                    )
+                    if (editMode) {
+                        Slider(
+                            modifier = Modifier.padding(12.dp),
+                            value = progress/100f,
+                            onValueChange = {
+                                println("progress = $it")
+                                progress = it*100
+                                pupil.setProgress(value.title, progress.toInt())
+                                mainViewModel.updateClickedPupil(pupil)
+                            }
+                        )
+                    }
+                    if (!editMode) {
+                        Text(
+                            text = value.block_description,
+                            color = Color.Black,
+                            fontSize = 12.sp
+                        )
+                    }
                 }
 
             }

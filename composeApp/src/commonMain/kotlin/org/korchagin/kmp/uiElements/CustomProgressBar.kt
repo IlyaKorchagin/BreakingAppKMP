@@ -45,3 +45,29 @@ fun CustomProgressBar(
         }
     }
 }
+
+@Composable
+fun CustomProgressBarEdit(
+    modifier: Modifier, backgroundColor: Color, foregroundColor: Brush,  progress: Int
+) {
+
+    Box(
+        modifier = modifier
+            .background(backgroundColor)
+            .fillMaxWidth()
+
+    ) {
+        Box(
+            modifier = modifier
+                .background(foregroundColor)
+                .fillMaxWidth(progress / 100f)
+        ) {
+            Text(
+                text = "${progress}%",
+                modifier = Modifier.align(alignment = Alignment.Center),
+                fontSize = 13.sp,
+                color = Color.Black,
+            )
+        }
+    }
+}

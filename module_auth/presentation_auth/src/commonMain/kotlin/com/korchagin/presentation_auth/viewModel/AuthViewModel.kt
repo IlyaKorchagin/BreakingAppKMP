@@ -16,7 +16,7 @@ class AuthViewModel(
     auth: FirebaseAuth
 ) : ViewModel() {
     private val _authState = auth.authStateChanged
-        .stateIn(viewModelScope, SharingStarted.Eagerly, auth.currentUser)
+        .stateIn(viewModelScope, SharingStarted.Eagerly, null)
 
     val authState: StateFlow<FirebaseUser?> = _authState
     suspend fun logIn(

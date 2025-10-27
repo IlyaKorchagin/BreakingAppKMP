@@ -23,6 +23,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,9 +41,13 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.korchagin.presentation.viewModel.MainViewModel
 import com.korchagin.presentation_auth.viewModel.AuthViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
+import org.korchagin.kmp.activity.admin.AdminActivity
 import org.korchagin.kmp.activity.auth.component.passwordRecoveryFragment.PasswordRecoveryFragment
 import org.korchagin.kmp.activity.auth.component.registrationFragment.RegistrationFragment
 import org.korchagin.kmp.activity.main.MainActivity
@@ -155,20 +160,40 @@ fun AuthScreen(componentNavigator: ComponentNavigator, fragmentNavigator: Fragme
 
                 Spacer(modifier = Modifier.height(20.dp))
 
-                Text(text = passwordRecoveryString,
+                Text(
+                    text = passwordRecoveryString,
                     style = Typography.textLg(FontWeights.Medium),
                     modifier = Modifier.clickable {
-                    fragmentNavigator.navigate(PasswordRecoveryFragment)
-                })
+                        fragmentNavigator.navigate(PasswordRecoveryFragment)
+                    })
 
                 Button(
                     enabled = email.isNotEmpty() && password.isNotEmpty(),
                     onClick = {
                         scope.launch {
-                            authViewModel.logIn(email, password,
+                            authViewModel.logIn(
+                                email, password,
                                 onSuccess = {
-                                    mainViewModel.loadCurrentUser(currentUser = email)
-                                    findNavHost().navigateToActivitySingleTop(MainActivity)
+                                    scope.launch {
+                                        val user = authViewModel.authState
+                                            .filterNotNull()
+                                            .first() // ждём пока Firebase обновит текущего пользователя
+
+                                        println("✅ Вход выполнен: ${user.email}")
+                                        mainViewModel.loadCurrentUser(
+                                            currentUser = user.email ?: ""
+                                        )
+                                        delay(300)
+                                        if (mainViewModel.currentPupil.value?.role == "admin")
+                                            findNavHost().navigateToActivitySingleTop(
+                                                AdminActivity
+                                            )
+                                        else
+                                            findNavHost().navigateToActivitySingleTop(
+                                                MainActivity
+                                            )
+
+                                    }
                                 },
                                 onError = { e ->
                                     scope.launch { snackbarHostState.showSnackbar("Что-то пошло не так! Проверьте почту и пароль!") }
@@ -180,18 +205,21 @@ fun AuthScreen(componentNavigator: ComponentNavigator, fragmentNavigator: Fragme
                         .padding(top = 20.dp, start = 30.dp, end = 30.dp),
                     shape = RoundedCornerShape(15.dp)
                 ) {
-                    Text(text = "Войти"/*stringResource(R.string.enter)*/,
-                        style = Typography.text2xl(FontWeights.SemiBold))
+                    Text(
+                        text = "Войти"/*stringResource(R.string.enter)*/,
+                        style = Typography.text2xl(FontWeights.SemiBold)
+                    )
 
                 }
 
                 Spacer(modifier = Modifier.height(20.dp))
 
-                Text(text = registrationString,
+                Text(
+                    text = registrationString,
                     style = Typography.textLg(FontWeights.Medium),
                     modifier = Modifier.clickable {
-                    fragmentNavigator.navigate(RegistrationFragment)
-                })
+                        fragmentNavigator.navigate(RegistrationFragment)
+                    })
             }
         }
     }

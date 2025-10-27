@@ -8,8 +8,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.rememberNavController
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.korchagin.kmp.activity.admin.AdminActivity
 import org.korchagin.kmp.activity.auth.AuthActivity
 import org.korchagin.kmp.activity.bboysDetails.BboysDetailsActivity
+import org.korchagin.kmp.activity.editUser.EditUserActivity
 import org.korchagin.kmp.activity.elementDetails.ElementDetailsActivity
 import org.korchagin.kmp.activity.main.MainActivity
 import org.korchagin.kmp.activity.profile.ProfileActivity
@@ -65,7 +67,9 @@ fun App() {
             ProfileActivity,
             ElementDetailsActivity,
             BboysDetailsActivity,
-            AuthActivity
+            AuthActivity,
+            AdminActivity,
+            EditUserActivity
         )
         globalNavigator.setupNavHost(
             activities = activityList,

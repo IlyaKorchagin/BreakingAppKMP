@@ -1,6 +1,6 @@
 package com.korchagin.domain_main.models
 
-import com.korchagin.data.models.PupilEntry
+import com.korchagin.data.models.UserEntry
 
 data class PupilDomainModel(
 
@@ -14,6 +14,7 @@ data class PupilDomainModel(
     var country: String,
     var city: String,
     var video: String,
+    var role: String,
     var status: Int,
     /*
         0 - не указан;
@@ -122,7 +123,7 @@ data class PupilDomainModel(
 
     //<-------- stretching <-------------
 )
-fun PupilEntry.toPupilDomainModel() = PupilDomainModel(
+fun UserEntry.toPupilDomainModel() = PupilDomainModel(
     id = id,
     name = name,
     nick = nick,
@@ -132,6 +133,7 @@ fun PupilEntry.toPupilDomainModel() = PupilDomainModel(
     country = country,
     city = city,
     video = video,
+    role = role,
     status = status,
 
     subscription = subscription,
@@ -198,5 +200,85 @@ fun PupilEntry.toPupilDomainModel() = PupilDomainModel(
     butterfly = butterfly,
     fold = fold,
     shoulders = shoulders,
-    twine = twine,
+    twine = twine
+)
+
+fun PupilDomainModel.toPupilDataModel() = UserEntry(
+    id = id,
+    name = name,
+    nick = nick,
+    email = email,
+    avatar = avatar,
+    born = born,
+    country = country,
+    city = city,
+    video = video,
+    role = role,
+    status = status,
+
+    subscription = subscription,
+    subscriptionDay = subscriptionDay,
+    subscriptionMonth = subscriptionMonth,
+    subscriptionYear = subscriptionYear,
+
+    currentTask = currentTask,
+    currentTaskProgress = currentTaskProgress,
+
+    roundsList = roundsList,
+
+    rating = rating,
+    freeze_rating = freezeRating,
+    powermove_rating = powermoveRating,
+    ofp_rating = ofpRating,
+    streching_rating = strechingRating,
+    battle_rating = battleRating,
+    battle_cur_position = battleCurPosition,
+    battle_new_position = battleNewPosition,
+    new_position = newPosition,
+    current_position = currentPosition,
+
+    babyfrezze = babyfrezze,
+    chairfrezze = chairfrezze,
+    elbowfrezze = elbowfrezze,
+    headfrezze = headfrezze,
+    headhollowbackfrezze = headhollowbackfrezze,
+    hollowbackfrezze = hollowbackfrezze,
+    invertfrezze = invertfrezze,
+    onehandfrezze = onehandfrezze,
+    shoulderfrezze = shoulderfrezze,
+    turtlefrezze = turtlefrezze,
+
+    airflare = airflare,
+    backspin = backspin,
+    cricket = cricket,
+    elbowairflare = elbowairflare,
+    flare = flare,
+    jackhammer = jackhammer,
+    halo = halo,
+    headspin = headspin,
+    munchmill = munchmill,
+    ninety_nine = ninetyNine,
+    swipes = swipes,
+    turtle = turtle,
+    ufo = ufo,
+    web = web,
+    windmill = windmill,
+    wolf = wolf,
+
+    angle = angle,
+    bridge = bridge,
+    finger = finger,
+    handstand = handstand,
+    hand_jump = handJump,
+    hand_touch_leg = handTouchLegs,
+    hand_walk = handWalk,
+    horizont = horizont,
+    pushups = pushups,
+    sit_ups = sit_ups,
+    press_up_handstand = pressUpHandstand,
+
+    butterfly = butterfly,
+    fold = fold,
+    shoulders = shoulders,
+    twine = twine
 )

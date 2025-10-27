@@ -16,6 +16,7 @@ data class PupilModel(
     var country: String,
     var city: String,
     var video: String,
+    var role: String,
     var status: Int,
     /*
         0 - не указан;
@@ -134,6 +135,7 @@ fun PupilDomainModel.toPupilModel() = PupilModel(
     country = country,
     city = city,
     video = video,
+    role = role,
     status = status,
 
     subscription = subscription,
@@ -203,55 +205,86 @@ fun PupilDomainModel.toPupilModel() = PupilModel(
     twine = twine,
 )
 
-fun PupilModel.getElementRating(title: String): Int {
-    return when (title) {
-        "Baby" -> babyfrezze
-        "Chair" -> chairfrezze
-        "Elbow" -> elbowfrezze
-        "Head" -> headfrezze
-        "HeadHollowback" -> headhollowbackfrezze
-        "Hollowback" -> hollowbackfrezze
-        "Invert" -> invertfrezze
-        "OneHand" -> onehandfrezze
-        "Shoulder" -> shoulderfrezze
-        "Turtle" -> turtlefrezze
+fun PupilModel.toPupilDomainModel() = PupilDomainModel(
+    id = id,
+    name = name,
+    nick = nick,
+    email = email,
+    avatar = avatar,
+    born = born,
+    country = country,
+    city = city,
+    video = video,
+    role = role,
+    status = status,
 
-        "Airflare" -> airflare
-        "Backspin" -> backspin
-        "Cricket" -> cricket
-        "ElbowAirflare" -> elbowairflare
-        "Flare" -> flare
-        "Jackhammer" -> jackhammer
-        "Muchmill" -> munchmill
-        "Ninetynine" -> ninetyNine
-        "Web" -> web
-        "Swipes" -> swipes
-        "TurtleMove" -> turtle
-        "Ufo" -> ufo
-        "Windmill" -> windmill
-        "Halo" -> halo
-        "Wolf" -> wolf
-        "HeadSpin" -> headspin
+    subscription = subscription,
+    subscriptionDay = subscriptionDay,
+    subscriptionMonth = subscriptionMonth,
+    subscriptionYear = subscriptionYear,
 
-        "Angle" -> angle
-        "Bridge" -> bridge
-        "Fingers" -> finger
-        "Handstand" -> handstand
-        "PressToHandstand" -> pressUpHandstand
-        "PushUps" -> pushUps
-        "SitUps" -> sitUps
-        "Horizont" -> horizont
+    currentTask = currentTask,
+    currentTaskProgress = currentTaskProgress,
 
-        "Butterfly" -> butterfly
-        "Fold" -> fold
-        "Shoulders" -> shoulders
-        "Twine" -> twine
+    roundsList = roundsList,
 
-        else -> 0
-    }
-}
+    rating = rating,
+    freezeRating = freezeRating,
+    powermoveRating = powermoveRating,
+    ofpRating = ofpRating,
+    strechingRating = strechingRating,
+    battleRating = battleRating,
+    battleCurPosition = battleCurPosition,
+    battleNewPosition = battleNewPosition,
+    newPosition = newPosition,
+    currentPosition = currentPosition,
 
-fun PupilModel.setProgress(elementTitle: String): Float {
+    babyfrezze = babyfrezze,
+    chairfrezze = chairfrezze,
+    elbowfrezze = elbowfrezze,
+    headfrezze = headfrezze,
+    headhollowbackfrezze = headhollowbackfrezze,
+    hollowbackfrezze = hollowbackfrezze,
+    invertfrezze = invertfrezze,
+    onehandfrezze = onehandfrezze,
+    shoulderfrezze = shoulderfrezze,
+    turtlefrezze = turtlefrezze,
+
+    airflare = airflare,
+    backspin = backspin,
+    cricket = cricket,
+    elbowairflare = elbowairflare,
+    flare = flare,
+    jackhammer = jackhammer,
+    halo = halo,
+    headspin = headspin,
+    munchmill = munchmill,
+    ninetyNine = ninetyNine,
+    swipes = swipes,
+    turtle = turtle,
+    ufo = ufo,
+    web = web,
+    windmill = windmill,
+    wolf = wolf,
+
+    angle = angle,
+    bridge = bridge,
+    finger = finger,
+    handstand = handstand,
+    handJump = handJump,
+    handTouchLegs = handTouchLegs,
+    handWalk = handWalk,
+    horizont = horizont,
+    pushups = pushUps,
+    sit_ups = sitUps,
+    pressUpHandstand = pressUpHandstand,
+
+    butterfly = butterfly,
+    fold = fold,
+    shoulders = shoulders,
+    twine = twine,
+)
+fun PupilModel.getProgress(elementTitle: String): Float {
     return when (elementTitle) {
         BABY -> babyfrezze.toFloat()
         SHOULDER -> shoulderfrezze.toFloat()
@@ -296,4 +329,50 @@ fun PupilModel.setProgress(elementTitle: String): Float {
         SHOULDERS -> shoulders.toFloat()
         else -> 0.0f
     }
+}
+    fun PupilModel.setProgress(elementTitle: String, progress: Int) {
+        when (elementTitle) {
+            BABY -> babyfrezze = progress
+            SHOULDER -> shoulderfrezze = progress
+            TURTLE -> turtlefrezze = progress
+            HEAD -> headfrezze = progress
+            CHAIR -> chairfrezze = progress
+            ELBOW -> elbowfrezze = progress
+            HEAD_HOLLOWBACK -> headhollowbackfrezze = progress
+            ONE_HAND -> onehandfrezze = progress
+            INVERT -> invertfrezze = progress
+            HOLLOWBACK -> hollowbackfrezze = progress
+
+            BACKSPIN -> backspin = progress
+            TURTLEMOVE -> turtle = progress
+            HEADSPIN -> headspin = progress
+            WINDMILL -> windmill = progress
+            MUCHMILL -> munchmill = progress
+            HALO -> halo = progress
+            FLARE -> flare = progress
+            WOLF -> wolf = progress
+            WEB -> web = progress
+            CRICKET -> cricket = progress
+            AIRFLARE -> airflare = progress
+            NINETYNINE -> ninetyNine = progress
+            UFO -> ufo = progress
+            ELBOW_AIRFLARE -> elbowairflare = progress
+            JACKHAMMER -> jackhammer = progress
+            SWIPES -> swipes = progress
+
+            ANGLE -> angle = progress
+            BRIDGE -> bridge = progress
+            FINGERS -> finger = progress
+            PUSHUPS -> pushUps = progress
+            SITUPS -> sitUps = progress
+            HANDSTAND -> handstand = progress
+            HORIZONT -> horizont = progress
+            PRESS_TO_HANDSTAND -> pressUpHandstand = progress
+
+            TWINE -> twine = progress
+            BUTTERFLY -> butterfly = progress
+            FOLD -> fold = progress
+            SHOULDERS -> shoulders = progress
+            else -> 0.0f
+        }
 }
