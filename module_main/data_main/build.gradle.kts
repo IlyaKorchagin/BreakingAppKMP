@@ -74,6 +74,8 @@ kotlin {
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)
             implementation("io.ktor:ktor-io:2.3.4")
+            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.ktor.serialization.kotlinx.json)
 
             //Coil
             implementation(libs.coil3.compose)
@@ -89,6 +91,9 @@ kotlin {
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.androidx.lifecycle.viewmodel)
+
+            //Date
+            implementation(libs.kotlinx.datetime)
 
             implementation(project(":module_common"))
 

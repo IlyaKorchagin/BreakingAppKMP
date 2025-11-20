@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">BreakinApp</string>
     <string name="home_title">Home</string>
+    <string name="events_title">Events</string>
     <string name="ratings_title">Ratings</string>
     <string name="hall_of_fame_title">Hall of Fame</string>
     <string name="profile_title">Profile</string>

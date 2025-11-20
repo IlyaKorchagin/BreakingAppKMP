@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.map
 
 
 class GetFreezeElements(private val repository: UserRepository) {
-    fun getFreezeElements(): Flow<List<ElementDomainModel>> = repository.getFreezeElements().map { elements ->
+    suspend fun getFreezeElements(): Flow<List<ElementDomainModel>> = repository.getFreezeElements().map { elements ->
         elements.map { it.toElementDomainModel() }
     }
 }

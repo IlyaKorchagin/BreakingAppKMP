@@ -3,21 +3,37 @@ package com.korchagin.data.repository
 
 import com.korchagin.data.models.BboyEntry
 import com.korchagin.data.models.ElementEntry
+import com.korchagin.data.models.EventEntry
 import com.korchagin.data.models.UserEntry
 import com.korchagin.data.utils.toFirebaseData
+import com.korchagin.data.utils.toLocalDateOrNull
 import com.korchagin.module_common.Response
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.database.database
 import dev.gitlive.firebase.storage.storage
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.plugins.onUpload
+import io.ktor.client.request.header
+import io.ktor.client.request.post
+import io.ktor.client.request.setBody
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.datetime.Clock
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.todayIn
 
 
-class UserRepositotyImplementation : UserRepository {
+class UserRepositotyImplementation(
+    private val client: HttpClient
+) : UserRepository {
 
     private val FREEZE_KEY = "Freeze"       //  идентификатор таблицы Freeze в БД
     private val POWER_KEY = "PowerMove"     //  идентификатор таблицы PowerMove в БД
@@ -25,6 +41,7 @@ class UserRepositotyImplementation : UserRepository {
     private val STRETCH_KEY = "Stretch"     //  идентификатор таблицы Stretch в БД
     private val BBOYS_KEY = "Bio"           //  идентификатор таблицы Bio в БД
     private val PUPILS_KEY = "Pupils"       //  идентификатор таблицы Pupils в БД
+    private val EVENTS_KEY = "Events"       //  идентификатор таблицы Events в БД
 
 
     private val pupilsDB by lazy { Firebase.database.reference(PUPILS_KEY) }
@@ -34,9 +51,12 @@ class UserRepositotyImplementation : UserRepository {
     private val stretchDB by lazy { Firebase.database.reference(STRETCH_KEY) }
     private val bboysDB by lazy { Firebase.database.reference(BBOYS_KEY) }
 
+    private val eventsDB by lazy { Firebase.database.reference(EVENTS_KEY) }
+
     private val fireStorage = Firebase.storage
 
-    override fun getUsers(): Flow<List<UserEntry>> = channelFlow {
+
+    override suspend fun getUsers(): Flow<List<UserEntry>> = channelFlow {
         pupilsDB.valueEvents.collect { pupil ->
             val users = pupil.children.mapNotNull {
                 try {
@@ -51,7 +71,7 @@ class UserRepositotyImplementation : UserRepository {
     }
 
 
-    override fun getUserById(id: String): Flow<UserEntry> = channelFlow {
+    override suspend fun getUserById(id: String): Flow<UserEntry> = channelFlow {
         coroutineScope {
             pupilsDB
                 .orderByChild("email")
@@ -67,8 +87,21 @@ class UserRepositotyImplementation : UserRepository {
                 .launchIn(this)
         }
     }
+    val today: LocalDate = Clock.System.todayIn(TimeZone.currentSystemDefault())
 
-    override fun getFreezeElements(): Flow<List<ElementEntry>> = channelFlow {
+    override suspend fun getEvents(): Flow<List<EventEntry>> = channelFlow {
+        eventsDB.valueEvents.collect { snapshot ->
+            val events = snapshot.children.mapNotNull {
+                try { it.value<EventEntry>() } catch (e: Exception) { null }
+            }.filter { event ->
+                val eventDate = event.data.toLocalDateOrNull()
+                eventDate != null && eventDate >= today
+            }
+            send(events)
+        }
+    }
+
+    override suspend  fun getFreezeElements(): Flow<List<ElementEntry>> = channelFlow {
         freezeDB.valueEvents.collect { freeze ->
             val freezeElements = freeze.children.mapNotNull {
                 try {
@@ -82,7 +115,7 @@ class UserRepositotyImplementation : UserRepository {
         }
     }
 
-    override fun getPowerElements(): Flow<List<ElementEntry>> = channelFlow {
+    override suspend fun getPowerElements(): Flow<List<ElementEntry>> = channelFlow {
         powerDB.valueEvents.collect { power ->
             val powerElements = power.children.mapNotNull {
                 try {
@@ -96,7 +129,7 @@ class UserRepositotyImplementation : UserRepository {
         }
     }
 
-    override fun getOfpElements(): Flow<List<ElementEntry>> = channelFlow {
+    override suspend fun getOfpElements(): Flow<List<ElementEntry>> = channelFlow {
         ofpDB.valueEvents.collect { ofp ->
             val ofpElements = ofp.children.mapNotNull {
                 try {
@@ -110,7 +143,7 @@ class UserRepositotyImplementation : UserRepository {
         }
     }
 
-    override fun getStretchElements(): Flow<List<ElementEntry>> = channelFlow {
+    override suspend fun getStretchElements(): Flow<List<ElementEntry>> = channelFlow {
         stretchDB.valueEvents.collect { stretch ->
             val stretchElements = stretch.children.mapNotNull {
                 try {
@@ -124,7 +157,7 @@ class UserRepositotyImplementation : UserRepository {
         }
     }
 
-    override fun getBboysList(): Flow<List<BboyEntry>> = channelFlow {
+    override suspend fun getBboysList(): Flow<List<BboyEntry>> = channelFlow {
         bboysDB.valueEvents.collect { bboys ->
             val bboysElements = bboys.children.mapNotNull {
                 try {
@@ -323,5 +356,96 @@ class UserRepositotyImplementation : UserRepository {
         }
         return Response.Success(Unit, 200)
     }
+
+    override suspend fun registerToEvent(pupil: UserEntry, event: EventEntry): Boolean {
+        val eventRef = eventsDB.child(event.title)
+            .child("registered")
+            .child(pupil.id)
+
+        // Проверяем наличие записи
+        val snapshot = eventRef.valueEvents.first()
+
+        if (snapshot.value != null) {
+            println("⚠ Пользователь уже зарегистрирован")
+            return false
+        }
+
+
+        val payload = mapOf(
+            "user_id" to pupil.id,
+            "name" to pupil.name,
+            "phone" to pupil.email,
+            "event_id" to "event_id",
+            "action" to "register",
+        )
+
+        val responseText = client.post(event.regUrl) {
+            contentType(ContentType.Application.Json)
+            header("Accept", "*/*")         // 🔥 обязательно
+            setBody(payload)
+
+            onUpload { bytesSentTotal, contentLength ->
+                println("sent: $bytesSentTotal / $contentLength")
+            }
+        }.body<String>()
+
+        println("Google script response = $responseText")
+
+        eventRef.setValue(true)
+
+        return true
+
+    }
+
+    override suspend fun unregisterFromEvent(pupil: UserEntry, event: EventEntry): Boolean {
+        val eventRef = eventsDB.child(event.title)
+            .child("registered")
+            .child(pupil.id)
+
+        // Проверяем наличие записи
+        val snapshot = eventRef.valueEvents.first()
+
+        if (snapshot.value == null) {
+            println("⚠ Пользователь не был зарегистрирован")
+            return false
+        }
+
+        // Попробуем удалить запись на Google Script
+        val payload = mapOf(
+            "user_id" to pupil.id,
+            "name" to pupil.name,
+            "phone" to pupil.email,
+            "event_id" to "event_id",
+            "action" to "unregister",
+        )
+
+        try {
+            val responseText = client.post(event.regUrl) {
+                contentType(ContentType.Application.Json)
+                header("Accept", "*/*")
+                setBody(payload)
+            }.body<String>()
+
+            println("Google script unregister response = $responseText")
+            // Можно здесь парсить JSON ответа, если нужно
+        } catch (e: Exception) {
+            println("❌ Ошибка при отмене регистрации в Google Script: ${e.message}")
+            // Реши, хочешь ли вернуть false или продолжить
+            return false
+        }
+
+        // Удаляем запись пользователя из Firebase
+        return try {
+            eventRef.removeValue()
+            println("🗑 Пользователь ${pupil.name} отписан от события ${event.title}")
+            true
+        } catch (e: Exception) {
+            println("❌ Ошибка при удалении из Firebase: ${e.message}")
+            false
+        }
+    }
+
+
+
 
 }

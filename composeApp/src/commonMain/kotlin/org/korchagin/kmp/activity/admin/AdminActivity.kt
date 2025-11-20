@@ -3,6 +3,7 @@ package org.korchagin.kmp.activity.admin
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -22,6 +23,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.korchagin.kmp.activity.admin.component.AdminComponent
 import org.korchagin.kmp.activity.main.components.RatingsComponent
 import org.korchagin.kmp.activity.main.fragments.ratings.topBar.TopBarRatingActions
+import org.korchagin.kmp.activity.main.topBarComponent.EventIcon
 import org.korchagin.kmp.activity.main.topBarComponent.ProfileIcon
 import team.platforma.extra_nav.component.activity_component.Activity
 import team.platforma.extra_nav.component.activity_component.ActivityScaffold
@@ -67,6 +69,8 @@ object AdminActivity : Activity(
                                     when (component) {
                                         RatingsComponent -> TopBarRatingActions()
                                     }
+                                    EventIcon()
+                                    Spacer(modifier = Modifier.padding(horizontal = 4.dp))
                                     ProfileIcon()
                                 }
                             )

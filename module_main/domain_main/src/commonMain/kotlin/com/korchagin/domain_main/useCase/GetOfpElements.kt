@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.map
 
 
 class GetOfpElements(private val repository: UserRepository) {
-    fun getOfpElements(): Flow<List<ElementDomainModel>> = repository.getOfpElements().map { elements ->
+    suspend fun getOfpElements(): Flow<List<ElementDomainModel>> = repository.getOfpElements().map { elements ->
         elements.map { it.toElementDomainModel() }
     }
 }

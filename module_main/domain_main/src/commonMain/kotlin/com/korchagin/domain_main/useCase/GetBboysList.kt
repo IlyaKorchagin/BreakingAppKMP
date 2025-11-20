@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.map
 
 
 class GetBboysList(private val repository: UserRepository) {
-    fun getBboysList(): Flow<List<BboyDomainModel>> = repository.getBboysList().map { bboys ->
+    suspend fun getBboysList(): Flow<List<BboyDomainModel>> = repository.getBboysList().map { bboys ->
         bboys.map { it.toBboyDomainModel() }
     }
 }

@@ -7,9 +7,12 @@ import androidx.lifecycle.ViewModel
 import com.korchagin.domain_main.MainUseCase
 import com.korchagin.presentation.models.BboyModel
 import com.korchagin.presentation.models.ElementModel
+import com.korchagin.presentation.models.EventModel
 import com.korchagin.presentation.models.PupilModel
 import com.korchagin.presentation.models.toBboyModel
 import com.korchagin.presentation.models.toElementModel
+import com.korchagin.presentation.models.toEventDomainModel
+import com.korchagin.presentation.models.toEventModel
 import com.korchagin.presentation.models.toPupilDomainModel
 import com.korchagin.presentation.models.toPupilModel
 import kotlinx.coroutines.CoroutineScope
@@ -28,6 +31,9 @@ class MainViewModel(
 
     private val _pupils = MutableStateFlow<List<PupilModel>>(emptyList())
     val pupils: StateFlow<List<PupilModel>> = _pupils
+
+    private val _events = MutableStateFlow<List<EventModel>>(emptyList())
+    val events: StateFlow<List<EventModel>> = _events
 
     var tmpPupils: List<PupilModel> = emptyList()
 
@@ -146,7 +152,7 @@ class MainViewModel(
 
         _clickedPupil.value?.let { it.currentPosition = it.newPosition }
 
-    //    _pupils.value.forEach { println("${it.name} curPos: ${it.currentPosition} newPos: ${it.newPosition}") }
+        //    _pupils.value.forEach { println("${it.name} curPos: ${it.currentPosition} newPos: ${it.newPosition}") }
 
 
         val allPupils = _pupils.value.toMutableList()
@@ -164,7 +170,7 @@ class MainViewModel(
         // Сортировка по рейтингу (по убыванию)
         val sorted = allPupils.sortedByDescending { it.rating }
 
-       // sorted.forEach { println("${it.name} curPos: ${it.currentPosition} newPos: ${it.newPosition}") }
+        // sorted.forEach { println("${it.name} curPos: ${it.currentPosition} newPos: ${it.newPosition}") }
 
 
         // Присваиваем новую позицию каждому
@@ -172,7 +178,7 @@ class MainViewModel(
             pupil.copy(newPosition = index + 1)
         }
 
-     //   updatedList.forEach { println("update ${it.name} curPos: ${it.currentPosition} newPos: ${it.newPosition}") }
+        //   updatedList.forEach { println("update ${it.name} curPos: ${it.currentPosition} newPos: ${it.newPosition}") }
 
 
         // Обновляем список
@@ -183,7 +189,7 @@ class MainViewModel(
     fun updatePositionsAndSave() {
         culcPupilRating()
         val changedUsers = emptyList<PupilModel>().toMutableList()
-      // val changedUsers = _pupils.value.filter { it.newPosition != it.currentPosition }
+        // val changedUsers = _pupils.value.filter { it.newPosition != it.currentPosition }
         val tmpMap = tmpPupils.associateBy { it.id }
 
         _pupils.value.forEach { pupil ->
@@ -197,104 +203,124 @@ class MainViewModel(
         }
         if (changedUsers.isEmpty()) changedUsers.add(clickedPupil.value!!)
 
-changedUsers.forEach { println("LOG: ChangeUsers - ${it.name} current Position: ${it.currentPosition} newPosition: ${it.newPosition}") }
+        changedUsers.forEach { println("LOG: ChangeUsers - ${it.name} current Position: ${it.currentPosition} newPosition: ${it.newPosition}") }
         // Сохраняем пользователя (вызов suspend, надо запускать в coroutine)
         singletonMainScope.launch {
             mainUseCase.savePupil.savePupil(changedUsers.map { it.toPupilDomainModel() })  // Преобразуй в нужный формат
-        //    _clickedPupil.value?.let { mainUseCase.savePupil.savePupil(it.toPupilDomainModel()) }
+            //    _clickedPupil.value?.let { mainUseCase.savePupil.savePupil(it.toPupilDomainModel()) }
 
         }
     }
 
-init {
-    loadData()
-}
-
-fun uploadNewUserAvatar(email: String, bytes: ByteArray) {
-    _userAvatarOnLoading.value = true
-    println(" uploadNewUserAvatar bytes: $bytes")
-    singletonMainScope.launch {
-        mainUseCase.uploadAvatar.uploadAvatar(email, bytes)
-            .onSuccess { data, code ->
-                _userAvatarOnLoading.value = false
-            }.onFail { message, code ->
-                _userAvatarOnLoading.value = false
-            }.onException { message, code ->
-                _userAvatarOnLoading.value = false
-            }
+    init {
+        loadData()
     }
-}
 
-fun setClickedPupil(pupil: PupilModel?) {
-    _clickedPupil.value = pupil
-}
-
-fun loadCurrentUser(currentUser: String) {
-    singletonMainScope.launch {
-        mainUseCase.getPupilById.getAllPupils(currentUser).collect {
-            _currentPupil.value = it.toPupilModel()
+    fun registerToEvent(event: EventModel){
+        singletonMainScope.launch {
+            _currentPupil.value?.let { mainUseCase.registerToEvent.registerToEvent( it.toPupilDomainModel(), event.toEventDomainModel() ) }  // Преобразуй в нужный формат
         }
     }
-}
 
-fun loadData() {
-    singletonMainScope.launch {
-        val pupils = singletonMainScope.launch {
-            mainUseCase.getAllPupils.getAllPupils().collect { pupilsList ->
-                _pupils.value = pupilsList
-                    .map { it.toPupilModel() }
-                    .sortedByDescending { it.rating }
-            }
+    fun unregisterToEvent(event: EventModel){
+        singletonMainScope.launch {
+            _currentPupil.value?.let { mainUseCase.unregisterFromEvent.unregisterFromEvent( it.toPupilDomainModel(), event.toEventDomainModel() ) }  // Преобразуй в нужный формат
         }
-
-        val freezeElements = singletonMainScope.launch {
-            mainUseCase.getFreezeElements.getFreezeElements().collect { freezeElements ->
-                _freezeElements.value = freezeElements
-                    .map { it.toElementModel() }
-            }
-        }
-
-        val powerElements = singletonMainScope.launch {
-            mainUseCase.getPowerElements.getPowerElements().collect { powerElements ->
-                _powerElements.value = powerElements
-                    .map { it.toElementModel() }
-            }
-        }
-
-        val ofpElements = singletonMainScope.launch {
-            mainUseCase.getOfpElements.getOfpElements().collect { ofpElements ->
-                _ofpElements.value = ofpElements
-                    .map { it.toElementModel() }
-            }
-        }
-
-        val stretchElements = singletonMainScope.launch {
-            mainUseCase.getStretchElements.getStretchElements().collect { stretchElements ->
-                _stretchElements.value = stretchElements
-                    .map { it.toElementModel() }
-            }
-        }
-
-        val bboysList = singletonMainScope.launch {
-            mainUseCase.getBboysList.getBboysList().collect { bboysList ->
-                _bboysList.value = bboysList
-                    .map { it.toBboyModel() }
-                    .sortedBy { it.rating.toInt() }
-            }
-        }
-
-        val list = listOf(
-            pupils,
-            freezeElements,
-            powerElements,
-            ofpElements,
-            stretchElements,
-            bboysList
-        )
-        val collection: Collection<Job> = list
-        collection.forEach { it.start() }
-        collection.joinAll()
     }
-}
 
+    fun uploadNewUserAvatar(email: String, bytes: ByteArray) {
+        _userAvatarOnLoading.value = true
+        println(" uploadNewUserAvatar bytes: $bytes")
+        singletonMainScope.launch {
+            mainUseCase.uploadAvatar.uploadAvatar(email, bytes)
+                .onSuccess { data, code ->
+                    _userAvatarOnLoading.value = false
+                }.onFail { message, code ->
+                    _userAvatarOnLoading.value = false
+                }.onException { message, code ->
+                    _userAvatarOnLoading.value = false
+                }
+        }
+    }
+
+    fun setClickedPupil(pupil: PupilModel?) {
+        _clickedPupil.value = pupil
+    }
+
+    fun loadCurrentUser(currentUser: String) {
+        singletonMainScope.launch {
+            mainUseCase.getPupilById.getAllPupils(currentUser).collect {
+                _currentPupil.value = it.toPupilModel()
+            }
+        }
+    }
+
+    fun loadData() {
+        singletonMainScope.launch {
+
+            val eventsList = singletonMainScope.launch {
+                mainUseCase.getEvents.getEvents().collect { eventsList ->
+                    _events.value = eventsList
+                        .map { it.toEventModel() }
+                }
+            }
+
+            val pupils = singletonMainScope.launch {
+                mainUseCase.getAllPupils.getAllPupils().collect { pupilsList ->
+                    _pupils.value = pupilsList
+                        .map { it.toPupilModel() }
+                        .sortedByDescending { it.rating }
+                }
+            }
+
+            val freezeElements = singletonMainScope.launch {
+                mainUseCase.getFreezeElements.getFreezeElements().collect { freezeElements ->
+                    _freezeElements.value = freezeElements
+                        .map { it.toElementModel() }
+                }
+            }
+
+            val powerElements = singletonMainScope.launch {
+                mainUseCase.getPowerElements.getPowerElements().collect { powerElements ->
+                    _powerElements.value = powerElements
+                        .map { it.toElementModel() }
+                }
+            }
+
+            val ofpElements = singletonMainScope.launch {
+                mainUseCase.getOfpElements.getOfpElements().collect { ofpElements ->
+                    _ofpElements.value = ofpElements
+                        .map { it.toElementModel() }
+                }
+            }
+
+            val stretchElements = singletonMainScope.launch {
+                mainUseCase.getStretchElements.getStretchElements().collect { stretchElements ->
+                    _stretchElements.value = stretchElements
+                        .map { it.toElementModel() }
+                }
+            }
+
+            val bboysList = singletonMainScope.launch {
+                mainUseCase.getBboysList.getBboysList().collect { bboysList ->
+                    _bboysList.value = bboysList
+                        .map { it.toBboyModel() }
+                        .sortedBy { it.rating.toInt() }
+                }
+            }
+
+            val list = listOf(
+                eventsList,
+                pupils,
+                freezeElements,
+                powerElements,
+                ofpElements,
+                stretchElements,
+                bboysList
+            )
+            val collection: Collection<Job> = list
+            collection.forEach { it.start() }
+            collection.joinAll()
+        }
+    }
 }

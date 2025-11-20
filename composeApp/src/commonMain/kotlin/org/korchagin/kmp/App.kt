@@ -13,6 +13,7 @@ import org.korchagin.kmp.activity.auth.AuthActivity
 import org.korchagin.kmp.activity.bboysDetails.BboysDetailsActivity
 import org.korchagin.kmp.activity.editUser.EditUserActivity
 import org.korchagin.kmp.activity.elementDetails.ElementDetailsActivity
+import org.korchagin.kmp.activity.events.EventsActivity
 import org.korchagin.kmp.activity.main.MainActivity
 import org.korchagin.kmp.activity.profile.ProfileActivity
 import org.korchagin.kmp.activity.splash.SplashActivity
@@ -69,7 +70,8 @@ fun App() {
             BboysDetailsActivity,
             AuthActivity,
             AdminActivity,
-            EditUserActivity
+            EditUserActivity,
+            EventsActivity
         )
         globalNavigator.setupNavHost(
             activities = activityList,

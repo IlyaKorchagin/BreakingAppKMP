@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.map
 
 
 class GetStretchElements(private val repository: UserRepository) {
-    fun getStretchElements(): Flow<List<ElementDomainModel>> = repository.getStretchElements().map { elements ->
+    suspend fun getStretchElements(): Flow<List<ElementDomainModel>> = repository.getStretchElements().map { elements ->
         elements.map { it.toElementDomainModel() }
     }
 }

@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.map
 
 
 class GetPowerElements(private val repository: UserRepository) {
-    fun getPowerElements(): Flow<List<ElementDomainModel>> = repository.getPowerElements().map { elements ->
+    suspend fun getPowerElements(): Flow<List<ElementDomainModel>> = repository.getPowerElements().map { elements ->
         elements.map { it.toElementDomainModel() }
     }
 }
