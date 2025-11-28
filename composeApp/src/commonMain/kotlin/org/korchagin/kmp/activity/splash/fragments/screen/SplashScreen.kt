@@ -59,7 +59,10 @@ fun SplashScreen(componentNavigator: ComponentNavigator) {
             else
                 findNavHost().navigateToActivitySingleTop(MainActivity)
 
-        } else findNavHost().navigateToActivitySingleTop(AuthActivity)
+        } else {
+            mainViewModel.loadCoachesList()
+            findNavHost().navigateToActivitySingleTop(AuthActivity)
+        }
     }
     val gifNames =
         listOf("break_splash1", "break_splash2", "break_splash3", "break_splash4", "break_splash5")

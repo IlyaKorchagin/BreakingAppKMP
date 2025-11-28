@@ -19,8 +19,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import breakingkmpapp.composeapp.generated.resources.Res
+import breakingkmpapp.composeapp.generated.resources.position_down
+import breakingkmpapp.composeapp.generated.resources.position_up
 import coil3.compose.AsyncImage
 import com.korchagin.presentation.models.PupilModel
 import com.korchagin.presentation.viewModel.MainViewModel
@@ -141,6 +146,23 @@ fun NewRatingTable(
                         true
                     )
                     Spacer(modifier = Modifier.height(5.dp))
+                    /*Row(
+                        modifier = Modifier.fillMaxSize(),
+                        Arrangement.Start,
+                        Alignment.CenterVertically
+                    ) {
+                        val positionImage = setPositionStar(index)
+                        val positionSize = setPositionFontSize(index)
+                        Image(
+                            painter = painterResource(positionImage),
+                            contentDescription = null
+                        )
+                        Spacer(modifier = Modifier.width(5.dp))
+                        Text(
+                            text = "${index + 1} - место", fontSize = positionSize.sp,
+                            color = Color.Black,
+                        )
+                    }*/
                     Row(
                         modifier = Modifier.fillMaxSize(),
                         Arrangement.Start,
@@ -157,6 +179,27 @@ fun NewRatingTable(
                             text = "${index + 1} - место", fontSize = positionSize.sp,
                             color = Color.Black,
                         )
+                        if(pupil.currentPosition != pupil.newPosition) {
+                            Spacer(modifier = Modifier.weight(1f))
+                            Image(
+                                painter = if (pupil.newPosition < pupil.currentPosition) painterResource(Res.drawable.position_up)
+                                else painterResource(Res.drawable.position_down),
+                                contentDescription = null,
+                                modifier = Modifier.size(24.dp)
+                            )
+                            Text(
+                                text = if (pupil.newPosition < pupil.currentPosition) "${pupil.currentPosition - pupil.newPosition}"
+                                else "${pupil.newPosition - pupil.currentPosition}",
+                                color = if (pupil.newPosition < pupil.currentPosition) AppColors.colors().mainGreen
+                                else  Color.Red,
+                                style = TextStyle(
+                                    fontWeight = FontWeight.Medium,
+                                    fontSize = 16.sp
+                                )
+
+                            )
+                            Spacer(modifier = Modifier.width(16.dp))
+                        }
                     }
                 }
             }

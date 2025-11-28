@@ -251,6 +251,7 @@ fun ProfileScreen(componentNavigator: ComponentNavigator, fragmentNavigator: Fra
                         StyledTextScreen(title = "Дата рождения: ", description = pupil.born)
                         StyledTextScreen(title = "Страна: ", description = pupil.country)
                         StyledTextScreen(title = "Город: ", description = pupil.city)
+                        if(pupil.role == "user") StyledTextScreen(title = "Тренер: ", description = pupil.coach)
                     }
 
                 }

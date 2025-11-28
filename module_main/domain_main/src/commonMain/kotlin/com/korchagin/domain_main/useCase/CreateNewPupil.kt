@@ -4,5 +4,5 @@ import com.korchagin.data.repository.UserRepository
 
 
 class CreateNewPupil(private val repository: UserRepository) {
-    suspend fun createNewPupil(email: String, name: String) = repository.createNewPupil(email, name)
+    suspend fun createNewPupil(email: String, name: String, coach: List<String>) = repository.createNewPupil(email, name, coach)
 }

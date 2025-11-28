@@ -51,7 +51,8 @@ fun ElementDetailsScreen(
 
         Column(
             modifier = Modifier
-                .widthIn(max = 900.dp)
+                .widthIn(max = 900.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             println("element = $element")
 

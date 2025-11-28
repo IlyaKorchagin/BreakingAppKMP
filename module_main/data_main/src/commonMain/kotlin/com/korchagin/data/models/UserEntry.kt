@@ -12,6 +12,7 @@ data class UserEntry(
     var born: String,
     var country: String,
     var city: String,
+    var coach: String,
     var video: String,
     var role: String,
     var status: Int,

@@ -2,6 +2,7 @@ package com.korchagin.data.repository
 
 
 import com.korchagin.data.models.BboyEntry
+import com.korchagin.data.models.CoachEntry
 import com.korchagin.data.models.ElementEntry
 import com.korchagin.data.models.EventEntry
 import com.korchagin.data.models.UserEntry
@@ -43,6 +44,8 @@ class UserRepositotyImplementation(
     private val PUPILS_KEY = "Pupils"       //  идентификатор таблицы Pupils в БД
     private val EVENTS_KEY = "Events"       //  идентификатор таблицы Events в БД
 
+    private val COACHES_KEY = "Coach"       //  идентификатор таблицы Events в БД
+
 
     private val pupilsDB by lazy { Firebase.database.reference(PUPILS_KEY) }
     private val freezeDB by lazy { Firebase.database.reference(FREEZE_KEY) }
@@ -51,6 +54,7 @@ class UserRepositotyImplementation(
     private val stretchDB by lazy { Firebase.database.reference(STRETCH_KEY) }
     private val bboysDB by lazy { Firebase.database.reference(BBOYS_KEY) }
 
+    private val coachesDB by lazy { Firebase.database.reference(COACHES_KEY) }
     private val eventsDB by lazy { Firebase.database.reference(EVENTS_KEY) }
 
     private val fireStorage = Firebase.storage
@@ -85,6 +89,21 @@ class UserRepositotyImplementation(
                     }
                 }
                 .launchIn(this)
+        }
+    }
+
+    override suspend fun getCoaches(): Flow<List<CoachEntry>> = channelFlow {
+        coachesDB.valueEvents.collect { coach ->
+            val coaches = coach.children.mapNotNull {
+                try {
+                    println("LOG: ${it.value}")
+                    it.value<CoachEntry>()
+                } catch (e: Exception) {
+                    println("Error decoding coaches: ${e.message}")
+                    null
+                }
+            }
+            send(coaches)
         }
     }
     val today: LocalDate = Clock.System.todayIn(TimeZone.currentSystemDefault())
@@ -171,7 +190,7 @@ class UserRepositotyImplementation(
         }
     }
 
-    override suspend fun createNewPupil(email: String, name: String) {
+    override suspend fun createNewPupil(email: String, name: String, coach: List<String>) {
         val normalizedEmail = email.trim().lowercase()
         val uid = pupilsDB.push().key
         if (uid != null) {
@@ -183,6 +202,7 @@ class UserRepositotyImplementation(
                 avatar = "",
                 born = "",
                 country = "",
+                coach = coach.joinToString(", "),
                 city = "",
                 video = "",
                 status = 0,

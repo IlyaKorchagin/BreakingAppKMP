@@ -6,10 +6,12 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.korchagin.domain_main.MainUseCase
 import com.korchagin.presentation.models.BboyModel
+import com.korchagin.presentation.models.CoachModel
 import com.korchagin.presentation.models.ElementModel
 import com.korchagin.presentation.models.EventModel
 import com.korchagin.presentation.models.PupilModel
 import com.korchagin.presentation.models.toBboyModel
+import com.korchagin.presentation.models.toCoachModel
 import com.korchagin.presentation.models.toElementModel
 import com.korchagin.presentation.models.toEventDomainModel
 import com.korchagin.presentation.models.toEventModel
@@ -23,6 +25,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 
 class MainViewModel(
     private val mainUseCase: MainUseCase,
@@ -34,6 +37,9 @@ class MainViewModel(
 
     private val _events = MutableStateFlow<List<EventModel>>(emptyList())
     val events: StateFlow<List<EventModel>> = _events
+
+    private val _coaches = MutableStateFlow<List<CoachModel>>(emptyList())
+    val coaches: StateFlow<List<CoachModel>> = _coaches
 
     var tmpPupils: List<PupilModel> = emptyList()
 
@@ -113,27 +119,27 @@ class MainViewModel(
     fun culcPupilRating() {
         _clickedPupil.value?.let { pupil ->
             // Растяжка
-            val stretchRating = (pupil.twine + pupil.fold + pupil.butterfly + pupil.shoulders) / 4
-            pupil.strechingRating = stretchRating.toDouble()
+            val stretchRating = (pupil.twine + pupil.fold + pupil.butterfly + pupil.shoulders) / 4.0
+            pupil.strechingRating = stretchRating.let { (it * 100).roundToInt() / 100.0 }
 
             // Подкачка
             val ofpRating =
-                (pupil.angle + pupil.bridge + pupil.finger + pupil.handstand + pupil.horizont + pupil.pushUps + pupil.pressUpHandstand + pupil.sitUps + pupil.handJump + pupil.handWalk + pupil.handTouchLegs) / 11
-            pupil.ofpRating = ofpRating.toDouble()
+                (pupil.angle + pupil.bridge + pupil.finger + pupil.handstand + pupil.horizont + pupil.pushUps + pupil.pressUpHandstand + pupil.sitUps + pupil.handJump + pupil.handWalk + pupil.handTouchLegs) / 11.0
+            pupil.ofpRating = ofpRating.let { (it * 100).roundToInt() / 100.0 }
 
             // Стойки
             val freezeRating =
-                (pupil.babyfrezze * 0.5 + pupil.turtlefrezze * 0.75 + pupil.shoulderfrezze * 0.5 + pupil.headfrezze * 0.5 + pupil.headhollowbackfrezze * 0.75 + pupil.hollowbackfrezze + pupil.invertfrezze + pupil.onehandfrezze + pupil.chairfrezze + pupil.elbowfrezze) / 8
-            pupil.freezeRating = freezeRating
+                ((pupil.babyfrezze * 0.5 + pupil.turtlefrezze * 0.75 + pupil.shoulderfrezze * 0.5 + pupil.headfrezze * 0.5 + pupil.headhollowbackfrezze * 0.75 + pupil.hollowbackfrezze + pupil.invertfrezze + pupil.onehandfrezze + pupil.chairfrezze + pupil.elbowfrezze) / 8).let { (it * 100).roundToInt() / 100.0 }
+            pupil.freezeRating = freezeRating.let { (it * 100).roundToInt() / 100.0 }
 
             // Powermove
-            val powermoveRating =
+            val powerMoveRating =
                 (pupil.airflare + pupil.backspin * 0.2 + pupil.cricket * 0.6 + pupil.elbowairflare + pupil.flare * 0.8 + pupil.jackhammer * 0.8 + pupil.halo * 0.8 + pupil.headspin * 0.4 + pupil.munchmill * 0.7 + pupil.ninetyNine + pupil.swipes * 0.6 + pupil.turtle * 0.4 + pupil.ufo + pupil.web * 0.5 + pupil.windmill * 0.4 + pupil.wolf * 0.8) / 11
-            pupil.powermoveRating = powermoveRating
+            pupil.powermoveRating = powerMoveRating.let { (it * 100).roundToInt() / 100.0 }
 
             // Общий рейтинг
             pupil.rating =
-                (pupil.freezeRating + pupil.ofpRating * 0.6 + pupil.strechingRating * 0.4 + pupil.powermoveRating * 2) / 4
+                ((pupil.freezeRating + pupil.ofpRating * 0.6 + pupil.strechingRating * 0.4 + pupil.powermoveRating * 2) / 4).let { (it * 100).roundToInt() / 100.0 }
 
             recalculateAllPositions()
 
@@ -216,15 +222,25 @@ class MainViewModel(
         loadData()
     }
 
-    fun registerToEvent(event: EventModel){
+    fun registerToEvent(event: EventModel) {
         singletonMainScope.launch {
-            _currentPupil.value?.let { mainUseCase.registerToEvent.registerToEvent( it.toPupilDomainModel(), event.toEventDomainModel() ) }  // Преобразуй в нужный формат
+            _currentPupil.value?.let {
+                mainUseCase.registerToEvent.registerToEvent(
+                    it.toPupilDomainModel(),
+                    event.toEventDomainModel()
+                )
+            }  // Преобразуй в нужный формат
         }
     }
 
-    fun unregisterToEvent(event: EventModel){
+    fun unregisterToEvent(event: EventModel) {
         singletonMainScope.launch {
-            _currentPupil.value?.let { mainUseCase.unregisterFromEvent.unregisterFromEvent( it.toPupilDomainModel(), event.toEventDomainModel() ) }  // Преобразуй в нужный формат
+            _currentPupil.value?.let {
+                mainUseCase.unregisterFromEvent.unregisterFromEvent(
+                    it.toPupilDomainModel(),
+                    event.toEventDomainModel()
+                )
+            }  // Преобразуй в нужный формат
         }
     }
 
@@ -255,9 +271,17 @@ class MainViewModel(
         }
     }
 
+    fun loadCoachesList() {
+        singletonMainScope.launch {
+            mainUseCase.getCoaches.getCoaches().collect { coachesList ->
+                _coaches.value = coachesList
+                    .map { it.toCoachModel() }
+            }
+        }
+    }
+
     fun loadData() {
         singletonMainScope.launch {
-
             val eventsList = singletonMainScope.launch {
                 mainUseCase.getEvents.getEvents().collect { eventsList ->
                     _events.value = eventsList

@@ -43,6 +43,7 @@ import coil3.compose.AsyncImage
 import com.korchagin.presentation.viewModel.MainViewModel
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.annotation.KoinExperimentalAPI
 import org.korchagin.kmp.activity.editUser.EditUserActivity
 import org.korchagin.kmp.helper.setPositionBackgroundColor
 import org.korchagin.kmp.helper.setPositionFontSize
@@ -54,11 +55,13 @@ import team.platforma.extra_nav.component.fragment_component.Fragment
 import team.platforma.extra_nav.navigator.activity.findNavHost
 
 
+@OptIn(KoinExperimentalAPI::class)
 object AdminFragment : Fragment(
     route = "admin_fragment",
     fragmentBox = { componentNavigator, fragmentNavigator, paddingValues ->
         val mainViewModel = koinViewModel<MainViewModel>()
         val pupilsList by mainViewModel.pupils.collectAsState(emptyList())
+        val currentPupil by mainViewModel.currentPupil.collectAsState(null)
 
         Box(
             modifier = Modifier
@@ -70,7 +73,9 @@ object AdminFragment : Fragment(
                 modifier = Modifier
                     .widthIn(max = 900.dp)
             ) {
-                itemsIndexed(pupilsList) { index, pupil ->
+                println("LOG: ${pupilsList.size}")
+                println("LOG: ${pupilsList.filter { it.coach.contains(currentPupil!!.name) }.size}")
+                itemsIndexed(pupilsList.filter { it.coach.contains(currentPupil!!.name) }) { index, pupil ->
                     val startBackgroundColor = Color.White
                     val endBackgroundColor = setPositionBackgroundColor(index)
 

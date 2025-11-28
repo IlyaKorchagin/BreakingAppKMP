@@ -1,3 +1,4 @@
+/*
 import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
@@ -23,3 +24,34 @@ actual fun VideoPlayer(topPadding: Int, url: String) {
         view
     })
 }
+*/
+
+import android.content.Intent
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
+
+@Composable
+actual fun VideoPlayer(topPadding: Int, url: String) {
+
+    val context = LocalContext.current
+
+    Button(
+        modifier = Modifier
+            .padding(top = 16.dp),
+        onClick = {
+            val intent = Intent(
+                Intent.ACTION_VIEW,
+                ("https://www.youtube.com/watch?v=$url").toUri()
+            )
+            context.startActivity(intent)
+        }) {
+        Text(text = "Посмотреть видео ролик на YouTube")
+    }
+}
+
