@@ -2,9 +2,11 @@
 <resources>
     <string name="home_title">Главная</string>
     <string name="ratings_title">Рейтинги</string>
+    <string name="records_title">Рекорды</string>
     <string name="hall_of_fame_title">Зал славы</string>
     <string name="profile_title">Профиль</string>
     <string name="events_title">Соревнования</string>
+    <string name="battle_title">Баттл</string>
 
     <string name="ratings_freeze_title">Рейтинг по стойкам: </string>
     <string name="ratings_power_title">Рейтинг по элементам: </string>

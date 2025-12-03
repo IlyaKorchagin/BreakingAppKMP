@@ -73,8 +73,6 @@ object AdminFragment : Fragment(
                 modifier = Modifier
                     .widthIn(max = 900.dp)
             ) {
-                println("LOG: ${pupilsList.size}")
-                println("LOG: ${pupilsList.filter { it.coach.contains(currentPupil!!.name) }.size}")
                 itemsIndexed(pupilsList.filter { it.coach.contains(currentPupil!!.name) }) { index, pupil ->
                     val startBackgroundColor = Color.White
                     val endBackgroundColor = setPositionBackgroundColor(index)

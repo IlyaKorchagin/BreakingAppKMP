@@ -37,6 +37,7 @@ import com.korchagin.presentation.models.ElementsTab
 import com.korchagin.presentation.models.ImageWithText
 import com.korchagin.presentation.models.PupilModel
 import com.korchagin.presentation.models.getProgress
+import com.korchagin.presentation.models.getRecord
 import com.korchagin.presentation.viewModel.MainViewModel
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
@@ -150,8 +151,8 @@ fun AnimatedTabWithHorizontalPager(
                                     title = it.title,
                                     block_description = it.blockDescription,
                                     progress =
-                                        pupil.getProgress(it.title)
-
+                                        pupil.getProgress(it.title),
+                                    record = pupil.getRecord(it.title)
                                 )
                             )
                         }
@@ -181,7 +182,8 @@ fun AnimatedTabWithHorizontalPager(
                                         ),
                                     title = it.title,
                                     block_description = it.blockDescription,
-                                    progress = pupil.getProgress(it.title)
+                                    progress = pupil.getProgress(it.title),
+                                    record = pupil.getRecord(it.title)
                                 )
                             )
                         }
@@ -209,7 +211,8 @@ fun AnimatedTabWithHorizontalPager(
                                     ),
                                     title = it.title,
                                     block_description = it.blockDescription,
-                                    progress = pupil.getProgress(it.title)
+                                    progress = pupil.getProgress(it.title),
+                                    record = pupil.getRecord(it.title)
                                 )
                             )
                         }
@@ -238,7 +241,8 @@ fun AnimatedTabWithHorizontalPager(
                                     ),
                                     title = it.title,
                                     block_description = it.blockDescription,
-                                    progress = pupil.getProgress(it.title)
+                                    progress = pupil.getProgress(it.title),
+                                    record = pupil.getRecord(it.title)
                                 )
                             )
                         }

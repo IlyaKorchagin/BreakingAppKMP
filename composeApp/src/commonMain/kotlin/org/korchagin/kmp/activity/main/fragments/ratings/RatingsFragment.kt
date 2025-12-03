@@ -7,5 +7,5 @@ import team.platforma.extra_nav.component.fragment_component.Fragment
 object RatingsFragment: Fragment(
     route = "ratings_fragment",
     fragmentBox = { componentNavigator, fragmentNavigator, paddingValues ->
-        RatingsScreen(componentNavigator)}
+        RatingsScreen()}
 )

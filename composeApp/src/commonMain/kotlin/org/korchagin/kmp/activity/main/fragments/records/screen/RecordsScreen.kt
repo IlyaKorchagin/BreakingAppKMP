@@ -1,4 +1,4 @@
-package org.korchagin.kmp.activity.main.fragments.ratings.screen
+package org.korchagin.kmp.activity.main.fragments.records.screen
 
 
 import androidx.compose.foundation.Image
@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.DropdownMenu
@@ -34,27 +33,16 @@ import breakingkmpapp.composeapp.generated.resources.position_down
 import breakingkmpapp.composeapp.generated.resources.position_up
 import coil3.compose.AsyncImage
 import com.korchagin.presentation.constants.AIRFLARE
-import com.korchagin.presentation.constants.ANGLE
-import com.korchagin.presentation.constants.BABY
 import com.korchagin.presentation.constants.BACKSPIN
-import com.korchagin.presentation.constants.BRIDGE
-import com.korchagin.presentation.constants.BUTTERFLY
-import com.korchagin.presentation.constants.CHAIR
 import com.korchagin.presentation.constants.CRICKET
-import com.korchagin.presentation.constants.ELBOW
 import com.korchagin.presentation.constants.ELBOW_AIRFLARE
-import com.korchagin.presentation.constants.FINGERS
 import com.korchagin.presentation.constants.FLARE
-import com.korchagin.presentation.constants.FOLD
 import com.korchagin.presentation.constants.HALO
 import com.korchagin.presentation.constants.HANDSTAND
 import com.korchagin.presentation.constants.HAND_JUMP
 import com.korchagin.presentation.constants.HAND_TOUCH_LEGS
 import com.korchagin.presentation.constants.HAND_WALK
-import com.korchagin.presentation.constants.HEAD
 import com.korchagin.presentation.constants.HEADSPIN
-import com.korchagin.presentation.constants.HEAD_HOLLOWBACK
-import com.korchagin.presentation.constants.HOLLOWBACK
 import com.korchagin.presentation.constants.HORIZONT
 import com.korchagin.presentation.constants.INVERT
 import com.korchagin.presentation.constants.JACKHAMMER
@@ -63,20 +51,12 @@ import com.korchagin.presentation.constants.NINETYNINE
 import com.korchagin.presentation.constants.ONE_HAND
 import com.korchagin.presentation.constants.PRESS_TO_HANDSTAND
 import com.korchagin.presentation.constants.PUSHUPS
-import com.korchagin.presentation.constants.RATING
-import com.korchagin.presentation.constants.SHOULDER
-import com.korchagin.presentation.constants.SHOULDERS
-import com.korchagin.presentation.constants.SITUPS
-import com.korchagin.presentation.constants.SWIPES
-import com.korchagin.presentation.constants.TURTLE
-import com.korchagin.presentation.constants.TURTLEMOVE
-import com.korchagin.presentation.constants.TWINE
 import com.korchagin.presentation.constants.UFO
 import com.korchagin.presentation.constants.WEB
 import com.korchagin.presentation.constants.WINDMILL
 import com.korchagin.presentation.constants.WOLF
 import com.korchagin.presentation.models.PupilModel
-import com.korchagin.presentation.models.getProgress
+import com.korchagin.presentation.models.getRecord
 import com.korchagin.presentation.viewModel.MainViewModel
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -88,7 +68,6 @@ import org.korchagin.kmp.helper.setPositionColor
 import org.korchagin.kmp.helper.setPositionFontSize
 import org.korchagin.kmp.helper.setPositionStar
 import org.korchagin.kmp.theme.colors.AppColors
-import org.korchagin.kmp.uiElements.CustomProgressBar
 import org.korchagin.kmp.uiElements.ShimmerBrush
 import team.platforma.extra_nav.navigator.activity.findNavHost
 import team.platforma.infoteam.theme.typography.FontWeights
@@ -99,30 +78,27 @@ import team.platforma.infoteam.theme.typography.Typography
 
 
 @Composable
-fun RatingsScreen() {
+fun RecordsScreen() {
     val mainViewModel = koinViewModel<MainViewModel>()
     val pupilsList by mainViewModel.pupils.collectAsState(emptyList<PupilModel>())
-    var selected by remember { mutableStateOf(RATING) }
+    var selected by remember { mutableStateOf(WINDMILL) }
 
 
-    val ELEMENTS = listOf( RATING,
+    val ELEMENTS = listOf(
         // Freeze
-        BABY, SHOULDER, TURTLE, HEAD, CHAIR, ELBOW, HEAD_HOLLOWBACK, ONE_HAND, INVERT, HOLLOWBACK,
+        ONE_HAND, INVERT,
 
         // PowerMove
-        BACKSPIN, TURTLEMOVE, SWIPES, HEADSPIN, WINDMILL, MUCHMILL, HALO, FLARE, WOLF, WEB, CRICKET,
+        BACKSPIN, HEADSPIN, WINDMILL, MUCHMILL, HALO, FLARE, WOLF, WEB, CRICKET,
         AIRFLARE, NINETYNINE, UFO, ELBOW_AIRFLARE, JACKHAMMER,
 
         //OFP
-        ANGLE, BRIDGE, FINGERS, PUSHUPS, SITUPS, HANDSTAND, HAND_JUMP, HAND_TOUCH_LEGS, HAND_WALK,
+        PUSHUPS, HANDSTAND, HAND_JUMP, HAND_TOUCH_LEGS, HAND_WALK,
         HORIZONT, PRESS_TO_HANDSTAND,
-
-        // Stretch
-        TWINE, BUTTERFLY, FOLD, SHOULDERS
     )
 
     val sortedPupils: List<PupilModel> = remember(pupilsList, selected) {
-        pupilsList.sortedByDescending { pupil: PupilModel -> pupil.getProgress(selected) }
+        pupilsList.sortedByDescending { pupil: PupilModel -> pupil.getRecord(selected) }
     }
 
 
@@ -207,21 +183,12 @@ fun NewRatingTable(
                         color = Color.Black,
                     )
                     Spacer(modifier = Modifier.height(5.dp))
-                    CustomProgressBar(
-                        Modifier
-                            .clip(shape = RoundedCornerShape(5.dp))
-                            .height(25.dp)
-                            .border(
-                                width = 1.dp,
-                                color = Color.Gray,
-                                shape = RoundedCornerShape(5.dp)
-                            ),
-                        Color.White,
-                        Brush.horizontalGradient(listOf(Color.White, AppColors.colors().progress)),
-                        pupil.getProgress(selected).toInt(),
-                        true
-                    )
 
+                    Text(
+                        text = "Рекорд = ${pupil.getRecord(selected)}",
+                        style = Typography.textLg(FontWeights.SemiBold)
+                            .copy(color = Color.Black)
+                    )
                     Spacer(modifier = Modifier.height(5.dp))
                     /*Row(
                         modifier = Modifier.fillMaxSize(),
@@ -384,7 +351,7 @@ fun RatingTable(
                     Box(
                         modifier = Modifier.width(100.dp), contentAlignment = Alignment.Center
                     ) {
-                        Text(text = "${pupil.getProgress(selected).toInt()}", fontSize = fontSize.sp, color = color)
+                        Text(text = "${pupil.getRecord(selected)}", fontSize = fontSize.sp, color = color)
                     }
                 }
             }

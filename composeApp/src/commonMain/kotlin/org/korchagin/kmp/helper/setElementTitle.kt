@@ -30,6 +30,7 @@ import com.korchagin.presentation.constants.NINETYNINE
 import com.korchagin.presentation.constants.ONE_HAND
 import com.korchagin.presentation.constants.PRESS_TO_HANDSTAND
 import com.korchagin.presentation.constants.PUSHUPS
+import com.korchagin.presentation.constants.RATING
 import com.korchagin.presentation.constants.SHOULDER
 import com.korchagin.presentation.constants.SHOULDERS
 import com.korchagin.presentation.constants.SITUPS
@@ -44,6 +45,7 @@ import com.korchagin.presentation.constants.WOLF
 
 fun setElementTitle(elementTitle: String): String {
     return when (elementTitle) {
+        RATING -> "Общий рейтинг"
         BABY -> "Стойка ребёнка"
         SHOULDER -> "Стойка на плече"
         HEAD -> "Стойка на голове"

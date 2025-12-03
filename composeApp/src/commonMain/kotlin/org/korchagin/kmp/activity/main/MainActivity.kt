@@ -33,6 +33,7 @@ import org.korchagin.kmp.ScreenSizeHandler.getScreenSize
 import org.korchagin.kmp.activity.main.components.BboysComponent
 import org.korchagin.kmp.activity.main.components.HomeComponent
 import org.korchagin.kmp.activity.main.components.RatingsComponent
+import org.korchagin.kmp.activity.main.components.RecordsComponent
 import org.korchagin.kmp.activity.main.fragments.ratings.topBar.TopBarRatingActions
 import org.korchagin.kmp.activity.main.topBarComponent.ProfileIcon
 import team.platforma.extra_nav.component.activity_component.Activity
@@ -45,7 +46,7 @@ import team.platforma.extra_nav.ui.SimpleNavigationRail
 object MainActivity : Activity(
     route = "main_activity",
     components = listOf(
-        HomeComponent, RatingsComponent, BboysComponent
+        HomeComponent, RatingsComponent, RecordsComponent, BboysComponent
     ),
     activityScaffold = { components ->
 

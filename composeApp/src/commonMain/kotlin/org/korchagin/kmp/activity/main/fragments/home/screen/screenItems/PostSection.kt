@@ -19,7 +19,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -42,18 +41,20 @@ import com.korchagin.presentation.models.Elements
 import com.korchagin.presentation.models.PupilModel
 import com.korchagin.presentation.models.getProgress
 import com.korchagin.presentation.models.setProgress
+import com.korchagin.presentation.models.setRecord
 import com.korchagin.presentation.viewModel.MainViewModel
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
+import org.korchagin.kmp.activity.battle.fragments.screen.ProgressSlider
 import org.korchagin.kmp.activity.elementDetails.ElementDetailsActivity
 import org.korchagin.kmp.helper.setElementColor
 import org.korchagin.kmp.helper.setElementTitle
 import org.korchagin.kmp.theme.colors.AppColors
 import org.korchagin.kmp.uiElements.CustomProgressBar
-import org.korchagin.kmp.uiElements.CustomProgressBarEdit
 import org.korchagin.kmp.uiElements.ShimmerBrush
 import team.platforma.extra_nav.navigator.activity.findNavHost
+import team.platforma.infoteam.theme.typography.FontWeights
 
 @OptIn(KoinExperimentalAPI::class)
 @ExperimentalFoundationApi
@@ -74,6 +75,7 @@ fun PostSection(
     ) {
         itemsIndexed(posts) { index, value ->
             var progress by remember { mutableStateOf(value.progress ?: 0f) }
+            var record by remember { mutableStateOf(value.record) }
             val startBackgroundColor = Color.White
             val endBackgroundColor = setElementColor(value.title)
             Row(
@@ -133,30 +135,17 @@ fun PostSection(
                     modifier = Modifier
                         .fillMaxWidth()
                 ) {
+                    // --- Название элемента --->
                     Text(
                         text = setElementTitle(value.title),
                         color = Color.Black,
                         letterSpacing = 1.sp
                     )
-                    Spacer(modifier = Modifier.height(5.dp))
+                    // <--- Название элемента ---
 
-                    if(!editMode){
-                    CustomProgressBar(
-                        Modifier
-                            .clip(shape = RoundedCornerShape(5.dp))
-                            .height(25.dp)
-                            .border(
-                                width = 1.dp,
-                                color = Color.Gray,
-                                shape = RoundedCornerShape(5.dp)
-                            ),
-                        Color.White,
-                        Brush.horizontalGradient(listOf(Color.White, AppColors.colors().progress)),
-                        progress.toInt(),
-                        true
-                    )}
-                    else{
-                        CustomProgressBarEdit(
+                    if (!editMode) {
+                        Spacer(modifier = Modifier.height(5.dp))
+                        CustomProgressBar(
                             Modifier
                                 .clip(shape = RoundedCornerShape(5.dp))
                                 .height(25.dp)
@@ -166,32 +155,51 @@ fun PostSection(
                                     shape = RoundedCornerShape(5.dp)
                                 ),
                             Color.White,
-                            Brush.horizontalGradient(listOf(Color.White, AppColors.colors().progress)),
-                            progress.toInt()
+                            Brush.horizontalGradient(
+                                listOf(
+                                    Color.White,
+                                    AppColors.colors().progress
+                                )
+                            ),
+                            progress.toInt(),
+                            true
                         )
+                    } else {
+                        Spacer(modifier = Modifier.height(5.dp))
+                        ProgressSlider(progress.toInt(), {
+                            progress = it.toFloat()
+                            pupil.setProgress(value.title, progress.toInt())
+                            mainViewModel.updateClickedPupil(pupil)
+                        }, "")
                     }
 
-                    Spacer(modifier = Modifier.height(5.dp))
-                    if (editMode) {
-                        Slider(
-                            modifier = Modifier.padding(12.dp),
-                            value = progress/100f,
-                            onValueChange = {
-                                println("progress = $it")
-                                progress = it*100
-                                pupil.setProgress(value.title, progress.toInt())
-                                mainViewModel.updateClickedPupil(pupil)
-                            }
-                        )
-                    }
-                    if (!editMode) {
+                    if (!editMode && value.icon == LOCK) {
+                        Spacer(modifier = Modifier.height(5.dp))
                         Text(
                             text = value.block_description,
                             color = Color.Black,
                             fontSize = 12.sp
                         )
                     }
+                    if (value.record != 0) {
+                        Spacer(modifier = Modifier.height(5.dp))
+                        Row(modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically) {
+                            Text(
+                                text = "Рекорд = $record",
+                                style = team.platforma.infoteam.theme.typography.Typography.textLg(FontWeights.SemiBold)
+                                    .copy(color = Color.Black)
+                            )
+                            ProgressSlider(record, {
+                                record = it
+                                pupil.setRecord(value.title, record)
+                                mainViewModel.updateClickedPupil(pupil)
+                            }, "")
+                        }
+                    }
                 }
+
 
             }
 
