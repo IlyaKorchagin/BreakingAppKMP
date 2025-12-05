@@ -9,12 +9,14 @@ import com.korchagin.presentation.models.BboyModel
 import com.korchagin.presentation.models.CoachModel
 import com.korchagin.presentation.models.ElementModel
 import com.korchagin.presentation.models.EventModel
+import com.korchagin.presentation.models.EventParticipants
 import com.korchagin.presentation.models.PupilModel
 import com.korchagin.presentation.models.toBboyModel
 import com.korchagin.presentation.models.toCoachModel
 import com.korchagin.presentation.models.toElementModel
 import com.korchagin.presentation.models.toEventDomainModel
 import com.korchagin.presentation.models.toEventModel
+import com.korchagin.presentation.models.toEventParticipants
 import com.korchagin.presentation.models.toPupilDomainModel
 import com.korchagin.presentation.models.toPupilModel
 import kotlinx.coroutines.CoroutineScope
@@ -57,6 +59,11 @@ class MainViewModel(
 
     private val _bboysList = MutableStateFlow<List<BboyModel>>(emptyList())
     val bboysList: StateFlow<List<BboyModel>> = _bboysList
+
+
+    private val _participants = MutableStateFlow<List<EventParticipants>>(emptyList())
+    val participants: StateFlow<List<EventParticipants>> = _participants
+
 
     private val _currentPupil = MutableStateFlow<PupilModel?>(null)
     val currentPupil: StateFlow<PupilModel?> = _currentPupil
@@ -241,6 +248,21 @@ class MainViewModel(
                     event.toEventDomainModel()
                 )
             }  // Преобразуй в нужный формат
+        }
+    }
+
+    fun loadParticipants(event: EventModel) {
+        singletonMainScope.launch {
+            try {
+                // Здесь мы вызываем suspend функцию, которая возвращает List
+
+                    mainUseCase.getEventParticipants.getEventParticipants(event.toEventDomainModel()).collect { list ->
+
+                _participants.value = list.map { it.toEventParticipants() }
+                println("LOG: loadParticipants list: $list")}
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 

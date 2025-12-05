@@ -10,6 +10,7 @@ data class UserEntry(
     var email: String,
     var avatar: String,
     var born: String,
+    var breaking_start: String,
     var country: String,
     var city: String,
     var coach: String,

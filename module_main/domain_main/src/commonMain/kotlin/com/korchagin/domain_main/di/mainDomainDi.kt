@@ -5,6 +5,7 @@ import com.korchagin.domain_main.useCase.CreateNewPupil
 import com.korchagin.domain_main.useCase.GetAllPupils
 import com.korchagin.domain_main.useCase.GetBboysList
 import com.korchagin.domain_main.useCase.GetCoaches
+import com.korchagin.domain_main.useCase.GetEventParticipants
 import com.korchagin.domain_main.useCase.GetEvents
 import com.korchagin.domain_main.useCase.GetFreezeElements
 import com.korchagin.domain_main.useCase.GetOfpElements
@@ -33,7 +34,8 @@ val mainDomainModule = module {
             registerToEvent = RegisterToEvent(repository = get()),
             getEvents = GetEvents(repository = get()),
             unregisterFromEvent = UnregisterFromEvent(repository = get()),
-            getCoaches = GetCoaches(repository = get())
+            getCoaches = GetCoaches(repository = get()),
+            getEventParticipants = GetEventParticipants(repository = get())
         )
     }
 }

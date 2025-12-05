@@ -4,6 +4,7 @@ import com.korchagin.domain_main.useCase.CreateNewPupil
 import com.korchagin.domain_main.useCase.GetAllPupils
 import com.korchagin.domain_main.useCase.GetBboysList
 import com.korchagin.domain_main.useCase.GetCoaches
+import com.korchagin.domain_main.useCase.GetEventParticipants
 import com.korchagin.domain_main.useCase.GetEvents
 import com.korchagin.domain_main.useCase.GetFreezeElements
 import com.korchagin.domain_main.useCase.GetOfpElements
@@ -30,5 +31,6 @@ data class MainUseCase(
     val registerToEvent: RegisterToEvent,
     val getEvents: GetEvents,
     val unregisterFromEvent: UnregisterFromEvent,
-    val getCoaches: GetCoaches
+    val getCoaches: GetCoaches,
+    val getEventParticipants: GetEventParticipants
 )

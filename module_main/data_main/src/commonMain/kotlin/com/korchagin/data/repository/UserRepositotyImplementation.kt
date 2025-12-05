@@ -5,6 +5,7 @@ import com.korchagin.data.models.BboyEntry
 import com.korchagin.data.models.CoachEntry
 import com.korchagin.data.models.ElementEntry
 import com.korchagin.data.models.EventEntry
+import com.korchagin.data.models.EventParticipantsEntry
 import com.korchagin.data.models.UserEntry
 import com.korchagin.data.utils.toFirebaseData
 import com.korchagin.data.utils.toLocalDateOrNull
@@ -15,6 +16,7 @@ import dev.gitlive.firebase.storage.storage
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.onUpload
+import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
@@ -24,6 +26,7 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.datetime.Clock
@@ -201,6 +204,7 @@ class UserRepositotyImplementation(
                 name = name,
                 avatar = "",
                 born = "",
+                breaking_start = "",
                 country = "",
                 coach = coach.joinToString(", "),
                 city = "",
@@ -487,6 +491,19 @@ class UserRepositotyImplementation(
             false
         }
     }
+
+    override suspend fun getEventParticipants (event: EventEntry): Flow<List<EventParticipantsEntry>> = flow {
+        try {
+            val participants: List<EventParticipantsEntry> = client.get(event.regUrl).body()
+            println("load participants - $participants")
+            emit(participants)
+        } catch (e: Exception) {
+            println("Ошибка при загрузке участников: $e")
+            emit(emptyList()) // возвращаем пустой список при ошибке
+        }
+    }
+
+
 
 
 

@@ -164,6 +164,25 @@ fun PostSection(
                             progress.toInt(),
                             true
                         )
+                        if (value.icon == LOCK) {
+                            Spacer(modifier = Modifier.height(5.dp))
+                            Text(
+                                text = value.block_description,
+                                color = Color.Black,
+                                fontSize = 12.sp
+                            )
+                        }
+                        if (value.record != 0) {
+                            Spacer(modifier = Modifier.height(5.dp))
+
+                            Text(
+                                text = "Рекорд = $record",
+                                style = team.platforma.infoteam.theme.typography.Typography.textLg(
+                                    FontWeights.SemiBold
+                                )
+                                    .copy(color = Color.Black)
+                            )
+                        }
                     } else {
                         Spacer(modifier = Modifier.height(5.dp))
                         ProgressSlider(progress.toInt(), {
@@ -171,24 +190,17 @@ fun PostSection(
                             pupil.setProgress(value.title, progress.toInt())
                             mainViewModel.updateClickedPupil(pupil)
                         }, "")
-                    }
-
-                    if (!editMode && value.icon == LOCK) {
                         Spacer(modifier = Modifier.height(5.dp))
-                        Text(
-                            text = value.block_description,
-                            color = Color.Black,
-                            fontSize = 12.sp
-                        )
-                    }
-                    if (value.record != 0) {
-                        Spacer(modifier = Modifier.height(5.dp))
-                        Row(modifier.fillMaxWidth(),
+                        Row(
+                            modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically) {
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
                             Text(
                                 text = "Рекорд = $record",
-                                style = team.platforma.infoteam.theme.typography.Typography.textLg(FontWeights.SemiBold)
+                                style = team.platforma.infoteam.theme.typography.Typography.textLg(
+                                    FontWeights.SemiBold
+                                )
                                     .copy(color = Color.Black)
                             )
                             ProgressSlider(record, {

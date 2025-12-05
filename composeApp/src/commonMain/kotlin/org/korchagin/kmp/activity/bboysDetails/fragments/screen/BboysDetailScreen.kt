@@ -158,7 +158,7 @@ fun BboysDetailScreen(
                         }
                         StyledTextScreen(
                             title = "Возраст: ",
-                            description = if (bboy.born.isNotEmpty()) calculateAge(bboy.born).toString()
+                            description = if (bboy.born.isNotEmpty()) calculateAge(bboy.born, false)
                             else "не указано"
                         )
                         StyledTextScreen(title = "Дата рождения: ", description = bboy.born)

@@ -20,7 +20,7 @@ import kotlinx.datetime.toLocalDateTime
 @Composable
 fun StyledTextScreen(title: String, description: String) {
     val styledText = buildAnnotatedString {
-        withStyle(style = SpanStyle( fontSize = 11.sp)) {
+        withStyle(style = SpanStyle(fontSize = 11.sp)) {
             append(title)
         }
         withStyle(style = SpanStyle(fontWeight = FontWeight.Bold, fontSize = 14.sp)) {
@@ -38,7 +38,7 @@ fun StyledTextScreen(title: String, description: String) {
 }
 
 
-fun calculateAge(dateOfBirthString: String): Int {
+fun calculateAge(dateOfBirthString: String, isBreakingStart: Boolean): String {
     val months = mapOf(
         "января" to 1, "февраля" to 2, "марта" to 3,
         "апреля" to 4, "мая" to 5, "июня" to 6,
@@ -64,5 +64,21 @@ fun calculateAge(dateOfBirthString: String): Int {
         age--
     }
 
-    return age
+    return if (age != 0) {
+        if (isBreakingStart) "уже $age ${declensionOfYears(age)}"
+        else "$age ${declensionOfYears(age)}"
+    } else "делаю первые шаги"
 }
+
+fun declensionOfYears(age: Int): String {
+    val lastDigit = age % 10
+    val lastTwoDigits = age % 100
+
+    return when {
+        lastTwoDigits in 11..14 -> "лет"
+        lastDigit == 1 -> "год"
+        lastDigit in 2..4 -> "года"
+        else -> "лет"
+    }
+}
+

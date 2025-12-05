@@ -4,6 +4,7 @@ import com.korchagin.data.models.BboyEntry
 import com.korchagin.data.models.CoachEntry
 import com.korchagin.data.models.ElementEntry
 import com.korchagin.data.models.EventEntry
+import com.korchagin.data.models.EventParticipantsEntry
 import com.korchagin.data.models.UserEntry
 import com.korchagin.module_common.Response
 import kotlinx.coroutines.flow.Flow
@@ -29,6 +30,9 @@ interface UserRepository {
     suspend fun registerToEvent(pupil: UserEntry, event: EventEntry): Boolean
 
     suspend fun unregisterFromEvent(pupil: UserEntry, event: EventEntry): Boolean
+
+    suspend fun getEventParticipants(event: EventEntry): Flow<List<EventParticipantsEntry>>
+
 
 }
 

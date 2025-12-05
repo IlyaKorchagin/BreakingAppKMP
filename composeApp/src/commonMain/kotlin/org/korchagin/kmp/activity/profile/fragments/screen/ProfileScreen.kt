@@ -245,12 +245,13 @@ fun ProfileScreen(componentNavigator: ComponentNavigator, fragmentNavigator: Fra
                         }
                         StyledTextScreen(
                             title = "Возраст: ",
-                            description = if (pupil.born.isNotEmpty()) calculateAge(pupil.born).toString()
+                            description = if (pupil.born.isNotEmpty()) calculateAge(pupil.born, false)
                             else "не указано"
                         )
-                        StyledTextScreen(title = "Дата рождения: ", description = pupil.born)
-                        StyledTextScreen(title = "Страна: ", description = pupil.country)
-                        StyledTextScreen(title = "Город: ", description = pupil.city)
+                        if(!pupil.born.isEmpty()) StyledTextScreen(title = "Дата рождения: ", description = pupil.born)
+                        if(!pupil.breakingStart.isEmpty()) StyledTextScreen(title = "В брейке: ", description = calculateAge(pupil.breakingStart, true))
+                        if(!pupil.country.isEmpty()) StyledTextScreen(title = "Страна: ", description = pupil.country)
+                        if(!pupil.city.isEmpty()) StyledTextScreen(title = "Город: ", description = pupil.city)
                         if(pupil.role == "user") StyledTextScreen(title = "Тренер: ", description = pupil.coach)
                     }
 
