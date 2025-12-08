@@ -397,6 +397,10 @@ fun PupilModel.getProgress(elementTitle: String): Float {
         PUSHUPS -> pushUps.toFloat()
         SITUPS -> sitUps.toFloat()
         HANDSTAND -> handstand.toFloat()
+        HAND_WALK -> handWalk.toFloat()
+        HAND_JUMP -> handJump.toFloat()
+        HAND_TOUCH_LEGS -> handTouchLegs.toFloat()
+
         HORIZONT -> horizont.toFloat()
         PRESS_TO_HANDSTAND -> pressUpHandstand.toFloat()
 
@@ -444,6 +448,10 @@ fun PupilModel.getRecord(elementTitle: String): Int {
         PUSHUPS -> pushUpsRecord
  //       SITUPS -> sitUps.toFloat()
         HANDSTAND -> handstandRecord
+        HAND_WALK -> handWalkRecord
+        HAND_JUMP -> handJumpRecord
+        HAND_TOUCH_LEGS -> handTouchLegsRecord
+
         HORIZONT -> horizontRecord
         PRESS_TO_HANDSTAND -> pressUpHandstandRecord
 
@@ -492,6 +500,9 @@ fun PupilModel.setProgress(elementTitle: String, progress: Int) {
         PUSHUPS -> pushUps = progress
         SITUPS -> sitUps = progress
         HANDSTAND -> handstand = progress
+        HAND_WALK -> handWalk = progress
+        HAND_JUMP -> handJump = progress
+        HAND_TOUCH_LEGS -> handTouchLegs = progress
         HORIZONT -> horizont = progress
         PRESS_TO_HANDSTAND -> pressUpHandstand = progress
 
@@ -539,6 +550,9 @@ fun PupilModel.setRecord(elementTitle: String, recordCount: Int) {
         PUSHUPS -> pushUpsRecord = recordCount
  //       SITUPS -> sitUps = recordCount
         HANDSTAND -> handstandRecord = recordCount
+        HAND_WALK -> handWalkRecord = recordCount
+        HAND_JUMP -> handJumpRecord = recordCount
+        HAND_TOUCH_LEGS -> handTouchLegsRecord = recordCount
         HORIZONT -> horizontRecord = recordCount
         PRESS_TO_HANDSTAND -> pressUpHandstandRecord = recordCount
     }
