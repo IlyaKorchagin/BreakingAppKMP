@@ -1,5 +1,5 @@
 package com.korchagin.presentation.models
 
 enum class ElementsTab {
-    FREEZE, POWER, OFP, STRETCH
+    FREEZE, POWER, OFP, STRETCH, FOOT
 }

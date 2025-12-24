@@ -7,6 +7,7 @@ import com.korchagin.domain_main.useCase.GetBboysList
 import com.korchagin.domain_main.useCase.GetCoaches
 import com.korchagin.domain_main.useCase.GetEventParticipants
 import com.korchagin.domain_main.useCase.GetEvents
+import com.korchagin.domain_main.useCase.GetFootWorkElements
 import com.korchagin.domain_main.useCase.GetFreezeElements
 import com.korchagin.domain_main.useCase.GetOfpElements
 import com.korchagin.domain_main.useCase.GetPowerElements
@@ -14,6 +15,7 @@ import com.korchagin.domain_main.useCase.GetPupilById
 import com.korchagin.domain_main.useCase.GetStretchElements
 import com.korchagin.domain_main.useCase.RegisterToEvent
 import com.korchagin.domain_main.useCase.SavePupil
+import com.korchagin.domain_main.useCase.SetBattleResult
 import com.korchagin.domain_main.useCase.UnregisterFromEvent
 import com.korchagin.domain_main.useCase.UploadAvatar
 import org.koin.dsl.module
@@ -35,7 +37,9 @@ val mainDomainModule = module {
             getEvents = GetEvents(repository = get()),
             unregisterFromEvent = UnregisterFromEvent(repository = get()),
             getCoaches = GetCoaches(repository = get()),
-            getEventParticipants = GetEventParticipants(repository = get())
+            getEventParticipants = GetEventParticipants(repository = get()),
+            setBattleResults = SetBattleResult(repository = get()),
+            getFootWorkElements = GetFootWorkElements(repository = get())
         )
     }
 }

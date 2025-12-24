@@ -18,6 +18,7 @@ interface UserRepository {
     suspend fun getPowerElements(): Flow<List<ElementEntry>>
     suspend fun getOfpElements(): Flow<List<ElementEntry>>
     suspend fun getStretchElements(): Flow<List<ElementEntry>>
+    suspend fun getFootWorkElements(): Flow<List<ElementEntry>>
     suspend fun getBboysList(): Flow<List<BboyEntry>>
     suspend fun createNewPupil(email: String, name: String, coach: List<String>)
 
@@ -32,6 +33,8 @@ interface UserRepository {
     suspend fun unregisterFromEvent(pupil: UserEntry, event: EventEntry): Boolean
 
     suspend fun getEventParticipants(event: EventEntry): Flow<List<EventParticipantsEntry>>
+
+    suspend fun setBattleResult(paricipants: List<EventParticipantsEntry>, event: EventEntry): Boolean
 
 
 }

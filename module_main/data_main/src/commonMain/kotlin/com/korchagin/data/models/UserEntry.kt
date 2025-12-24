@@ -135,6 +135,7 @@ data class UserEntry(
     var sit_ups: Int,
     var press_up_handstand: Int,
     var press_up_handstand_record: Int,
+    var turtle_to_handstand: Int,
 
     //<----------- OFP <-------------
 
@@ -146,4 +147,21 @@ data class UserEntry(
     var twine: Int,
 
     //<-------- stretching <-------------
+
+    //--------> records ------------>
+
+    var record_six_steps: Int,
+    var record_four_steps: Int,
+    var record_three_steps: Int,
+    var record_russian_steps: Int,
+    var record_six_and_three_steps: Int,
+    var record_six_and_pretzel: Int,
+    var record_six_and_russian_steps: Int,
+    var record_three_one_leg_steps: Int,
+    var record_six_and_coffee_steps: Int,
+    var record_turtle_to_handstand: Int
+
+    //<-------- records <-------------
+
+
 )

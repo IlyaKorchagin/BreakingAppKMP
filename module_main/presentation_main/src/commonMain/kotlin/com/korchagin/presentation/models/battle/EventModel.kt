@@ -1,4 +1,4 @@
-package com.korchagin.presentation.models
+package com.korchagin.presentation.models.battle
 
 import com.korchagin.domain_main.models.EventDomainModel
 

@@ -46,6 +46,17 @@ const val HAND_WALK = "HandWalk"
 const val HORIZONT = "Horizont"
 const val PRESS_TO_HANDSTAND = "PressToHandstand"
 
+const val SIX_STEPS = "SixSteps"
+const val FOUR_STEPS = "FourSteps"
+const val THREE_STEPS = "ThreeSteps"
+const val RUSSIAN_STEPS = "RussianSteps"
+const val SIX_TO_THREE_STEPS = "SixToThreeSteps"
+const val SIX_TO_PRETZEL = "SixToPretzel"
+const val SIX_TO_RUSSIAN_STEPS = "SixToRussianSteps"
+const val THREE_ONE_LEG_STEPS = "ThreeOneLegSteps"
+const val SIX_TO_COFFEE_STEPS = "SixToCoffeeSteps"
+const val TURTLE_TO_HANDSTAND = "PressTurtleToHandstand"
+
 // Stretch
 const val TWINE = "Twine"
 const val BUTTERFLY = "Butterfly"

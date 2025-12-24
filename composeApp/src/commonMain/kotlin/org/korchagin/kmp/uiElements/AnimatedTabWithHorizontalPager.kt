@@ -55,6 +55,7 @@ fun AnimatedTabWithHorizontalPager(
     power: List<ElementModel>,
     ofp: List<ElementModel>,
     stretch: List<ElementModel>,
+    footWork: List<ElementModel>,
     pupil: PupilModel,
     editMode: Boolean = false
 ) {
@@ -253,6 +254,35 @@ fun AnimatedTabWithHorizontalPager(
                             modifier = Modifier.fillMaxWidth(),
                             pupil = pupil,
                             editMode = editMode
+                        )
+                    }
+
+                    ElementsTab.FOOT.ordinal -> {
+                        val posts: MutableList<Elements> =
+                            emptyList<Elements>().toMutableList()
+
+                        footWork.forEach {
+                            posts.add(
+                                Elements(
+                                    icon = setElementImage(
+                                        elementTitle = it.title,
+                                        currentPupil = pupil,
+                                        info = it
+                                    ),
+                                    title = it.title,
+                                    block_description = "",
+                                    progress = 0.0f,
+                                    record = pupil.getRecord(it.title)
+                                )
+                            )
+                        }
+                        PostSection(
+                            posts = posts,
+                            stateElement = footWork,
+                            modifier = Modifier.fillMaxWidth(),
+                            pupil = pupil,
+                            editMode = editMode,
+                            footWork = true
                         )
                     }
                 }

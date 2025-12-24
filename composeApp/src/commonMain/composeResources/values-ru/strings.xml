@@ -7,6 +7,7 @@
     <string name="profile_title">Профиль</string>
     <string name="events_title">Соревнования</string>
     <string name="battle_title">Баттл</string>
+    <string name="selection_title">Отбор</string>
 
     <string name="ratings_freeze_title">Рейтинг по стойкам: </string>
     <string name="ratings_power_title">Рейтинг по элементам: </string>
@@ -14,7 +15,8 @@
     <string name="ratings_stretch_title">Рейтинг по растяжке: </string>
 
     <string name="freeze_title">Стойки</string>
-    <string name="power_move_title">Вращения</string>
-    <string name="ofp_title">Подкачка</string>
+    <string name="power_move_title">Мув</string>
+    <string name="ofp_title">Сила</string>
     <string name="stretch_title">Растяжка</string>
+    <string name="footwork_title">Футы</string>
 </resources>

@@ -28,7 +28,9 @@ import com.korchagin.presentation.viewModel.MainViewModel
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
+import org.korchagin.kmp.activity.battleSelection.BattleSelectionActivity
 import org.korchagin.kmp.theme.colors.AppColors
+import team.platforma.extra_nav.navigator.activity.findNavHost
 import team.platforma.extra_nav.navigator.component.api.ComponentNavigator
 
 
@@ -82,7 +84,9 @@ fun EventsScreen(componentNavigator: ComponentNavigator) {
                     }
 
                     Button(onClick = {
-                        mainViewModel.loadParticipants(event)
+                        mainViewModel.loadParticipants(event, onSuccess = {
+                            findNavHost().navigateToActivity(BattleSelectionActivity)
+                        })
                     }) {
                         Text(text = "Load participants")
                     }

@@ -11,13 +11,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import breakingkmpapp.composeapp.generated.resources.Res
 import breakingkmpapp.composeapp.generated.resources.airflare
 import breakingkmpapp.composeapp.generated.resources.baby
+import breakingkmpapp.composeapp.generated.resources.footwork
+import breakingkmpapp.composeapp.generated.resources.footwork_title
 import breakingkmpapp.composeapp.generated.resources.freeze_title
 import breakingkmpapp.composeapp.generated.resources.ofp_title
 import breakingkmpapp.composeapp.generated.resources.power_move_title
@@ -50,11 +51,14 @@ fun HomeScreen(componentNavigator: ComponentNavigator) {
     val powerElements by mainViewModel.powerElements.collectAsState(null)
     val ofpElements by mainViewModel.ofpElements.collectAsState(null)
     val stretchElements by mainViewModel.stretchElements.collectAsState(null)
+    val footWorkElements by mainViewModel.footWorkElements.collectAsState(null)
     val pupil = currentPupil ?: return
     val freezes = freezeElements ?: return
     val powerMoves = powerElements ?: return
     val ofp = ofpElements ?: return
     val stretch = stretchElements ?: return
+    val footWork = footWorkElements ?: return
+
     var selectedTabIndex by remember {
         mutableIntStateOf(ElementsTab.FREEZE.ordinal)
     }
@@ -73,10 +77,13 @@ fun HomeScreen(componentNavigator: ComponentNavigator) {
         ),
         ImageWithText(
             image = painterResource(Res.drawable.twin),
-            text = stringResource(
-                Res.string.stretch_title
-            ),
+            text = stringResource(Res.string.stretch_title),
+        ),
+        ImageWithText(
+            image = painterResource(Res.drawable.footwork),
+            text = stringResource(Res.string.footwork_title),
         )
+
     )
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -98,6 +105,7 @@ fun HomeScreen(componentNavigator: ComponentNavigator) {
                 power = powerMoves,
                 ofp = ofp,
                 stretch = stretch,
+                footWork = footWork,
                 pupil = pupil,
                 //   navController = navController,
                 tabs = imageWithTexts,

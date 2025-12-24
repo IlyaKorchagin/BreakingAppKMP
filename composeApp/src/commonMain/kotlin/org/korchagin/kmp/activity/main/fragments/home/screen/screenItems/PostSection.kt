@@ -65,6 +65,7 @@ fun PostSection(
     modifier: Modifier = Modifier,
     pupil: PupilModel,
     editMode: Boolean = false,
+    footWork: Boolean = false,
 ) {
     val mainViewModel = koinViewModel<MainViewModel>()
     val showShimmer = remember { mutableStateOf(true) }
@@ -114,18 +115,20 @@ fun PostSection(
                         )
                         .border(3.dp, borderColor, CircleShape)
                         .clickable {
-                            scope.launch {
-                                mainViewModel.addElement(stateElement[index])
-                                mainViewModel.addElementRating(
-                                    pupil.getProgress(
-                                        stateElement[index].title
-                                    ).toInt()
-                                )
+                            if (!footWork) {
+                                scope.launch {
+                                    mainViewModel.addElement(stateElement[index])
+                                    mainViewModel.addElementRating(
+                                        pupil.getProgress(
+                                            stateElement[index].title
+                                        ).toInt()
+                                    )
 
+                                }
+                                if (value.icon != LOCK) findNavHost().navigateToActivity(
+                                    ElementDetailsActivity
+                                )
                             }
-                            if (value.icon != LOCK) findNavHost().navigateToActivity(
-                                ElementDetailsActivity
-                            )
                         },
                     onSuccess = { showShimmer.value = false },
                     contentScale = ContentScale.Crop
@@ -144,26 +147,28 @@ fun PostSection(
                     // <--- Название элемента ---
 
                     if (!editMode) {
-                        Spacer(modifier = Modifier.height(5.dp))
-                        CustomProgressBar(
-                            Modifier
-                                .clip(shape = RoundedCornerShape(5.dp))
-                                .height(25.dp)
-                                .border(
-                                    width = 1.dp,
-                                    color = Color.Gray,
-                                    shape = RoundedCornerShape(5.dp)
+                        if (!footWork) {
+                            Spacer(modifier = Modifier.height(5.dp))
+                            CustomProgressBar(
+                                Modifier
+                                    .clip(shape = RoundedCornerShape(5.dp))
+                                    .height(25.dp)
+                                    .border(
+                                        width = 1.dp,
+                                        color = Color.Gray,
+                                        shape = RoundedCornerShape(5.dp)
+                                    ),
+                                Color.White,
+                                Brush.horizontalGradient(
+                                    listOf(
+                                        Color.White,
+                                        AppColors.colors().progress
+                                    )
                                 ),
-                            Color.White,
-                            Brush.horizontalGradient(
-                                listOf(
-                                    Color.White,
-                                    AppColors.colors().progress
-                                )
-                            ),
-                            progress.toInt(),
-                            true
-                        )
+                                progress.toInt(),
+                                true
+                            )
+                        }
                         if (value.icon == LOCK) {
                             Spacer(modifier = Modifier.height(5.dp))
                             Text(
@@ -184,12 +189,14 @@ fun PostSection(
                             )
                         }
                     } else {
-                        Spacer(modifier = Modifier.height(5.dp))
-                        ProgressSlider(progress.toInt(), {
-                            progress = it.toFloat()
-                            pupil.setProgress(value.title, progress.toInt())
-                            mainViewModel.updateClickedPupil(pupil)
-                        }, "")
+                        if (!footWork) {
+                            Spacer(modifier = Modifier.height(5.dp))
+                            ProgressSlider(progress.toInt(), {
+                                progress = it.toFloat()
+                                pupil.setProgress(value.title, progress.toInt())
+                                mainViewModel.updateClickedPupil(pupil)
+                            }, "")
+                        }
                         Spacer(modifier = Modifier.height(5.dp))
                         Row(
                             modifier.fillMaxWidth(),

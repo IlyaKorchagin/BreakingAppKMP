@@ -122,6 +122,8 @@ kotlin {
             implementation(project(":module_auth:presentation_auth"))
             implementation(project(":module_auth:domain_auth"))
             implementation(project(":module_auth:data_auth"))
+            implementation(project(":module_common"))
+
 
 
         }

@@ -136,6 +136,7 @@ data class PupilDomainModel(
     var sit_ups: Int,
     var pressUpHandstand: Int,
     var pressUpHandstandRecord: Int,
+    var turtleToHandstand: Int,
 
     //<----------- OFP <-------------
 
@@ -147,6 +148,21 @@ data class PupilDomainModel(
     var twine: Int,
 
     //<-------- stretching <-------------
+
+    //--------> records ------------>
+
+    var recordSixSteps: Int,
+    var recordFourSteps: Int,
+    var recordThreeSteps: Int,
+    var recordRussianSteps: Int,
+    var recordSixToThreeSteps: Int,
+    var recordSixToPretzel: Int,
+    var recordSixToRussianSteps: Int,
+    var recordThreeOneLegSteps: Int,
+    var recordSixToCoffeeSteps: Int,
+    var recordTurtleToHandstand: Int
+
+    //<-------- records <-------------
 )
 fun UserEntry.toPupilDomainModel() = PupilDomainModel(
     id = id,
@@ -246,11 +262,23 @@ fun UserEntry.toPupilDomainModel() = PupilDomainModel(
     sit_ups = sit_ups,
     pressUpHandstand = press_up_handstand,
     pressUpHandstandRecord = press_up_handstand_record,
+    turtleToHandstand = turtle_to_handstand,
 
     butterfly = butterfly,
     fold = fold,
     shoulders = shoulders,
-    twine = twine
+    twine = twine,
+
+    recordFourSteps = record_four_steps,
+    recordSixSteps = record_six_steps,
+    recordThreeSteps = record_three_steps,
+    recordRussianSteps = record_russian_steps,
+    recordSixToThreeSteps = record_six_and_three_steps,
+    recordSixToPretzel = record_six_and_pretzel,
+    recordSixToRussianSteps = record_six_and_russian_steps,
+    recordThreeOneLegSteps = record_three_one_leg_steps,
+    recordSixToCoffeeSteps = record_six_and_coffee_steps,
+    recordTurtleToHandstand = record_turtle_to_handstand
 )
 
 fun PupilDomainModel.toPupilDataModel() = UserEntry(
@@ -351,9 +379,21 @@ fun PupilDomainModel.toPupilDataModel() = UserEntry(
     sit_ups = sit_ups,
     press_up_handstand = pressUpHandstand,
     press_up_handstand_record = pressUpHandstandRecord,
+    turtle_to_handstand = turtleToHandstand,
 
     butterfly = butterfly,
     fold = fold,
     shoulders = shoulders,
-    twine = twine
+    twine = twine,
+
+    record_four_steps = recordFourSteps,
+    record_six_steps = recordSixSteps,
+    record_three_steps = recordThreeSteps,
+    record_russian_steps = recordRussianSteps,
+    record_six_and_three_steps = recordSixToThreeSteps,
+    record_six_and_pretzel = recordSixToPretzel,
+    record_six_and_russian_steps = recordSixToRussianSteps,
+    record_three_one_leg_steps = recordThreeOneLegSteps,
+    record_six_and_coffee_steps = recordSixToCoffeeSteps,
+    record_turtle_to_handstand = recordTurtleToHandstand
 )

@@ -13,6 +13,7 @@ import com.korchagin.presentation.constants.ELBOW_AIRFLARE
 import com.korchagin.presentation.constants.FINGERS
 import com.korchagin.presentation.constants.FLARE
 import com.korchagin.presentation.constants.FOLD
+import com.korchagin.presentation.constants.FOUR_STEPS
 import com.korchagin.presentation.constants.HALO
 import com.korchagin.presentation.constants.HANDSTAND
 import com.korchagin.presentation.constants.HAND_JUMP
@@ -31,12 +32,21 @@ import com.korchagin.presentation.constants.ONE_HAND
 import com.korchagin.presentation.constants.PRESS_TO_HANDSTAND
 import com.korchagin.presentation.constants.PUSHUPS
 import com.korchagin.presentation.constants.RATING
+import com.korchagin.presentation.constants.RUSSIAN_STEPS
 import com.korchagin.presentation.constants.SHOULDER
 import com.korchagin.presentation.constants.SHOULDERS
 import com.korchagin.presentation.constants.SITUPS
+import com.korchagin.presentation.constants.SIX_STEPS
+import com.korchagin.presentation.constants.SIX_TO_COFFEE_STEPS
+import com.korchagin.presentation.constants.SIX_TO_PRETZEL
+import com.korchagin.presentation.constants.SIX_TO_RUSSIAN_STEPS
+import com.korchagin.presentation.constants.SIX_TO_THREE_STEPS
 import com.korchagin.presentation.constants.SWIPES
+import com.korchagin.presentation.constants.THREE_ONE_LEG_STEPS
+import com.korchagin.presentation.constants.THREE_STEPS
 import com.korchagin.presentation.constants.TURTLE
 import com.korchagin.presentation.constants.TURTLEMOVE
+import com.korchagin.presentation.constants.TURTLE_TO_HANDSTAND
 import com.korchagin.presentation.constants.TWINE
 import com.korchagin.presentation.constants.UFO
 import com.korchagin.presentation.constants.WEB
@@ -87,6 +97,17 @@ fun setElementTitle(elementTitle: String): String {
         HORIZONT -> "Горизонт"
         PRESS_TO_HANDSTAND -> "Спичаг"
         HAND_JUMP -> "Прыжки на руках"
+
+        TURTLE_TO_HANDSTAND -> "Выход из черепахи в руки"
+        SIX_STEPS -> "6 шагов за 30 сек"
+        THREE_STEPS -> "3 шага за 30 сек"
+        FOUR_STEPS -> "4 шага за 30 сек"
+        RUSSIAN_STEPS -> "Русские шаги за 30 сек"
+        SIX_TO_THREE_STEPS -> "6/3 шага за 30 сек"
+        SIX_TO_RUSSIAN_STEPS -> "6/Русские шаги за 30 сек"
+        SIX_TO_COFFEE_STEPS -> "6/Кофемолка за 30 сек"
+        SIX_TO_PRETZEL -> "6/Крендель за 30 сек"
+        THREE_ONE_LEG_STEPS -> "3 шага с одной ногой за 30 сек"
 
         else -> ""
     }

@@ -5,6 +5,7 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,17 +28,16 @@ import org.korchagin.kmp.uiElements.RatingProgreesBar
 @Composable
 fun InfoSection(
     curPupil: PupilModel,
-    selectedElementsTab: Int,
-    modifier: Modifier = Modifier
+    selectedElementsTab: Int
 ) {
 
     var text = ""
     var rating = 0
 
     Column(
+        modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceAround,
-        modifier = modifier
+        verticalArrangement = Arrangement.SpaceAround
     ) {
         Text(
             curPupil.name,
@@ -108,19 +108,20 @@ fun InfoSection(
                 rating = curPupil.strechingRating.toInt()
             }
         }
-
-        Text(
-            modifier = Modifier.animateContentSize(
-                animationSpec = tween(400, easing = FastOutSlowInEasing),
-            ),
-            text = text,
-            style = TextStyle(
-                textAlign = TextAlign.Center,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold
+        if (selectedElementsTab != ElementsTab.FOOT.ordinal) {
+            Text(
+                modifier = Modifier.animateContentSize(
+                    animationSpec = tween(400, easing = FastOutSlowInEasing),
+                ),
+                text = text,
+                style = TextStyle(
+                    textAlign = TextAlign.Center,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold
+                )
             )
-        )
-        RatingProgreesBar(progress = rating.toFloat())
+            RatingProgreesBar(progress = rating.toFloat())
+        }
     }
 }
 

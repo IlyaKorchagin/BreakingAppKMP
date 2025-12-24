@@ -138,6 +138,7 @@ data class PupilModel(
     var sitUps: Int,
     var pressUpHandstand: Int,
     var pressUpHandstandRecord: Int,
+    var turtleToHandstand: Int,
 
     //<----------- OFP <-------------
 
@@ -149,6 +150,21 @@ data class PupilModel(
     var twine: Int,
 
     //<-------- stretching <-------------
+
+    //--------> records ------------>
+
+    var recordSixSteps: Int,
+    var recordFourSteps: Int,
+    var recordThreeSteps: Int,
+    var recordRussianSteps: Int,
+    var recordSixToThreeSteps: Int,
+    var recordSixToPretzel: Int,
+    var recordSixToRussianSteps: Int,
+    var recordThreeOneLegSteps: Int,
+    var recordSixToCoffeeSteps: Int,
+    var recordTurtleToHandstand: Int
+
+    //<-------- records <-------------
 )
 
 fun PupilDomainModel.toPupilModel() = PupilModel(
@@ -249,11 +265,23 @@ fun PupilDomainModel.toPupilModel() = PupilModel(
     sitUps = sit_ups,
     pressUpHandstand = pressUpHandstand,
     pressUpHandstandRecord = pressUpHandstandRecord,
+    turtleToHandstand = turtleToHandstand,
 
     butterfly = butterfly,
     fold = fold,
     shoulders = shoulders,
     twine = twine,
+
+    recordFourSteps = recordFourSteps,
+    recordSixSteps = recordSixSteps,
+    recordThreeSteps = recordThreeSteps,
+    recordRussianSteps = recordRussianSteps,
+    recordSixToThreeSteps = recordSixToThreeSteps,
+    recordSixToPretzel = recordSixToPretzel,
+    recordSixToRussianSteps = recordSixToRussianSteps,
+    recordThreeOneLegSteps = recordThreeOneLegSteps,
+    recordSixToCoffeeSteps = recordSixToCoffeeSteps,
+    recordTurtleToHandstand = recordTurtleToHandstand
 )
 
 fun PupilModel.toPupilDomainModel() = PupilDomainModel(
@@ -354,10 +382,23 @@ fun PupilModel.toPupilDomainModel() = PupilDomainModel(
     sit_ups = sitUps,
     pressUpHandstand = pressUpHandstand,
     pressUpHandstandRecord = pressUpHandstandRecord,
+    turtleToHandstand = turtleToHandstand,
+
     butterfly = butterfly,
     fold = fold,
     shoulders = shoulders,
     twine = twine,
+
+    recordFourSteps = recordFourSteps,
+    recordSixSteps = recordSixSteps,
+    recordThreeSteps = recordThreeSteps,
+    recordRussianSteps = recordRussianSteps,
+    recordSixToThreeSteps = recordSixToThreeSteps,
+    recordSixToPretzel = recordSixToPretzel,
+    recordSixToRussianSteps = recordSixToRussianSteps,
+    recordThreeOneLegSteps = recordThreeOneLegSteps,
+    recordSixToCoffeeSteps = recordSixToCoffeeSteps,
+    recordTurtleToHandstand = recordTurtleToHandstand
 )
 
 fun PupilModel.getProgress(elementTitle: String): Float {
@@ -403,6 +444,7 @@ fun PupilModel.getProgress(elementTitle: String): Float {
 
         HORIZONT -> horizont.toFloat()
         PRESS_TO_HANDSTAND -> pressUpHandstand.toFloat()
+        TURTLE_TO_HANDSTAND -> turtleToHandstand.toFloat()
 
         TWINE -> twine.toFloat()
         BUTTERFLY -> butterfly.toFloat()
@@ -455,6 +497,17 @@ fun PupilModel.getRecord(elementTitle: String): Int {
         HORIZONT -> horizontRecord
         PRESS_TO_HANDSTAND -> pressUpHandstandRecord
 
+        SIX_STEPS -> recordSixSteps
+        FOUR_STEPS -> recordFourSteps
+        THREE_STEPS -> recordThreeSteps
+        RUSSIAN_STEPS -> recordRussianSteps
+        SIX_TO_THREE_STEPS -> recordSixToThreeSteps
+        SIX_TO_PRETZEL -> recordSixToPretzel
+        SIX_TO_RUSSIAN_STEPS -> recordSixToRussianSteps
+        THREE_ONE_LEG_STEPS -> recordThreeOneLegSteps
+        SIX_TO_COFFEE_STEPS -> recordSixToCoffeeSteps
+        TURTLE_TO_HANDSTAND -> recordTurtleToHandstand
+
  /*       TWINE -> twine.toFloat()
         BUTTERFLY -> butterfly.toFloat()
         FOLD -> fold.toFloat()
@@ -505,11 +558,13 @@ fun PupilModel.setProgress(elementTitle: String, progress: Int) {
         HAND_TOUCH_LEGS -> handTouchLegs = progress
         HORIZONT -> horizont = progress
         PRESS_TO_HANDSTAND -> pressUpHandstand = progress
+        TURTLE_TO_HANDSTAND -> turtleToHandstand = progress
 
         TWINE -> twine = progress
         BUTTERFLY -> butterfly = progress
         FOLD -> fold = progress
         SHOULDERS -> shoulders = progress
+
         else -> 0.0f
     }
 }
@@ -555,5 +610,16 @@ fun PupilModel.setRecord(elementTitle: String, recordCount: Int) {
         HAND_TOUCH_LEGS -> handTouchLegsRecord = recordCount
         HORIZONT -> horizontRecord = recordCount
         PRESS_TO_HANDSTAND -> pressUpHandstandRecord = recordCount
+
+        SIX_STEPS -> recordSixSteps = recordCount
+        FOUR_STEPS -> recordFourSteps  = recordCount
+        THREE_STEPS -> recordThreeSteps  = recordCount
+        RUSSIAN_STEPS -> recordRussianSteps  = recordCount
+        SIX_TO_THREE_STEPS -> recordSixToThreeSteps  = recordCount
+        SIX_TO_PRETZEL -> recordSixToPretzel  = recordCount
+        SIX_TO_RUSSIAN_STEPS -> recordSixToRussianSteps  = recordCount
+        THREE_ONE_LEG_STEPS -> recordThreeOneLegSteps  = recordCount
+        SIX_TO_COFFEE_STEPS -> recordSixToCoffeeSteps  = recordCount
+        TURTLE_TO_HANDSTAND -> recordTurtleToHandstand  = recordCount
     }
 }

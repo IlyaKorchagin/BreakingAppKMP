@@ -43,6 +43,8 @@ class UserRepositotyImplementation(
     private val POWER_KEY = "PowerMove"     //  идентификатор таблицы PowerMove в БД
     private val OFP_KEY = "OFP"             //  идентификатор таблицы OFP в БД
     private val STRETCH_KEY = "Stretch"     //  идентификатор таблицы Stretch в БД
+
+    private val FOOTWORK_KEY = "Footwork"     //  идентификатор таблицы Stretch в БД
     private val BBOYS_KEY = "Bio"           //  идентификатор таблицы Bio в БД
     private val PUPILS_KEY = "Pupils"       //  идентификатор таблицы Pupils в БД
     private val EVENTS_KEY = "Events"       //  идентификатор таблицы Events в БД
@@ -55,6 +57,8 @@ class UserRepositotyImplementation(
     private val powerDB by lazy { Firebase.database.reference(POWER_KEY) }
     private val ofpDB by lazy { Firebase.database.reference(OFP_KEY) }
     private val stretchDB by lazy { Firebase.database.reference(STRETCH_KEY) }
+
+    private val footWorkDB by lazy { Firebase.database.reference(FOOTWORK_KEY) }
     private val bboysDB by lazy { Firebase.database.reference(BBOYS_KEY) }
 
     private val coachesDB by lazy { Firebase.database.reference(COACHES_KEY) }
@@ -179,6 +183,20 @@ class UserRepositotyImplementation(
         }
     }
 
+    override suspend fun getFootWorkElements(): Flow<List<ElementEntry>> = channelFlow {
+        footWorkDB.valueEvents.collect { foot ->
+            val footWorkElements = foot.children.mapNotNull {
+                try {
+                    it.value<ElementEntry>()
+                } catch (e: Exception) {
+                    println("Error decoding user: ${e.message}")
+                    null
+                }
+            }
+            send(footWorkElements)
+        }
+    }
+
     override suspend fun getBboysList(): Flow<List<BboyEntry>> = channelFlow {
         bboysDB.valueEvents.collect { bboys ->
             val bboysElements = bboys.children.mapNotNull {
@@ -292,11 +310,23 @@ class UserRepositotyImplementation(
                 sit_ups = 0,
                 press_up_handstand = 0,
                 press_up_handstand_record = 0,
+                turtle_to_handstand = 0,
 
                 butterfly = 0,
                 fold = 0,
                 shoulders = 0,
-                twine = 0
+                twine = 0,
+
+                record_four_steps = 0,
+                record_six_steps = 0,
+                record_three_steps = 0,
+                record_russian_steps = 0,
+                record_six_and_pretzel = 0,
+                record_six_and_three_steps = 0,
+                record_three_one_leg_steps = 0,
+                record_six_and_coffee_steps = 0,
+                record_six_and_russian_steps = 0,
+                record_turtle_to_handstand = 0
             )
             pupilsDB.child(uid).setValue(newPupil)
         } else {
@@ -426,7 +456,7 @@ class UserRepositotyImplementation(
             "action" to "register",
         )
 
-        val responseText = client.post(event.regUrl) {
+        val responseText = client.post("${event.regUrl}/api/register") {
             contentType(ContentType.Application.Json)
             header("Accept", "*/*")         // 🔥 обязательно
             setBody(payload)
@@ -467,7 +497,7 @@ class UserRepositotyImplementation(
         )
 
         try {
-            val responseText = client.post(event.regUrl) {
+            val responseText = client.post("${event.regUrl}/api/register") {
                 contentType(ContentType.Application.Json)
                 header("Accept", "*/*")
                 setBody(payload)
@@ -494,7 +524,7 @@ class UserRepositotyImplementation(
 
     override suspend fun getEventParticipants (event: EventEntry): Flow<List<EventParticipantsEntry>> = flow {
         try {
-            val participants: List<EventParticipantsEntry> = client.get(event.regUrl).body()
+            val participants: List<EventParticipantsEntry> = client.get("${event.regUrl}/api/register").body()
             println("load participants - $participants")
             emit(participants)
         } catch (e: Exception) {
@@ -503,9 +533,37 @@ class UserRepositotyImplementation(
         }
     }
 
+    override suspend fun setBattleResult(participants: List<EventParticipantsEntry>, event: EventEntry): Boolean {
+        try {
+            // формируем payload для каждого участника
+            participants.forEach { participant ->
+                val lastRoundEntry = participant.battlePoints.entries.lastOrNull()
+                val payload = mapOf(
+                    "name" to participant.name,
+                    "selection_points" to "${participant.selectionPoints}",
+                    "last_round" to (lastRoundEntry?.key?.name ?: ""),
+                    "points" to (lastRoundEntry?.value?.toString() ?: "0"),
+                    "battle_position" to "${participant.battlePosition}"
+                )
+                val responseText = client.post("${event.regUrl}/api/protocol") {
+                    contentType(ContentType.Application.Json)
+                    header("Accept", "*/*") // обязательно
+                    setBody(payload)
 
+                    onUpload { bytesSentTotal, contentLength ->
+                        println("LOG: sent protocol: $bytesSentTotal / $contentLength")
+                    }
+                }.body<String>()
 
+                println("Google script response for ${participant.name} = $responseText")
+            }
 
+            return true
+        } catch (e: Exception) {
+            println("Ошибка при записи протокола: $e")
+            return false
+        }
+    }
 
 
 }

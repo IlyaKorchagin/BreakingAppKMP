@@ -11,6 +11,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.korchagin.kmp.activity.admin.AdminActivity
 import org.korchagin.kmp.activity.auth.AuthActivity
 import org.korchagin.kmp.activity.battle.BattleActivity
+import org.korchagin.kmp.activity.battleSelection.BattleSelectionActivity
 import org.korchagin.kmp.activity.bboysDetails.BboysDetailsActivity
 import org.korchagin.kmp.activity.editUser.EditUserActivity
 import org.korchagin.kmp.activity.elementDetails.ElementDetailsActivity
@@ -73,7 +74,8 @@ fun App() {
             AdminActivity,
             EditUserActivity,
             EventsActivity,
-            BattleActivity
+            BattleActivity,
+            BattleSelectionActivity
         )
         globalNavigator.setupNavHost(
             activities = activityList,

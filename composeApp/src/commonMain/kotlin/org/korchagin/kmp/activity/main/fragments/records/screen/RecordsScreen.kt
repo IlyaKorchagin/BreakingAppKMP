@@ -37,6 +37,7 @@ import com.korchagin.presentation.constants.BACKSPIN
 import com.korchagin.presentation.constants.CRICKET
 import com.korchagin.presentation.constants.ELBOW_AIRFLARE
 import com.korchagin.presentation.constants.FLARE
+import com.korchagin.presentation.constants.FOUR_STEPS
 import com.korchagin.presentation.constants.HALO
 import com.korchagin.presentation.constants.HANDSTAND
 import com.korchagin.presentation.constants.HAND_JUMP
@@ -51,6 +52,15 @@ import com.korchagin.presentation.constants.NINETYNINE
 import com.korchagin.presentation.constants.ONE_HAND
 import com.korchagin.presentation.constants.PRESS_TO_HANDSTAND
 import com.korchagin.presentation.constants.PUSHUPS
+import com.korchagin.presentation.constants.RUSSIAN_STEPS
+import com.korchagin.presentation.constants.SIX_STEPS
+import com.korchagin.presentation.constants.SIX_TO_COFFEE_STEPS
+import com.korchagin.presentation.constants.SIX_TO_PRETZEL
+import com.korchagin.presentation.constants.SIX_TO_RUSSIAN_STEPS
+import com.korchagin.presentation.constants.SIX_TO_THREE_STEPS
+import com.korchagin.presentation.constants.THREE_ONE_LEG_STEPS
+import com.korchagin.presentation.constants.THREE_STEPS
+import com.korchagin.presentation.constants.TURTLE_TO_HANDSTAND
 import com.korchagin.presentation.constants.UFO
 import com.korchagin.presentation.constants.WEB
 import com.korchagin.presentation.constants.WINDMILL
@@ -94,7 +104,12 @@ fun RecordsScreen() {
 
         //OFP
         PUSHUPS, HANDSTAND, HAND_JUMP, HAND_TOUCH_LEGS, HAND_WALK,
-        HORIZONT, PRESS_TO_HANDSTAND,
+        HORIZONT, PRESS_TO_HANDSTAND, TURTLE_TO_HANDSTAND,
+
+        //Footwork
+        SIX_STEPS, FOUR_STEPS, THREE_STEPS, RUSSIAN_STEPS,
+        SIX_TO_THREE_STEPS, SIX_TO_PRETZEL, SIX_TO_RUSSIAN_STEPS,
+        THREE_ONE_LEG_STEPS, SIX_TO_COFFEE_STEPS,
     )
 
     val sortedPupils: List<PupilModel> = remember(pupilsList, selected) {

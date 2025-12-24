@@ -47,6 +47,10 @@ fun setElementImage(
             if (currentPupil.handstand >= 50) info.image
             else LOCK
         }
+        TURTLE_TO_HANDSTAND -> {
+            if (currentPupil.handstand >= 50) info.image
+            else LOCK
+        }
         AIRFLARE -> {
             if (currentPupil.handstand >= 80) info.image
             else LOCK
