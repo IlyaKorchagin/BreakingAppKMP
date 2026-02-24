@@ -4,6 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.korchagin.domain_main.MainUseCase
 import com.korchagin.module_common.Rounds
 import com.korchagin.presentation.models.battle.BattlePair
@@ -11,6 +12,7 @@ import com.korchagin.presentation.models.battle.BattleResult
 import com.korchagin.presentation.models.BboyModel
 import com.korchagin.presentation.models.CoachModel
 import com.korchagin.presentation.models.ElementModel
+import com.korchagin.presentation.models.JudgeModel
 import com.korchagin.presentation.models.battle.EventModel
 import com.korchagin.presentation.models.battle.EventParticipants
 import com.korchagin.presentation.models.PupilModel
@@ -33,6 +35,13 @@ import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 import com.korchagin.presentation.models.battle.toEventParticipantsDomain
+import com.korchagin.presentation.models.toJudgeDomainModel
+import com.korchagin.presentation.models.toJudgeModel
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import kotlin.collections.map
 
 class MainViewModel(
     private val mainUseCase: MainUseCase,
@@ -60,6 +69,16 @@ class MainViewModel(
 
     private val _coaches = MutableStateFlow<List<CoachModel>>(emptyList())
     val coaches: StateFlow<List<CoachModel>> = _coaches
+
+    private val _judges = MutableStateFlow<List<JudgeModel>>(emptyList())
+    val judges: StateFlow<List<JudgeModel>> = _judges
+
+    private val _selectedJudge = MutableStateFlow<JudgeModel?>(null)
+    var selectedJudge: StateFlow<JudgeModel?> = _selectedJudge
+
+    fun setJudge(judge: JudgeModel?) {
+        _selectedJudge.value = judge
+    }
 
     var tmpPupils: List<PupilModel> = emptyList()
 
@@ -118,11 +137,56 @@ class MainViewModel(
     private val _events = MutableStateFlow<List<EventModel>>(emptyList())
     val events: StateFlow<List<EventModel>> = _events
 
+    private val _currentEventId = MutableStateFlow<String?>(null)
+    val currentEventId = _currentEventId.asStateFlow()
+
+    fun setCurrentEvent(eventId: String){
+        _currentEventId.value = eventId
+    }
+
     private val _participants = MutableStateFlow<List<EventParticipants>>(emptyList())
     val participants: StateFlow<List<EventParticipants>> = _participants
 
+   /* private val _eventsParticipants = MutableStateFlow<List<EventParticipants>>(emptyList())
+    val eventsParticipants: StateFlow<List<EventParticipants>> = _eventsParticipants*/
+
     private val _winner = MutableStateFlow<EventParticipants?>(null)
     val winner = _winner.asStateFlow()
+
+    fun observeEvent(): StateFlow<EventModel?> =
+        events
+            .map { list -> list.firstOrNull { it.id == _currentEventId.value } }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000),
+                initialValue = null
+            )
+
+    fun observeAnalysis(): StateFlow<Boolean?> =
+        observeEvent()
+            .map { event ->
+                event?.let { analyzeJudgesData(event) }
+            }
+            .stateIn(
+                viewModelScope,
+                SharingStarted.WhileSubscribed(5_000),
+                null
+            )
+
+    private fun analyzeJudgesData(data: EventModel): Boolean {
+       println("analyze results ${data.participants}")
+        return false
+    }
+
+
+    /*fun observeParticipants(eventId: String) {
+        singletonMainScope.launch {
+            mainUseCase.observeParticipants.observeEventParticipants(eventId).collect { participants ->
+                println("🔥 participants from firebase: ${participants.map { it.selectionPoints }}")
+                _eventsParticipants.value = participants.map { it.toEventParticipants() }
+            }
+        }
+    }*/
 
     //<--- Battle case ---
 
@@ -318,6 +382,26 @@ class MainViewModel(
             }  // Преобразуй в нужный формат
         }
     }
+
+    fun registerJudgeToEvent(event: EventModel, judge: JudgeModel) {
+        singletonMainScope.launch {
+            mainUseCase.registerJudgeToEvent.registerJudgeToEvent(
+                judge.toJudgeDomainModel(),
+                event.toEventDomainModel()
+            )
+        }
+    }
+
+    fun unregisterJudgeFromEvent(event: EventModel, judge: JudgeModel) {
+        singletonMainScope.launch {
+                mainUseCase.unregisterJudgeToEvent.unregisterJudgeToEvent(
+                    judge.toJudgeDomainModel(),
+                    event.toEventDomainModel()
+                )
+        }
+    }
+
+
     //<--- Registration to Battle Case ---
 
 
@@ -337,43 +421,74 @@ class MainViewModel(
     private val _currentRoundPairs = MutableStateFlow<List<BattlePair>>(emptyList())
 
     val currentRoundPairs: StateFlow<List<BattlePair>> = _currentRoundPairs
-
-    fun loadParticipants(event: EventModel, onSuccess: () -> Unit) {
+    /*fun loadParticipants(event: EventModel, onSuccess: () -> Unit) {
         singletonMainScope.launch {
             try {
-                // Здесь мы вызываем suspend функцию, которая возвращает List
-
                 mainUseCase.getEventParticipants.getEventParticipants(event.toEventDomainModel())
                     .collect { list ->
-
                         _participants.value = list.map { it.toEventParticipants() }
                         if (_participants.value.isNotEmpty()) onSuccess.invoke()
                         println("LOG: loadParticipants list: $list")
+                        _currentEventId.value = event.id
                     }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
-    }
+    }*/
 
     fun setSelectionPoints(id: String, point: Float) {
         _participants.value = _participants.value.map { participant ->
             if (participant.userId == id) {
-                participant.copy(selectionPoints = point) // создаём новый объект с обновлёнными очками
+                val updatedSelectionPoints = participant.selectionPoints.toMutableMap().apply {
+                    selectedJudge.value?.id?.let { put(id, point.toDouble()) }
+                }
+                participant.copy(selectionPoints = updatedSelectionPoints)
+
             } else {
                 participant
             }
         }
     }
 
+    fun sendSelectionResult() {
+        val judgeId = _selectedJudge.value?.id ?: return
+
+        singletonMainScope.launch {
+            mainUseCase.setSelectionResult.setSelectionResults(
+                usersList = _participants.value.map { it.userId },
+                pointsList = _participants.value.map {
+                    it.selectionPoints[judgeId] ?: 0.0
+                },
+                eventId = currentEventId.value!!,
+                judgeId = judgeId
+            )
+        }
+    }
+
+
     fun setBattlePoints(id: String, point: Int) {
         val round = _currentRound.value
         _participants.value = _participants.value.map { participant ->
             if (participant.userId == id) {
-                val updatedMap = participant.battlePoints.toMutableMap()
+                /*val updatedMap = participant.battlePoints.toMutableMap()
                 updatedMap[round] = point
                 participant.copy(
                     battlePoints = updatedMap.toMap() // immutable copy
+                )*/
+                val updatedBattlePoints = participant.battlePoints.toMutableMap()
+
+                // получаем map оценок судей для этого раунда, если есть
+                val judgeMap = updatedBattlePoints[round.name]?.toMutableMap() ?: mutableMapOf()
+
+                // ставим или обновляем оценку текущего судьи
+                judgeMap[_selectedJudge.value?.id.toString()] = point
+
+                // сохраняем обратно
+                updatedBattlePoints[round.name] = judgeMap.toMap()
+
+                participant.copy(
+                    battlePoints = updatedBattlePoints.toMap()
                 )
             } else participant
         }
@@ -384,6 +499,18 @@ class MainViewModel(
         setBattlePoints(result.right.userId, result.rightScore)
         setBattlePoints(result.left.userId, result.leftScore)
         if (!littleFinal.value) _battleResults.add(result)
+
+        val judgeId = _selectedJudge.value?.id ?: return
+
+        singletonMainScope.launch {
+            mainUseCase.setBattleResult.setBattleResult(
+                usersList = listOf(result.left.userId, result.right.userId),
+                pointsList = listOf(result.leftScore, result.rightScore),
+                eventId = currentEventId.value!!,
+                judgeId = judgeId,
+                round = _currentRound.value.name
+            )
+        }
 
     }
 
@@ -443,7 +570,9 @@ class MainViewModel(
 
 
     fun createFirstBattlePairs(list: List<EventParticipants>): List<BattlePair> {
-        val sorted = list.sortedByDescending { it.selectionPoints }
+        val sorted = list.sortedByDescending { participant ->
+            participant.selectionPoints.values.sum()
+        }
         val pairs = mutableListOf<BattlePair>()
 
         val size = sorted.size
@@ -471,24 +600,34 @@ class MainViewModel(
         return pairs
     }
 
-    fun assignBattlePositions() {
-        _participants.value = _participants.value
-            .sortedWith(compareByDescending<EventParticipants> { participant ->
-                val totalPoints = participant.battlePoints.values.sum()
-                if (participant.battlePoints.containsKey(_firstRound.value)) totalPoints
-                else (participant.selectionPoints * 100).toInt()
-            })
-            .mapIndexed { index, participant ->
-                participant.copy(battlePosition = index + 1)
-            }
-        _events.value.find { it.id == _participants.value.first().eventId }?.let { event ->
-            sendBattleResults(event)
-        }
-    }
+   fun finishEvent() {
+       val currentRound = _firstRound.value ?: return
 
-    fun sendBattleResults(event: EventModel) {
+       _participants.value = _participants.value
+           .sortedWith(compareByDescending<EventParticipants> { participant ->
+               // получаем оценки текущего раунда от всех судей
+               val roundScores = participant.battlePoints[currentRound.name]?.values
+               if (!roundScores.isNullOrEmpty()) {
+                   roundScores.sum()  // сумма всех судей за этот раунд
+               } else {
+                   // если оценок нет, используем selectionPoints как запасной вариант
+                   participant.selectionPoints.values.sum() * 100
+               }
+           })
+           .mapIndexed { index, participant ->
+               participant.copy(battlePosition = index + 1)
+           }
+
+       // отправляем результаты в событие
+       _events.value.find { it.id == _participants.value.firstOrNull()?.eventId }?.let { event ->
+           finishEvent(event)
+       }
+   }
+
+
+    fun finishEvent(event: EventModel) {
         singletonMainScope.launch {
-            mainUseCase.setBattleResults.setBattleResults(
+            mainUseCase.setBattleProtocol.sendBattleProtocol(
                 _participants.value.map { it.toEventParticipantsDomain() },
                 event.toEventDomainModel()
             )
@@ -558,6 +697,13 @@ class MainViewModel(
                 }
             }
 
+            val judgesList = singletonMainScope.launch {
+                mainUseCase.getJudges.getJudges().collect { judgesList ->
+                    _judges.value = judgesList
+                        .map { it.toJudgeModel() }
+                }
+            }
+
             val list = listOf(
                 eventsList,
                 pupils,
@@ -566,7 +712,8 @@ class MainViewModel(
                 ofpElements,
                 stretchElements,
                 footWorkElements,
-                bboysList
+                bboysList,
+                judgesList
             )
             val collection: Collection<Job> = list
             collection.forEach { it.start() }

@@ -8,7 +8,8 @@ data class EventModel(
     val title: String,
     val data: String ,
     val regUrl: String,
-    val registered: Map<String, Boolean> = emptyMap()
+    val participants: Map<String,EventParticipants> ,
+    val judges: Map<String, Boolean> = emptyMap()
 )
 
 fun EventDomainModel.toEventModel() = EventModel(
@@ -16,7 +17,8 @@ fun EventDomainModel.toEventModel() = EventModel(
     title = title,
     data = data,
     regUrl = regUrl,
-    registered = registered
+    participants = participants.mapValues { it.value.toEventParticipants() },
+    judges = judges
 )
 
 fun EventModel.toEventDomainModel() = EventDomainModel(
@@ -24,5 +26,6 @@ fun EventModel.toEventDomainModel() = EventDomainModel(
     title = title,
     data = data,
     regUrl = regUrl,
-    registered = registered
+    participants = participants.mapValues { it.value.toEventParticipantsDomain() },
+    judges = judges
 )

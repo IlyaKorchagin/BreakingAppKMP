@@ -6,6 +6,7 @@ import com.korchagin.data.models.CoachEntry
 import com.korchagin.data.models.ElementEntry
 import com.korchagin.data.models.EventEntry
 import com.korchagin.data.models.EventParticipantsEntry
+import com.korchagin.data.models.JudgeEntry
 import com.korchagin.data.models.UserEntry
 import com.korchagin.data.utils.toFirebaseData
 import com.korchagin.data.utils.toLocalDateOrNull
@@ -39,17 +40,18 @@ class UserRepositotyImplementation(
     private val client: HttpClient
 ) : UserRepository {
 
-    private val FREEZE_KEY = "Freeze"       //  идентификатор таблицы Freeze в БД
-    private val POWER_KEY = "PowerMove"     //  идентификатор таблицы PowerMove в БД
-    private val OFP_KEY = "OFP"             //  идентификатор таблицы OFP в БД
-    private val STRETCH_KEY = "Stretch"     //  идентификатор таблицы Stretch в БД
+    //  идентификаторы таблицы Freeze в БД
+    private val FREEZE_KEY = "Freeze"
+    private val POWER_KEY = "PowerMove"
+    private val OFP_KEY = "OFP"
+    private val STRETCH_KEY = "Stretch"
+    private val FOOTWORK_KEY = "Footwork"
+    private val BBOYS_KEY = "Bio"
+    private val PUPILS_KEY = "Pupils"
+    private val EVENTS_KEY = "Events"
+    private val COACHES_KEY = "Coach"
 
-    private val FOOTWORK_KEY = "Footwork"     //  идентификатор таблицы Stretch в БД
-    private val BBOYS_KEY = "Bio"           //  идентификатор таблицы Bio в БД
-    private val PUPILS_KEY = "Pupils"       //  идентификатор таблицы Pupils в БД
-    private val EVENTS_KEY = "Events"       //  идентификатор таблицы Events в БД
-
-    private val COACHES_KEY = "Coach"       //  идентификатор таблицы Events в БД
+    private val JUDGES_KEY = "Judges"
 
 
     private val pupilsDB by lazy { Firebase.database.reference(PUPILS_KEY) }
@@ -57,12 +59,11 @@ class UserRepositotyImplementation(
     private val powerDB by lazy { Firebase.database.reference(POWER_KEY) }
     private val ofpDB by lazy { Firebase.database.reference(OFP_KEY) }
     private val stretchDB by lazy { Firebase.database.reference(STRETCH_KEY) }
-
     private val footWorkDB by lazy { Firebase.database.reference(FOOTWORK_KEY) }
     private val bboysDB by lazy { Firebase.database.reference(BBOYS_KEY) }
-
     private val coachesDB by lazy { Firebase.database.reference(COACHES_KEY) }
     private val eventsDB by lazy { Firebase.database.reference(EVENTS_KEY) }
+    private val judgesDB by lazy { Firebase.database.reference(JUDGES_KEY) }
 
     private val fireStorage = Firebase.storage
 
@@ -113,12 +114,32 @@ class UserRepositotyImplementation(
             send(coaches)
         }
     }
+
+    override suspend fun getJudges(): Flow<List<JudgeEntry>> = channelFlow {
+        judgesDB.valueEvents.collect { judge ->
+            val judges = judge.children.mapNotNull {
+                try {
+                    println("LOG: ${it.value}")
+                    it.value<JudgeEntry>()
+                } catch (e: Exception) {
+                    println("Error decoding coaches: ${e.message}")
+                    null
+                }
+            }
+            send(judges)
+        }
+    }
+
     val today: LocalDate = Clock.System.todayIn(TimeZone.currentSystemDefault())
 
     override suspend fun getEvents(): Flow<List<EventEntry>> = channelFlow {
         eventsDB.valueEvents.collect { snapshot ->
             val events = snapshot.children.mapNotNull {
-                try { it.value<EventEntry>() } catch (e: Exception) { null }
+                try {
+                    it.value<EventEntry>()
+                } catch (e: Exception) {
+                    null
+                }
             }.filter { event ->
                 val eventDate = event.data.toLocalDateOrNull()
                 eventDate != null && eventDate >= today
@@ -127,7 +148,7 @@ class UserRepositotyImplementation(
         }
     }
 
-    override suspend  fun getFreezeElements(): Flow<List<ElementEntry>> = channelFlow {
+    override suspend fun getFreezeElements(): Flow<List<ElementEntry>> = channelFlow {
         freezeDB.valueEvents.collect { freeze ->
             val freezeElements = freeze.children.mapNotNull {
                 try {
@@ -435,8 +456,18 @@ class UserRepositotyImplementation(
     }
 
     override suspend fun registerToEvent(pupil: UserEntry, event: EventEntry): Boolean {
+        val participant = EventParticipantsEntry(
+            user_id = pupil.id,
+            name = pupil.name,
+            event_id = event.id,
+            phone = pupil.email,
+            timestamp = "",
+            battlePoints = emptyMap(),
+            selectionPoints = emptyMap(),
+            battlePosition = 0
+        )
         val eventRef = eventsDB.child(event.title)
-            .child("registered")
+            .child("participants")
             .child(pupil.id)
 
         // Проверяем наличие записи
@@ -468,15 +499,16 @@ class UserRepositotyImplementation(
 
         println("Google script response = $responseText")
 
-        eventRef.setValue(true)
+        eventRef.setValue(participant)
 
         return true
 
     }
 
     override suspend fun unregisterFromEvent(pupil: UserEntry, event: EventEntry): Boolean {
+
         val eventRef = eventsDB.child(event.title)
-            .child("registered")
+            .child("participants")
             .child(pupil.id)
 
         // Проверяем наличие записи
@@ -522,26 +554,31 @@ class UserRepositotyImplementation(
         }
     }
 
-    override suspend fun getEventParticipants (event: EventEntry): Flow<List<EventParticipantsEntry>> = flow {
-        try {
-            val participants: List<EventParticipantsEntry> = client.get("${event.regUrl}/api/register").body()
-            println("load participants - $participants")
-            emit(participants)
-        } catch (e: Exception) {
-            println("Ошибка при загрузке участников: $e")
-            emit(emptyList()) // возвращаем пустой список при ошибке
+    override suspend fun getEventParticipants(event: EventEntry): Flow<List<EventParticipantsEntry>> =
+        flow {
+            try {
+                val participants: List<EventParticipantsEntry> =
+                    client.get("${event.regUrl}/api/register").body()
+                println("load participants - $participants")
+                emit(participants)
+            } catch (e: Exception) {
+                println("Ошибка при загрузке участников: $e")
+                emit(emptyList()) // возвращаем пустой список при ошибке
+            }
         }
-    }
 
-    override suspend fun setBattleResult(participants: List<EventParticipantsEntry>, event: EventEntry): Boolean {
+    override suspend fun sendBattleProtocol(
+        participants: List<EventParticipantsEntry>,
+        event: EventEntry
+    ): Boolean {
         try {
             // формируем payload для каждого участника
             participants.forEach { participant ->
-                val lastRoundEntry = participant.battlePoints.entries.lastOrNull()
+                val lastRoundEntry = participant.battlePoints?.entries?.lastOrNull()
                 val payload = mapOf(
                     "name" to participant.name,
                     "selection_points" to "${participant.selectionPoints}",
-                    "last_round" to (lastRoundEntry?.key?.name ?: ""),
+                    "last_round" to (lastRoundEntry?.key ?: ""),
                     "points" to (lastRoundEntry?.value?.toString() ?: "0"),
                     "battle_position" to "${participant.battlePosition}"
                 )
@@ -564,6 +601,129 @@ class UserRepositotyImplementation(
             return false
         }
     }
+
+    override suspend fun judgeRegister(judge: JudgeEntry, event: EventEntry): Boolean {
+        val eventRef = eventsDB.child(event.title)
+            .child("judges")
+            .child(judge.id)
+
+        // Проверяем наличие записи
+        val snapshot = eventRef.valueEvents.first()
+
+        if (snapshot.value != null) {
+            println("⚠ Пользователь уже зарегистрирован")
+            return false
+        }
+
+        eventRef.setValue(true)
+
+        return true
+    }
+
+    override suspend fun judgeUnregister(
+        judge: JudgeEntry,
+        event: EventEntry
+    ): Boolean {
+        val eventRef = eventsDB.child(event.title)
+            .child("judges")
+            .child(judge.id)
+
+        // Проверяем наличие записи
+        val snapshot = eventRef.valueEvents.first()
+
+        if (snapshot.value == null) {
+            println("⚠ Пользователь не был зарегистрирован")
+            return false
+        }
+
+        // Удаляем запись пользователя из Firebase
+        return try {
+            eventRef.removeValue()
+            println("🗑 Пользователь ${judge.name} отписан от события ${event.title}")
+            true
+        } catch (e: Exception) {
+            println("❌ Ошибка при удалении из Firebase: ${e.message}")
+            false
+        }
+    }
+
+    override suspend fun setSelectionPoints(
+        eventId: String,
+        usersList: List<String>,
+        judgeId: String,
+        pointsList: List<Double>
+    ) {
+        usersList.forEachIndexed { index, userId ->
+            eventsDB
+                .child(eventId)
+                .child("participants")
+                .child(userId)
+                .child("selectionPoints")
+                .child(judgeId)
+                .setValue(pointsList[index])
+        }
+    }
+
+    override suspend fun setBattlePoints(
+        eventId: String,
+        usersList: List<String>,
+        judgeId: String,
+        pointsList: List<Int>,
+        round: String
+    ) {
+        usersList.forEachIndexed { index, userId ->
+            eventsDB
+                .child(eventId)
+                .child("participants")
+                .child(userId)
+                .child("battlePoints")
+                .child(round)
+                .child(judgeId)
+                .setValue(pointsList[index])
+        }
+    }
+
+    /*override suspend fun observeParticipants(
+        eventId: String
+    ): Flow<List<EventParticipantsEntry>> = channelFlow {
+        eventsDB.child(eventId).valueEvents.collect {
+            participants ->
+            val users = participants.children.mapNotNull {
+                try {
+                    it.value<EventParticipantsEntry>()
+                } catch (e: Exception) {
+                    println("Error decoding user: ${e.message}")
+                    null
+                }
+            }
+            println("users - $users")
+            send(users)
+        }*/
+
+    override suspend fun observeParticipants(
+        eventId: String
+    ): Flow<List<EventParticipantsEntry>> = channelFlow {
+
+        eventsDB
+            .child(eventId)
+            .child("participants")
+            .valueEvents
+            .collect { snapshot ->
+
+                val users = snapshot.children.mapNotNull { child ->
+                    try {
+                        child.value<EventParticipantsEntry>()
+                    } catch (e: Exception) {
+                        println("Error decoding user ${child.key}: ${e.message}")
+                        null
+                    }
+                }
+
+                println("users - $users")
+                send(users)
+            }
+    }
+
 
 
 }

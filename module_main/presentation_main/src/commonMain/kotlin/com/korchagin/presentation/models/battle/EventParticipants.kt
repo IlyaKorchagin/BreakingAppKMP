@@ -9,8 +9,8 @@ data class EventParticipants(
     val name: String,
     val email: String,
     val eventId: String,
-    var selectionPoints: Float,
-    val battlePoints: Map<Rounds, Int> = emptyMap(),
+    val selectionPoints: Map<String, Double> = emptyMap(), // judgeId -> points
+    val battlePoints: Map<String, Map<String, Int>> = emptyMap(), // round -> judgeId -> points
     var battlePosition: Int
 )
 
@@ -20,9 +20,9 @@ fun EventParticipantsDomain.toEventParticipants() = EventParticipants(
     name = name,
     email = email,
     eventId = eventId,
-    selectionPoints = 0.0f,
-    battlePoints = emptyMap(),
-    battlePosition = 0
+    selectionPoints = selectionPoints,
+    battlePoints = battlePoints,
+    battlePosition = battlePosition
 )
 
 fun EventParticipants.toEventParticipantsDomain() = EventParticipantsDomain(
@@ -35,4 +35,9 @@ fun EventParticipants.toEventParticipantsDomain() = EventParticipantsDomain(
     battlePoints = battlePoints,
     battlePosition = battlePosition
 )
+
+fun EventParticipants.avgSelectionPoints(): Float =
+    if (selectionPoints.isEmpty()) 0f
+    else selectionPoints.values.average().toFloat()
+
 

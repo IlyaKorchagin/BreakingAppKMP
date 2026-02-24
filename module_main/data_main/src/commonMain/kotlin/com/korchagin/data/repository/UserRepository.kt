@@ -5,6 +5,7 @@ import com.korchagin.data.models.CoachEntry
 import com.korchagin.data.models.ElementEntry
 import com.korchagin.data.models.EventEntry
 import com.korchagin.data.models.EventParticipantsEntry
+import com.korchagin.data.models.JudgeEntry
 import com.korchagin.data.models.UserEntry
 import com.korchagin.module_common.Response
 import kotlinx.coroutines.flow.Flow
@@ -12,6 +13,7 @@ import kotlinx.coroutines.flow.Flow
 interface UserRepository {
     suspend fun getEvents(): Flow<List<EventEntry>>
     suspend fun getCoaches(): Flow<List<CoachEntry>>
+    suspend fun getJudges(): Flow<List<JudgeEntry>>
     suspend fun getUsers(): Flow<List<UserEntry>>
     suspend fun getUserById(id: String): Flow<UserEntry>
     suspend fun getFreezeElements(): Flow<List<ElementEntry>>
@@ -34,8 +36,17 @@ interface UserRepository {
 
     suspend fun getEventParticipants(event: EventEntry): Flow<List<EventParticipantsEntry>>
 
-    suspend fun setBattleResult(paricipants: List<EventParticipantsEntry>, event: EventEntry): Boolean
+    suspend fun sendBattleProtocol(paricipants: List<EventParticipantsEntry>, event: EventEntry): Boolean
 
+    suspend fun judgeRegister(judge: JudgeEntry, event: EventEntry): Boolean
+
+    suspend fun judgeUnregister(judge: JudgeEntry, event: EventEntry): Boolean
+
+    suspend fun setSelectionPoints( eventId: String, usersList: List<String>, judgeId: String, pointsList: List<Double>)
+
+    suspend fun setBattlePoints( eventId: String, usersList: List<String>, judgeId: String, pointsList: List<Int>, round: String)
+
+    suspend fun observeParticipants(eventId: String): Flow<List<EventParticipantsEntry>>
 
 }
 

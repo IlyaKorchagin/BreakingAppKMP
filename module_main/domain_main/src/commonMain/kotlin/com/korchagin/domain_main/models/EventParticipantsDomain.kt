@@ -1,7 +1,6 @@
 package com.korchagin.domain_main.models
 
 import com.korchagin.data.models.EventParticipantsEntry
-import com.korchagin.module_common.Rounds
 
 data class EventParticipantsDomain(
     val timestamp: String,
@@ -9,8 +8,10 @@ data class EventParticipantsDomain(
     val name: String,
     val email: String,
     val eventId: String,
-    var selectionPoints: Float,
-    val battlePoints: Map<Rounds, Int> = emptyMap(),
+   /* var selectionPoints: Float,
+    val battlePoints: Map<Rounds, Int> = emptyMap(),*/
+    val selectionPoints: Map<String, Double> = emptyMap(), // judgeId -> points
+    val battlePoints: Map<String, Map<String, Int>> = emptyMap(), // round -> judgeId -> points
     var battlePosition: Int
 )
 
@@ -20,7 +21,7 @@ fun EventParticipantsEntry.toEventParticipantsDomain() = EventParticipantsDomain
     name = name,
     email = phone,
     eventId = event_id,
-    selectionPoints = selectionPoints.toFloat(),
+    selectionPoints = selectionPoints,
     battlePoints = battlePoints,
     battlePosition = battlePosition
 )
@@ -31,7 +32,7 @@ fun EventParticipantsDomain.toEventParticipantsEntry() = EventParticipantsEntry(
     name = name,
     phone = email,
     event_id = eventId,
-    selectionPoints = (selectionPoints*100).toInt(),
+    selectionPoints = selectionPoints,
     battlePoints = battlePoints,
     battlePosition = battlePosition
 )

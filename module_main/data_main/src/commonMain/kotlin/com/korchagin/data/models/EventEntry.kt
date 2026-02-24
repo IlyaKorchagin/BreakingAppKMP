@@ -8,5 +8,6 @@ data class EventEntry(
     val title: String,
     val data: String,
     val regUrl: String,
-    val registered: Map<String, Boolean> = emptyMap()
+    val participants: Map<String, EventParticipantsEntry> = emptyMap(),
+    val judges: Map<String, Boolean> = emptyMap()
 )

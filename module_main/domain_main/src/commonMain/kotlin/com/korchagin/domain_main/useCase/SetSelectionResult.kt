@@ -7,12 +7,11 @@ import com.korchagin.domain_main.models.toEventDataModel
 import com.korchagin.domain_main.models.toEventParticipantsEntry
 
 
-class SetBattleResult(private val repository: UserRepository) {
-    suspend fun setBattleResult(usersList: List<String>, pointsList: List<Int>, eventId: String , judgeId: String, round: String) =
-        repository.setBattlePoints(
+class SetSelectionResult(private val repository: UserRepository) {
+    suspend fun setSelectionResults(usersList: List<String>, pointsList: List<Double>, eventId: String , judgeId: String) =
+        repository.setSelectionPoints(
             eventId = eventId,
             usersList = usersList,
             judgeId = judgeId,
-            pointsList = pointsList,
-            round = round)
+            pointsList = pointsList)
 }
