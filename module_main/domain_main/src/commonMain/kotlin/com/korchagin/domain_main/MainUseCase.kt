@@ -48,5 +48,5 @@ data class MainUseCase(
     val unregisterJudgeToEvent: UnregisterJudgeToEvent,
     val setSelectionResult: SetSelectionResult,
     val setBattleResult: SetBattleResult,
-    val observeParticipants: ObserveParticipants
+    val observeParticipants: ObserveParticipants,
 )

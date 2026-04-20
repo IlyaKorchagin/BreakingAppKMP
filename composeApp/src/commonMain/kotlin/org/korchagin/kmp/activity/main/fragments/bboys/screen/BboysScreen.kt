@@ -88,6 +88,7 @@ fun BboysScreen(
                 bottom = 90.dp
             ),
             verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             itemsIndexed(bboysList) { index, bboy ->
                 Box(

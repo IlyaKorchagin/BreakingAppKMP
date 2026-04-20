@@ -11,4 +11,5 @@ class GetEvents(private val repository: UserRepository) {
     suspend fun getEvents(): Flow<List<EventDomainModel>> = repository.getEvents().map { event ->
         event.map { it.toEventDomainModel() }
     }
+
 }

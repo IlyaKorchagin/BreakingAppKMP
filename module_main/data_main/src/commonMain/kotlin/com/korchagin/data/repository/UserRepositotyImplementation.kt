@@ -115,6 +115,7 @@ class UserRepositotyImplementation(
         }
     }
 
+
     override suspend fun getJudges(): Flow<List<JudgeEntry>> = channelFlow {
         judgesDB.valueEvents.collect { judge ->
             val judges = judge.children.mapNotNull {
@@ -132,6 +133,8 @@ class UserRepositotyImplementation(
 
     val today: LocalDate = Clock.System.todayIn(TimeZone.currentSystemDefault())
 
+
+
     override suspend fun getEvents(): Flow<List<EventEntry>> = channelFlow {
         eventsDB.valueEvents.collect { snapshot ->
             val events = snapshot.children.mapNotNull {
@@ -147,6 +150,8 @@ class UserRepositotyImplementation(
             send(events)
         }
     }
+
+
 
     override suspend fun getFreezeElements(): Flow<List<ElementEntry>> = channelFlow {
         freezeDB.valueEvents.collect { freeze ->
@@ -683,22 +688,6 @@ class UserRepositotyImplementation(
         }
     }
 
-    /*override suspend fun observeParticipants(
-        eventId: String
-    ): Flow<List<EventParticipantsEntry>> = channelFlow {
-        eventsDB.child(eventId).valueEvents.collect {
-            participants ->
-            val users = participants.children.mapNotNull {
-                try {
-                    it.value<EventParticipantsEntry>()
-                } catch (e: Exception) {
-                    println("Error decoding user: ${e.message}")
-                    null
-                }
-            }
-            println("users - $users")
-            send(users)
-        }*/
 
     override suspend fun observeParticipants(
         eventId: String

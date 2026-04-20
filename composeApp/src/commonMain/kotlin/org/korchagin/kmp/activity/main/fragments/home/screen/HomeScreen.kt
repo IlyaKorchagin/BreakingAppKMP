@@ -45,6 +45,7 @@ fun HomeScreen(componentNavigator: ComponentNavigator) {
         // Небольшая задержка — даёт layout завершиться
         kotlinx.coroutines.delay(100)
         mainViewModel.loadData()
+     //   mainViewModel.loadMedia()
     }
     val currentPupil by mainViewModel.currentPupil.collectAsState(null)
     val freezeElements by mainViewModel.freezeElements.collectAsState(null)

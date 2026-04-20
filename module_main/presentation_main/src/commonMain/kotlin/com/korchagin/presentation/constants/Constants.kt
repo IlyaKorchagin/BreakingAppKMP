@@ -65,4 +65,4 @@ const val SHOULDERS = "Shoulders"
 
 
 
-const val LOCK = "https://firebasestorage.googleapis.com/v0/b/goodfootbreaking.appspot.com/o/FreezeImage%2Flock.png?alt=media&token=aba42aa7-e838-4185-a6be-87f151a75883"
+const val LOCK = "https://res.cloudinary.com/dijjsmlrz/image/upload/v1776062395/locked_ouqavh.png"

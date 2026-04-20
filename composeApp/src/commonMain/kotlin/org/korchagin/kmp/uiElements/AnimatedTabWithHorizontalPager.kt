@@ -12,8 +12,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
@@ -30,7 +32,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.korchagin.presentation.models.ElementModel
 import com.korchagin.presentation.models.Elements
 import com.korchagin.presentation.models.ElementsTab
@@ -51,7 +55,7 @@ import org.korchagin.kmp.theme.colors.AppColors
 fun AnimatedTabWithHorizontalPager(
     tabs: List<ImageWithText>,
     onTabSelected: (Int) -> Unit,
-    freeze:List<ElementModel>,
+    freeze: List<ElementModel>,
     power: List<ElementModel>,
     ofp: List<ElementModel>,
     stretch: List<ElementModel>,
@@ -113,11 +117,16 @@ fun AnimatedTabWithHorizontalPager(
                                 shape = CircleShape
                             )
                     )
+                    Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         text = tab.text,
-                        color = if (selected)
-                            AppColors.colors().mainGreen
-                        else Color.Gray
+                        style = TextStyle(
+                            color = if (selected)
+                                AppColors.colors().mainGreen
+                            else Color.Gray,
+                            fontSize = 11.sp
+                        ),
+                        maxLines = 1
                     )
                 }
             }
@@ -160,7 +169,7 @@ fun AnimatedTabWithHorizontalPager(
                         PostSection(
                             posts = posts,
                             stateElement = freeze,
-                          //  navController = navController,
+                            //  navController = navController,
                             modifier = Modifier.fillMaxWidth(),
                             pupil = pupil,
                             editMode = editMode
@@ -191,7 +200,7 @@ fun AnimatedTabWithHorizontalPager(
                         PostSection(
                             posts = posts,
                             stateElement = power,
-                           // navController = navController,
+                            // navController = navController,
                             modifier = Modifier.fillMaxWidth(),
                             pupil = pupil,
                             editMode = editMode
@@ -202,7 +211,7 @@ fun AnimatedTabWithHorizontalPager(
                         val posts: MutableList<Elements> =
                             emptyList<Elements>().toMutableList()
 
-                       ofp.forEach {
+                        ofp.forEach {
                             posts.add(
                                 Elements(
                                     icon = setElementImage(
@@ -221,7 +230,7 @@ fun AnimatedTabWithHorizontalPager(
                         PostSection(
                             posts = posts,
                             stateElement = ofp,
-                           // navController = navController,
+                            // navController = navController,
                             modifier = Modifier.fillMaxWidth(),
                             pupil = pupil,
                             editMode = editMode
@@ -250,7 +259,7 @@ fun AnimatedTabWithHorizontalPager(
                         PostSection(
                             posts = posts,
                             stateElement = stretch,
-                           // navController = navController,
+                            // navController = navController,
                             modifier = Modifier.fillMaxWidth(),
                             pupil = pupil,
                             editMode = editMode

@@ -40,9 +40,7 @@ import breakingkmpapp.composeapp.generated.resources.people
 import coil3.compose.AsyncImage
 import com.korchagin.module_common.Rounds
 import com.korchagin.presentation.models.battle.BattleResult
-import com.korchagin.presentation.models.battle.EventModel
 import com.korchagin.presentation.models.battle.EventParticipants
-
 import com.korchagin.presentation.viewModel.MainViewModel
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -71,16 +69,24 @@ fun BattleScreen(componentNavigator: ComponentNavigator) {
     val pairs by mainViewModel.currentRoundPairs.collectAsState()
 
     var currentPairIndex by remember { mutableStateOf(0) }
-    val isSelectionFinished by mainViewModel.observeAnalysis().collectAsState()
 
     val winner by mainViewModel.winner.collectAsState()
+    val eventsParticipants by mainViewModel.currentEventParticipants.collectAsState()
+    val isSelectionComplete by mainViewModel.isSelectionComplete.collectAsState()
 
+    LaunchedEffect(Unit){
+        println("🔥 POLLING  First STARTED")
+        mainViewModel.startPollingSelection()
+    }
 
-println("isSelectionFinished $isSelectionFinished")
+    LaunchedEffect(isSelectionComplete) {
+        if (isSelectionComplete) {
+            println("Все оценки проставлены! Стартуем первый раунд")
+            mainViewModel.startNextRound(eventsParticipants, true)
+        }
+    }
 
-
-
-        mainViewModel.startNextRound(eventsParticipants, true)
+    if(isSelectionComplete) {
         if (pairs.isNotEmpty()) {
 
             if (currentPairIndex < pairs.size) {
@@ -179,7 +185,7 @@ println("isSelectionFinished $isSelectionFinished")
                                     rightScore = secondBboyPower + secondBboyMusicality + secondBboyCreativity
                                 )
 
-                                mainViewModel.addBattleResult(result)
+                                   mainViewModel.addBattleResult(result)
                                 currentPairIndex++
                             }
                         ) {
@@ -198,24 +204,30 @@ println("isSelectionFinished $isSelectionFinished")
                     Text("Следующий круг")
                 }
             }
+
         } else {
             Column {
                 Text(text = "Победитель - ${winner?.name}")
                 Button(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = {
-                        mainViewModel.finishEvent()
+                        //   mainViewModel.finishEvent()
                     }
                 ) {
                     Text("Соревнования завершены")
                 }
+
             }
         }
-    } else {
+    }
+    else{
+        CircularProgressIndicator()
+    }
+    /*else {
         println("wait judges decisions")
         CircularProgressIndicator()
         Text("Ждём решения судей")
-    }
+    }*/
 
 
     /*if (!eventsParticipants.isEmpty()) {
@@ -300,8 +312,8 @@ println("isSelectionFinished $isSelectionFinished")
             }
 
         }*/
-//}
-//}
+}
+
 
 @Composable
 fun ProgressSlider(
@@ -337,7 +349,11 @@ fun ProgressSlider(
 
 
 @Composable
-fun PupilImage(url: String, showShimmer: MutableState<Boolean>, participants: EventParticipants) {
+fun PupilImage(
+    url: String,
+    showShimmer: MutableState<Boolean>,
+    participants: EventParticipants
+) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         if (url.isBlank()) {
             Image(

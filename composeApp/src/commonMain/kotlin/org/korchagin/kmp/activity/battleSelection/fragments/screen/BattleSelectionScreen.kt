@@ -20,10 +20,13 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.korchagin.presentation.viewModel.MainViewModel
+import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.korchagin.kmp.activity.battle.BattleActivity
@@ -51,125 +55,134 @@ fun BattleSelectionScreen(componentNavigator: ComponentNavigator) {
 
     val mainViewModel = koinViewModel<MainViewModel>()
     val pupilsList by mainViewModel.pupils.collectAsState(emptyList())
-    //val eventsParticipants by mainViewModel.participants.collectAsState(emptyList())
-    val event by mainViewModel.observeEvent().collectAsState()
+    val eventsParticipants by mainViewModel.currentEventParticipants.collectAsState()
     val selectedJudge by mainViewModel.selectedJudge.collectAsState(null)
-    val eventsParticipants = event?.participants?.map { participants -> participants.value }
+    val coroutineScope = rememberCoroutineScope()
 
-    if(!eventsParticipants.isNullOrEmpty()) {
-        println("EventParticipants - $eventsParticipants")
-        val showShimmer = remember { mutableStateOf(true) }
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            item {
-                Text(
-                    modifier = Modifier.padding(16.dp),
-                    text = "Отбор. Количество участников ${event?.participants?.size}",
-                    style = Typography.text2xl(weights = FontWeights.SemiBold)
-                )
-            }
-            itemsIndexed(eventsParticipants) { index, pupil ->
-                val startBackgroundColor = Color.White
-                val endBackgroundColor = setPositionBackgroundColor(index)
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(
-                            brush = Brush.horizontalGradient(
-                                listOf(
-                                    startBackgroundColor, endBackgroundColor
-                                ), startX = 300.0f
-                            )
+    println("EventParticipants - ${eventsParticipants.size}")
+    val showShimmer = remember { mutableStateOf(true) }
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        item {
+            Text(
+                modifier = Modifier.padding(16.dp),
+                text = "Отбор. Количество участников ${eventsParticipants.size}",
+                style = Typography.text2xl(weights = FontWeights.SemiBold)
+            )
+        }
+        itemsIndexed(eventsParticipants) { index,pupil ->
+            val startBackgroundColor = Color.White
+            val endBackgroundColor = setPositionBackgroundColor(index)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(
+                        brush = Brush.horizontalGradient(
+                            listOf(
+                                startBackgroundColor, endBackgroundColor
+                            ), startX = 300.0f
                         )
-                        .padding(5.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    //        Log.d("ILYA","(image = ${value.avatar}")
-                    AsyncImage(
-                        model = "",
-                        contentDescription = "default crossfade example",
-                        modifier = Modifier
-                            .size(80.dp)
-                            .clip(CircleShape)
-                            .background(
-                                ShimmerBrush(
-                                    targetValue = 1300f, showShimmer = showShimmer.value
-                                )
-                            )
-                            .border(3.dp, Color.Gray, CircleShape),
-                        onSuccess = { showShimmer.value = false },
-                        contentScale = ContentScale.Crop
                     )
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Column(
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Text(
-                            text = pupil.name,
-                            letterSpacing = 1.sp,
-                            color = Color.Black,
-                        )
-                        Spacer(modifier = Modifier.height(5.dp))
-
-                        Column {
-                            val sliderValue = mainViewModel.participants.value
-                                .firstOrNull { it.userId == pupil.userId }
-                                ?.selectionPoints?.get(selectedJudge?.id)
-                                ?.toFloat() ?: 0f
-
-                            Slider(
-                                value = sliderValue,
-                                onValueChange = { newValue ->
-                                    mainViewModel.setSelectionPoints(pupil.userId, newValue)
-                                },
-                                steps = 19
+                    .padding(5.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                //        Log.d("ILYA","(image = ${value.avatar}")
+                AsyncImage(
+                    model = "",
+                    contentDescription = "default crossfade example",
+                    modifier = Modifier
+                        .size(80.dp)
+                        .clip(CircleShape)
+                        .background(
+                            ShimmerBrush(
+                                targetValue = 1300f, showShimmer = showShimmer.value
                             )
+                        )
+                        .border(3.dp, Color.Gray, CircleShape),
+                    onSuccess = { showShimmer.value = false },
+                    contentScale = ContentScale.Crop
+                )
+                Spacer(modifier = Modifier.width(10.dp))
+                Column(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        text = pupil.name,
+                        letterSpacing = 1.sp,
+                        color = Color.Black,
+                    )
+                    Spacer(modifier = Modifier.height(5.dp))
+
+                    Column {
+                        val sliderValue = eventsParticipants
+                            .firstOrNull { it.userId == pupil.userId }
+                            ?.selectionPoints?.get(selectedJudge?.id)
+                            ?.toFloat() ?: 0f
+
+                        var localSlider by remember { mutableStateOf(sliderValue) }
+                        Slider(
+                            value = localSlider,
+                            onValueChange = { newValue ->
+                                localSlider = newValue // обновляем локально для плавного движения
+
+                                mainViewModel.setSelectionPoints(pupil.userId, newValue)
+                            },
+                            valueRange = 0f..10f,
+                            steps = 19
+                        )
+
+// Синхронизируем локальный стейт с Flow
+                        LaunchedEffect(sliderValue) {
+                            localSlider = sliderValue
+                        }
 
 
-                            // Row с подписями
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth(),
-                                // .padding(horizontal = 8.dp),
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                for (i in 0..10) {
-                                    Text(
-                                        text = i.toString(),
-                                        style = Typography.textXs(weights = FontWeights.SemiBold)
-                                    )
-                                }
+                        // Row с подписями
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            // .padding(horizontal = 8.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            for (i in 0..10) {
+                                Text(
+                                    text = i.toString(),
+                                    style = Typography.textXs(weights = FontWeights.SemiBold)
+                                )
                             }
                         }
-
                     }
 
-                    if (index < pupilsList.size - 1) {
-                        Column(
-                            modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.End
-                        ) {
-                            HorizontalDivider(
-                                modifier = Modifier.fillMaxWidth(0.78f),
-                                color = Color.LightGray,
-                                thickness = 1.dp
-                            )
-                        }
-                    }
                 }
+
+                 if (index < pupilsList.size - 1) {
+                     Column(
+                         modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.End
+                     ) {
+                         HorizontalDivider(
+                             modifier = Modifier.fillMaxWidth(0.78f),
+                             color = Color.LightGray,
+                             thickness = 1.dp
+                         )
+                     }
+                 }
             }
-            item {
-                Button(onClick = {
+        }
+        item {
+            Button(onClick = {
+                coroutineScope.launch {
                     mainViewModel.sendSelectionResult()
                     findNavHost().navigateToActivity(BattleActivity)
-                }) {
-                    Text(text = "Сформировать сетку")
                 }
+            }) {
+                Text(text = "Сформировать сетку")
             }
         }
     }
+
 
 }

@@ -107,7 +107,8 @@ fun ProfileScreen(componentNavigator: ComponentNavigator, fragmentNavigator: Fra
                             )
                         } else {
                             AsyncImage(
-                                model = pupil.avatar,
+                               // model = pupil.avatar,
+                                model = "https://s453vla.storage.yandex.net/rdisk/95db9a7b8925041383afe31fc3bb7d7bcd34450ed20c206544773c2ea318102c/69d4f2d0/r8KVYBPTIwXxl316h8SKQzLPDip1HDXzZVVBpqaMEEi-kTOAIguDHCdQOJ6pJWYJoRca04Tq7WOIyFtAuJBGGw==?uid=69240487&filename=image1.jpg&disposition=attachment&hash=&limit=0&content_type=image%2Fjpeg&owner_uid=69240487&fsize=3213782&hid=598be1dd092275b0627c277c102e8a2e&media_type=image&tknv=v3&etag=4541d943678ec5380c59eab83435c21f&ts=64edd96065400&s=e78383fd46013b04070058ebc61741d0df82baf8c75432e6f933407583f6653f&pb=U2FsdGVkX197RXwAHv0TQOH8LxY8bg2g0Yk04gT1xbyhJMu9-U8RMntMsAJaYwN3jJPtDJyBpy7CM7JB6ZiLzx7aNDCz0YDQqgPTvh-Up3s",
                                 contentDescription = null,
                                 contentScale = ContentScale.Crop,
                                 modifier = Modifier.width(128.dp).aspectRatio(1.0f)

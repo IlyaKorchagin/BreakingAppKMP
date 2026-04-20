@@ -34,10 +34,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.korchagin.presentation.models.JudgeModel
 import com.korchagin.presentation.viewModel.MainViewModel
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
-import org.korchagin.kmp.activity.auth.component.registrationFragment.screen.MultiSelectDropdown
 import org.korchagin.kmp.activity.battleSelection.BattleSelectionActivity
 import org.korchagin.kmp.theme.colors.AppColors
 import team.platforma.extra_nav.navigator.activity.findNavHost
@@ -48,7 +48,7 @@ import team.platforma.extra_nav.navigator.component.api.ComponentNavigator
 @Composable
 fun EventsScreen(componentNavigator: ComponentNavigator) {
     val mainViewModel = koinViewModel<MainViewModel>()
-    val events by mainViewModel.events.collectAsState(emptyList())
+    val events by mainViewModel.events.collectAsState()
     val currentPupil by mainViewModel.currentPupil.collectAsState()
     val pupil = currentPupil ?: return
     val judges by mainViewModel.judges.collectAsState(null)
@@ -73,6 +73,27 @@ fun EventsScreen(componentNavigator: ComponentNavigator) {
                 shape = RoundedCornerShape(6.dp),
                 elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
             ) {
+
+
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    Text(
+                        text = event.title,
+                        style = TextStyle(
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = AppColors.colors().primaryColor
+                        )
+                    )
+                    Text(
+                        text = event.data,
+                        modifier = Modifier.padding(top = 4.dp),
+                        style = TextStyle(
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = AppColors.colors().primaryColor
+                        )
+                    )
+                }
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -80,34 +101,22 @@ fun EventsScreen(componentNavigator: ComponentNavigator) {
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
 
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text(text = event.title,
-                            style = TextStyle(
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = AppColors.colors().primaryColor
-                            )
-                        )
-                        Text(text = event.data,
-                            modifier = Modifier.padding(top = 4.dp),
-                            style = TextStyle(
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = AppColors.colors().primaryColor
-                            ))
-                    }
-
                     Button(onClick = {
-                        mainViewModel.setCurrentEvent(event.id)
-                        mainViewModel.eventById()
-                        findNavHost().navigateToActivity(BattleSelectionActivity)
-                       /* mainViewModel.loadParticipants(event, onSuccess = {
-                            mainViewModel.observeParticipants(event.id)
+                        coroutineScope.launch {
+                            mainViewModel.setCurrentEvent(event.id)
+
+                            // Ждём, пока participants станут доступны
+                            mainViewModel.currentEventParticipants
+                                .first { it.isNotEmpty() }
+
+                            // После этого навигация
                             findNavHost().navigateToActivity(BattleSelectionActivity)
-                        })*/
+                        }
+
                     }) {
                         Text(text = "Load participants")
                     }
+
 
                     Column() {
 

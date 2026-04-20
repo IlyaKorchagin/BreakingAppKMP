@@ -48,5 +48,7 @@ interface UserRepository {
 
     suspend fun observeParticipants(eventId: String): Flow<List<EventParticipantsEntry>>
 
+  //  fun observeEventsRealtime():Flow<List<EventEntry>>
+
 }
 
