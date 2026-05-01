@@ -6,12 +6,11 @@ import kotlinx.browser.document
 import org.w3c.dom.HTMLDivElement
 import org.w3c.dom.HTMLIFrameElement
 
-
 @Composable
-actual fun VideoPlayer(topPadding: Int, url: String) {
+actual fun VideoPlayer(topPadding: Int, url: String, urlRutube: String) {
     val containerId = "video-player-container"
 
-    LaunchedEffect(url) {
+    LaunchedEffect(url, urlRutube) {
         val root = document.getElementById("root") as? HTMLDivElement
         if (root == null) {
             console.warn("Root not found")
@@ -21,8 +20,8 @@ actual fun VideoPlayer(topPadding: Int, url: String) {
         // Удаляем старый контейнер (если есть)
         document.getElementById(containerId)?.remove()
 
-        // Только если url задан
-        if (url.isNotBlank()) {
+        // Проверяем, если urlRutube не пустой, то открываем Rutube
+        if (urlRutube.isNotBlank()) {
             val container = document.createElement("div") as HTMLDivElement
             container.id = containerId
             container.style.apply {
@@ -36,6 +35,37 @@ actual fun VideoPlayer(topPadding: Int, url: String) {
                 backgroundColor = "black"
             }
 
+            val iframe = document.createElement("iframe") as HTMLIFrameElement
+            // Формируем URL для Rutube
+            val cleanUrl = urlRutube.trimEnd('/')
+            val videoId = cleanUrl.substringAfterLast("/")
+            iframe.src = "https://rutube.ru/play/embed/$videoId"
+            iframe.width = "100%"
+            iframe.height = "360"
+            iframe.style.border = "none"
+            iframe.setAttribute("allowfullscreen", "true")
+            iframe.setAttribute(
+                "allow",
+                "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            )
+
+            container.appendChild(iframe)
+            root.appendChild(container)
+        }
+        // Если urlRutube пустой, открываем YouTube
+        else if (url.isNotBlank()) {
+            val container = document.createElement("div") as HTMLDivElement
+            container.id = containerId
+            container.style.apply {
+                width = "95%"
+                height = "360px"
+                position = "absolute"
+                top = "${topPadding}px" // можешь менять в зависимости от экрана
+                left = "50%"
+                transform = "translateX(-50%)"
+                zIndex = "1000"
+                backgroundColor = "black"
+            }
 
             val iframe = document.createElement("iframe") as HTMLIFrameElement
             iframe.src = "https://www.youtube.com/embed/$url?autoplay=1&mute=1"
@@ -53,9 +83,10 @@ actual fun VideoPlayer(topPadding: Int, url: String) {
         }
     }
 
-    DisposableEffect(url) {
+    DisposableEffect(url, urlRutube) {
         onDispose {
             document.getElementById(containerId)?.remove()
         }
     }
 }
+

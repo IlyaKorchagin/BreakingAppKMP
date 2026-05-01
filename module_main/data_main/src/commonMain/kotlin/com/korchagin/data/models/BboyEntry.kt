@@ -10,6 +10,7 @@ data class BboyEntry(
     val avatar: String,
     val country: String,
     val video: String,
+    val videoRutube: String,
     val description: String,
     @SerialName("shortdescription") val shortDescription: String
 )

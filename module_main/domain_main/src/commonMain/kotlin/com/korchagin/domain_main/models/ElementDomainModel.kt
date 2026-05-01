@@ -17,7 +17,8 @@ data class ElementDomainModel(
     var progress80: String = "",
     var progress90: String = "",
     var progress100: String = "",
-    var videoUrl: String = ""
+    var videoUrl: String = "",
+    var videoRutube: String = ""
 )
 fun ElementEntry.toElementDomainModel(): ElementDomainModel {
     return ElementDomainModel(
@@ -35,6 +36,7 @@ fun ElementEntry.toElementDomainModel(): ElementDomainModel {
         progress80 = progress80,
         progress90 = progress90,
         progress100 = progress100,
-        videoUrl = videoUrl
+        videoUrl = videoUrl,
+        videoRutube = videoRutube
     )
 }

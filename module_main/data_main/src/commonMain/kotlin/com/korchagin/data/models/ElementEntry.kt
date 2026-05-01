@@ -15,5 +15,6 @@ data class ElementEntry(
     var progress80: String,
     var progress90: String,
     var progress100: String,
-    var videoUrl: String
+    var videoUrl: String,
+    val videoRutube: String,
 )

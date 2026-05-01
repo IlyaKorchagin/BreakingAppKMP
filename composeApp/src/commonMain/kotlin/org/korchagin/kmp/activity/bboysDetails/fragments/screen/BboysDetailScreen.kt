@@ -173,7 +173,8 @@ fun BboysDetailScreen(
 
                 VideoPlayer(
                     topPadding = if (currentPlatform == PlatformType.JS) 250 else 0,
-                    url = bboy.video
+                    url = bboy.video,
+                    urlRutube = bboy.videoRutube
                 )
 
                 ExpandableTextField(

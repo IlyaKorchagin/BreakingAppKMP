@@ -266,7 +266,8 @@ fun ProfileScreen(componentNavigator: ComponentNavigator, fragmentNavigator: Fra
 
                     VideoPlayer(
                         topPadding = 250,
-                        url = pupil.video
+                        url = pupil.video,
+                        urlRutube = pupil.videoRutube
                     )
                 }
 

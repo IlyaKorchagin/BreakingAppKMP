@@ -10,6 +10,7 @@ data class BboyDomainModel(
     val avatar: String,
     val country: String,
     val video: String,
+    val videoRutube: String,
     val description: String,
     val shortDescription: String
 )
@@ -21,6 +22,7 @@ fun BboyEntry.toBboyDomainModel() = BboyDomainModel(
     avatar = avatar,
     country = country,
     video = video,
+    videoRutube = videoRutube,
     description = description,
     shortDescription = shortDescription
 )

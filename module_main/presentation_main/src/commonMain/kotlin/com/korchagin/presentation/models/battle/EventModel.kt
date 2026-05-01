@@ -18,7 +18,7 @@ fun EventDomainModel.toEventModel() = EventModel(
     data = data,
     regUrl = regUrl,
     participants = participants.mapValues { it.value.toEventParticipants() },
-    judges = judges
+    judges = judges.toMap()
 )
 
 fun EventModel.toEventDomainModel() = EventDomainModel(

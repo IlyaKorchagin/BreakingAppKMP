@@ -1,6 +1,5 @@
 package com.korchagin.data.models
 
-import com.korchagin.module_common.Rounds
 import kotlinx.serialization.Serializable
 
 @Serializable

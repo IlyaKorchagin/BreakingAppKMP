@@ -48,6 +48,7 @@ interface UserRepository {
 
     suspend fun observeParticipants(eventId: String): Flow<List<EventParticipantsEntry>>
 
+    suspend fun setBattlePosition(eventId: String, usersList: List<String>, battlePositions: List<Int>)
   //  fun observeEventsRealtime():Flow<List<EventEntry>>
 
 }

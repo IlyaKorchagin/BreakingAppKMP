@@ -1,10 +1,6 @@
 package com.korchagin.domain_main.useCase
 
 import com.korchagin.data.repository.UserRepository
-import com.korchagin.domain_main.models.EventDomainModel
-import com.korchagin.domain_main.models.EventParticipantsDomain
-import com.korchagin.domain_main.models.toEventDataModel
-import com.korchagin.domain_main.models.toEventParticipantsEntry
 
 
 class SetBattleResult(private val repository: UserRepository) {
@@ -15,4 +11,7 @@ class SetBattleResult(private val repository: UserRepository) {
             judgeId = judgeId,
             pointsList = pointsList,
             round = round)
+
+    suspend fun setBattlePosition(eventId: String, usersList: List<String>, battlePositions: List<Int>) =
+        repository.setBattlePosition(eventId, usersList, battlePositions)
 }

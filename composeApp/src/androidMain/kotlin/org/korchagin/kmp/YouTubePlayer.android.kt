@@ -27,6 +27,7 @@ actual fun VideoPlayer(topPadding: Int, url: String) {
 */
 
 import android.content.Intent
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -37,21 +38,38 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 
 @Composable
-actual fun VideoPlayer(topPadding: Int, url: String) {
+actual fun VideoPlayer(topPadding: Int, url: String, urlRutube: String) {
 
     val context = LocalContext.current
-
-    Button(
-        modifier = Modifier
-            .padding(top = 16.dp),
-        onClick = {
-            val intent = Intent(
-                Intent.ACTION_VIEW,
-                ("https://www.youtube.com/watch?v=$url").toUri()
-            )
-            context.startActivity(intent)
-        }) {
-        Text(text = "Посмотреть видео ролик на YouTube")
+    Column() {
+        if (url.isNotEmpty()) {
+            Button(
+                modifier = Modifier
+                    .padding(top = 16.dp),
+                onClick = {
+                    val intent = Intent(
+                        Intent.ACTION_VIEW,
+                        ("https://www.youtube.com/watch?v=$url").toUri()
+                    )
+                    context.startActivity(intent)
+                }) {
+                Text(text = "Посмотреть видео ролик на YouTube")
+            }
+        }
+        if (urlRutube.isNotEmpty()) {
+            Button(
+                modifier = Modifier
+                    .padding(top = 16.dp),
+                onClick = {
+                    val intent = Intent(
+                        Intent.ACTION_VIEW,
+                        urlRutube.toUri()
+                    )
+                    context.startActivity(intent)
+                }) {
+                Text(text = "Посмотреть видео ролик на Rutube")
+            }
+        }
     }
 }
 

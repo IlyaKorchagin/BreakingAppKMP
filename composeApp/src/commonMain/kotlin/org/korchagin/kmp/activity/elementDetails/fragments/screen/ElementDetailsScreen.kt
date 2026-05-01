@@ -56,7 +56,7 @@ fun ElementDetailsScreen(
         ) {
             println("element = $element")
 
-            VideoPlayer(topPadding = 100, url = element.videoUrl)
+            VideoPlayer(topPadding = 100, url = element.videoUrl, urlRutube = element.videoRutube)
 
             if (currentPlatform == PlatformType.JS) {
                 Spacer(modifier = Modifier.height(450.dp))

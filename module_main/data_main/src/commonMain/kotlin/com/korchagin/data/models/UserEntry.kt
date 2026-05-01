@@ -15,6 +15,7 @@ data class UserEntry(
     var city: String,
     var coach: String,
     var video: String,
+    val videoRutube: String,
     var role: String,
     var status: Int,
     /*

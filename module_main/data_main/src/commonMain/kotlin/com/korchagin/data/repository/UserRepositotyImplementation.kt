@@ -147,6 +147,7 @@ class UserRepositotyImplementation(
                 val eventDate = event.data.toLocalDateOrNull()
                 eventDate != null && eventDate >= today
             }
+            println("Log: repo events - $events")
             send(events)
         }
     }
@@ -253,6 +254,7 @@ class UserRepositotyImplementation(
                 coach = coach.joinToString(", "),
                 city = "",
                 video = "",
+                videoRutube = "",
                 status = 0,
                 role = "user",
                 subscription = 0,
@@ -577,8 +579,13 @@ class UserRepositotyImplementation(
         event: EventEntry
     ): Boolean {
         try {
-            // формируем payload для каждого участника
-            participants.forEach { participant ->
+            // Отфильтровываем участников, если необходимо (например, оставляем только участников с позицией > 0)
+            val sortedParticipants = participants
+                .filter { it.battlePosition > 0 } // фильтруем участников по позиции, если это необходимо
+                .sortedBy { it.battlePosition } // сортируем участников по позиции
+
+            // Формируем payload для каждого участника
+            sortedParticipants.forEach { participant ->
                 val lastRoundEntry = participant.battlePoints?.entries?.lastOrNull()
                 val payload = mapOf(
                     "name" to participant.name,
@@ -685,6 +692,22 @@ class UserRepositotyImplementation(
                 .child(round)
                 .child(judgeId)
                 .setValue(pointsList[index])
+        }
+    }
+
+    override suspend fun setBattlePosition(
+        eventId: String,
+        usersList: List<String>,
+        battlePositions: List<Int>
+    ) {
+        // Обновляем позицию участников
+        usersList.forEachIndexed { index, userId ->
+            eventsDB
+                .child(eventId)
+                .child("participants")
+                .child(userId)
+                .child("battlePosition")
+                .setValue(battlePositions[index])  // Обновляем battlePosition
         }
     }
 

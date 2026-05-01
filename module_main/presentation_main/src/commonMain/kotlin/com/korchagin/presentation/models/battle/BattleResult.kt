@@ -1,6 +1,7 @@
 package com.korchagin.presentation.models.battle
 
 data class BattleResult(
+    val pairId: String,
     val left: EventParticipants,
     val right: EventParticipants,
     val leftScore: Int,

@@ -9,5 +9,6 @@ data class CoachEntry(
     val nick: String,
     val avatar: String,
     val video: String,
+    val videoRutube: String,
     val description: String
 )

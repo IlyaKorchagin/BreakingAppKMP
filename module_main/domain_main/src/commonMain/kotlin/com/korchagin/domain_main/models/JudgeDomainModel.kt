@@ -9,6 +9,7 @@ data class JudgeDomainModel(
     val nick: String,
     val avatar: String,
     val video: String,
+    val videoRutube: String,
     val description: String
 )
 
@@ -18,6 +19,7 @@ fun JudgeEntry.toJudgeDomainModel() = JudgeDomainModel(
     nick = nick,
     avatar = avatar,
     video = video,
+    videoRutube = videoRutube,
     description = description
 )
 
@@ -27,5 +29,6 @@ fun JudgeDomainModel.toJudgeDataModel() = JudgeEntry(
     nick = nick,
     avatar = avatar,
     video = video,
-    description = description
+    description = description,
+    videoRutube = videoRutube
 )

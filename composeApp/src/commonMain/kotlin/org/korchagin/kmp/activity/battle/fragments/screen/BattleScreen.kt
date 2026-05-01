@@ -70,14 +70,11 @@ fun BattleScreen(componentNavigator: ComponentNavigator) {
 
     var currentPairIndex by remember { mutableStateOf(0) }
 
+
     val winner by mainViewModel.winner.collectAsState()
     val eventsParticipants by mainViewModel.currentEventParticipants.collectAsState()
-    val isSelectionComplete by mainViewModel.isSelectionComplete.collectAsState()
-
-    LaunchedEffect(Unit){
-        println("🔥 POLLING  First STARTED")
-        mainViewModel.startPollingSelection()
-    }
+    val isSelectionComplete by mainViewModel.isSelectionComplete.collectAsState(false)
+    val isBattleComplete by mainViewModel.isBattleComplete.collectAsState(false)
 
     LaunchedEffect(isSelectionComplete) {
         if (isSelectionComplete) {
@@ -86,6 +83,7 @@ fun BattleScreen(componentNavigator: ComponentNavigator) {
         }
     }
 
+    println("Log: isSelectionComplete - $isSelectionComplete")
     if(isSelectionComplete) {
         if (pairs.isNotEmpty()) {
 
@@ -178,7 +176,11 @@ fun BattleScreen(componentNavigator: ComponentNavigator) {
                         Button(
                             modifier = Modifier.fillMaxWidth(),
                             onClick = {
+                                val pairId = listOf(pair.left.userId, pair.right.userId)
+                                    .sorted()
+                                    .joinToString("_")
                                 val result = BattleResult(
+                                    pairId = pairId,
                                     left = pair.left,
                                     right = pair.right,
                                     leftScore = firstBboyPower + firstBboyMusicality + firstBboyCreativity,
@@ -194,14 +196,22 @@ fun BattleScreen(componentNavigator: ComponentNavigator) {
                     }
                 }
             } else {
-                Button(
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = {
-                        mainViewModel.buildNextRound()
-                        currentPairIndex = 0
+                if (isBattleComplete) {
+                    // Все участники завершили оценки, можно переходить к следующему кругу
+
+                    Button(
+                        modifier = Modifier.fillMaxWidth(),
+                        onClick = {
+                            currentPairIndex = 0
+                            mainViewModel.buildNextRound()
+                        }
+                    ) {
+                        Text("Следующий круг")
                     }
-                ) {
-                    Text("Следующий круг")
+                } else {
+                    // Ожидаем, пока все участники завершат свои оценки
+                    CircularProgressIndicator()
+                    Text("Ожидаем решения судей")
                 }
             }
 
@@ -211,7 +221,7 @@ fun BattleScreen(componentNavigator: ComponentNavigator) {
                 Button(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = {
-                        //   mainViewModel.finishEvent()
+                           mainViewModel.finishEvent()
                     }
                 ) {
                     Text("Соревнования завершены")

@@ -16,6 +16,7 @@ data class PupilDomainModel(
     var city: String,
     val coach: String,
     var video: String,
+    var videoRutube: String,
     var role: String,
     var status: Int,
     /*
@@ -176,6 +177,7 @@ fun UserEntry.toPupilDomainModel() = PupilDomainModel(
     coach = coach,
     city = city,
     video = video,
+    videoRutube = videoRutube,
     role = role,
     status = status,
 
@@ -293,6 +295,7 @@ fun PupilDomainModel.toPupilDataModel() = UserEntry(
     country = country,
     city = city,
     video = video,
+    videoRutube = videoRutube,
     role = role,
     status = status,
 

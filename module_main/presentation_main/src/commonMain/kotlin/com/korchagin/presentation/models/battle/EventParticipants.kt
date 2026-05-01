@@ -1,7 +1,6 @@
 package com.korchagin.presentation.models.battle
 
 import com.korchagin.domain_main.models.EventParticipantsDomain
-import com.korchagin.module_common.Rounds
 
 data class EventParticipants(
     val timestamp: String,
@@ -20,8 +19,8 @@ fun EventParticipantsDomain.toEventParticipants() = EventParticipants(
     name = name,
     email = email,
     eventId = eventId,
-    selectionPoints = selectionPoints,
-    battlePoints = battlePoints,
+    selectionPoints = selectionPoints.toMap(),
+    battlePoints = battlePoints.toMap(),
     battlePosition = battlePosition
 )
 
@@ -36,8 +35,6 @@ fun EventParticipants.toEventParticipantsDomain() = EventParticipantsDomain(
     battlePosition = battlePosition
 )
 
-fun EventParticipants.avgSelectionPoints(): Float =
-    if (selectionPoints.isEmpty()) 0f
-    else selectionPoints.values.average().toFloat()
+
 
 
