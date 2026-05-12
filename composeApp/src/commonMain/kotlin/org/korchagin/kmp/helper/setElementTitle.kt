@@ -1,5 +1,6 @@
 package org.korchagin.kmp.helper
 
+import com.korchagin.presentation.constants.AIRBABY
 import com.korchagin.presentation.constants.AIRFLARE
 import com.korchagin.presentation.constants.ANGLE
 import com.korchagin.presentation.constants.BABY
@@ -8,12 +9,14 @@ import com.korchagin.presentation.constants.BRIDGE
 import com.korchagin.presentation.constants.BUTTERFLY
 import com.korchagin.presentation.constants.CHAIR
 import com.korchagin.presentation.constants.CRICKET
+import com.korchagin.presentation.constants.DOUBLE
 import com.korchagin.presentation.constants.ELBOW
 import com.korchagin.presentation.constants.ELBOW_AIRFLARE
 import com.korchagin.presentation.constants.FINGERS
 import com.korchagin.presentation.constants.FLARE
 import com.korchagin.presentation.constants.FOLD
 import com.korchagin.presentation.constants.FOUR_STEPS
+import com.korchagin.presentation.constants.GRABMILL
 import com.korchagin.presentation.constants.HALO
 import com.korchagin.presentation.constants.HANDSTAND
 import com.korchagin.presentation.constants.HAND_JUMP
@@ -41,9 +44,11 @@ import com.korchagin.presentation.constants.SIX_TO_COFFEE_STEPS
 import com.korchagin.presentation.constants.SIX_TO_PRETZEL
 import com.korchagin.presentation.constants.SIX_TO_RUSSIAN_STEPS
 import com.korchagin.presentation.constants.SIX_TO_THREE_STEPS
+import com.korchagin.presentation.constants.SUPERMAN
 import com.korchagin.presentation.constants.SWIPES
 import com.korchagin.presentation.constants.THREE_ONE_LEG_STEPS
 import com.korchagin.presentation.constants.THREE_STEPS
+import com.korchagin.presentation.constants.TOMBSTONE
 import com.korchagin.presentation.constants.TURTLE
 import com.korchagin.presentation.constants.TURTLEMOVE
 import com.korchagin.presentation.constants.TURTLE_TO_HANDSTAND
@@ -51,11 +56,13 @@ import com.korchagin.presentation.constants.TWINE
 import com.korchagin.presentation.constants.UFO
 import com.korchagin.presentation.constants.WEB
 import com.korchagin.presentation.constants.WINDMILL
+import com.korchagin.presentation.constants.WINDMILL_TO_HANDSTAND
 import com.korchagin.presentation.constants.WOLF
 
 fun setElementTitle(elementTitle: String): String {
     return when (elementTitle) {
         RATING -> "Общий рейтинг"
+        AIRBABY -> "Стойка ребёнка на воздухе"
         BABY -> "Стойка ребёнка"
         SHOULDER -> "Стойка на плече"
         HEAD -> "Стойка на голове"
@@ -97,7 +104,11 @@ fun setElementTitle(elementTitle: String): String {
         HORIZONT -> "Горизонт"
         PRESS_TO_HANDSTAND -> "Спичаг"
         HAND_JUMP -> "Прыжки на руках"
-
+        DOUBLE -> "Двойная корона"
+        GRABMILL -> "Томогавк"
+        SUPERMAN -> "Супермэн"
+        TOMBSTONE -> "Томбстоун"
+        WINDMILL_TO_HANDSTAND -> "Переход гелик в руки"
         TURTLE_TO_HANDSTAND -> "Выход из черепахи в руки"
         SIX_STEPS -> "6 шагов за 30 сек"
         THREE_STEPS -> "3 шага за 30 сек"

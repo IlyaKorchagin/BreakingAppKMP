@@ -69,6 +69,8 @@ data class PupilModel(
 
     //---------> FREZZE ---------->
 
+    var airBabyfrezze: Int,
+    var airBabyfrezzeRecord: Int,
     var babyfrezze: Int,
     var chairfrezze: Int,
     var elbowfrezze: Int,
@@ -92,10 +94,14 @@ data class PupilModel(
     var backspinRecord: Int,
     var cricket: Int,
     var cricketRecord: Int,
+    var double: Int,
+    var doubleRecord: Int,
     var elbowairflare: Int,
     var elbowairflareRecord: Int,
     var flare: Int,
     var flareRecord: Int,
+    var grabmill: Int,
+    var grabmillRecord: Int,
     var jackhammer: Int,
     var jackhammerRecord: Int,
     var halo: Int,
@@ -106,7 +112,11 @@ data class PupilModel(
     var munchmillRecord: Int,
     var ninetyNine: Int,
     var ninetyNineRecord: Int,
+    var superman: Int,
+    var supermanRecord: Int,
     var swipes: Int,
+    var tombstone: Int,
+    var tombstoneRecord: Int,
     var turtle: Int,
     var ufo: Int,
     var ufoRecord: Int,
@@ -114,8 +124,11 @@ data class PupilModel(
     var webRecord: Int,
     var windmill: Int,
     var windmillRecord: Int,
+    var windmillToHandstand: Int,
+    var windmillToHandstandRecord: Int,
     var wolf: Int,
     var wolfRecord: Int,
+
 
     //<-------- POWER MOVE <-------------
 
@@ -205,6 +218,8 @@ fun PupilDomainModel.toPupilModel() = PupilModel(
     newPosition = newPosition,
     currentPosition = currentPosition,
 
+    airBabyfrezze = airBabyfrezze,
+    airBabyfrezzeRecord = airBabyfrezzeRecord,
     babyfrezze = babyfrezze,
     chairfrezze = chairfrezze,
     elbowfrezze = elbowfrezze,
@@ -224,10 +239,14 @@ fun PupilDomainModel.toPupilModel() = PupilModel(
     backspinRecord = backspinRecord,
     cricket = cricket,
     cricketRecord = cricketRecord,
+    double = double,
+    doubleRecord = doubleRecord,
     elbowairflare = elbowairflare,
     elbowairflareRecord = elbowairflareRecord,
     flare = flare,
     flareRecord = flareRecord,
+    grabmill = grabmill,
+    grabmillRecord = grabmillRecord,
     jackhammer = jackhammer,
     jackhammerRecord = jackhammerRecord,
     halo = halo,
@@ -238,7 +257,11 @@ fun PupilDomainModel.toPupilModel() = PupilModel(
     munchmillRecord = munchmillRecord,
     ninetyNine = ninetyNine,
     ninetyNineRecord = ninetyNineRecord,
+    superman = superman,
+    supermanRecord = supermanRecord,
     swipes = swipes,
+    tombstone = tombstone,
+    tombstoneRecord = tombstoneRecord,
     turtle = turtle,
     ufo = ufo,
     ufoRecord = ufoRecord,
@@ -246,6 +269,8 @@ fun PupilDomainModel.toPupilModel() = PupilModel(
     webRecord = webRecord,
     windmill = windmill,
     windmillRecord = windmillRecord,
+    windmillToHandstand = windmillToHandstand,
+    windmillToHandstandRecord = windmillToHandstandRecord,
     wolf = wolf,
     wolfRecord = wolfRecord,
 
@@ -323,6 +348,8 @@ fun PupilModel.toPupilDomainModel() = PupilDomainModel(
     newPosition = newPosition,
     currentPosition = currentPosition,
 
+    airBabyfrezze = airBabyfrezze,
+    airBabyfrezzeRecord = airBabyfrezzeRecord,
     babyfrezze = babyfrezze,
     chairfrezze = chairfrezze,
     elbowfrezze = elbowfrezze,
@@ -342,10 +369,14 @@ fun PupilModel.toPupilDomainModel() = PupilDomainModel(
     backspinRecord = backspinRecord,
     cricket = cricket,
     cricketRecord = cricketRecord,
+    double = double,
+    doubleRecord = doubleRecord,
     elbowairflare = elbowairflare,
     elbowairflareRecord = elbowairflareRecord,
     flare = flare,
     flareRecord = flareRecord,
+    grabmill = grabmill,
+    grabmillRecord = grabmillRecord,
     jackhammer = jackhammer,
     jackhammerRecord = jackhammerRecord,
     halo = halo,
@@ -356,7 +387,11 @@ fun PupilModel.toPupilDomainModel() = PupilDomainModel(
     munchmillRecord = munchmillRecord,
     ninetyNine = ninetyNine,
     ninetyNineRecord = ninetyNineRecord,
+    superman = superman,
+    supermanRecord = supermanRecord,
     swipes = swipes,
+    tombstone = tombstone,
+    tombstoneRecord = tombstoneRecord,
     turtle = turtle,
     ufo = ufo,
     ufoRecord = ufoRecord,
@@ -364,6 +399,8 @@ fun PupilModel.toPupilDomainModel() = PupilDomainModel(
     webRecord = webRecord,
     windmill = windmill,
     windmillRecord = windmillRecord,
+    windmillToHandstand = windmillToHandstand,
+    windmillToHandstandRecord = windmillToHandstandRecord,
     wolf = wolf,
     wolfRecord = wolfRecord,
 
@@ -386,7 +423,6 @@ fun PupilModel.toPupilDomainModel() = PupilDomainModel(
     pressUpHandstand = pressUpHandstand,
     pressUpHandstandRecord = pressUpHandstandRecord,
     turtleToHandstand = turtleToHandstand,
-
     butterfly = butterfly,
     fold = fold,
     shoulders = shoulders,
@@ -407,6 +443,7 @@ fun PupilModel.toPupilDomainModel() = PupilDomainModel(
 fun PupilModel.getProgress(elementTitle: String): Float {
     return when (elementTitle) {
         RATING -> rating.toFloat()
+        AIRBABY -> airBabyfrezzeRecord.toFloat()
         BABY -> babyfrezze.toFloat()
         SHOULDER -> shoulderfrezze.toFloat()
         TURTLE -> turtlefrezze.toFloat()
@@ -434,6 +471,11 @@ fun PupilModel.getProgress(elementTitle: String): Float {
         ELBOW_AIRFLARE -> elbowairflare.toFloat()
         JACKHAMMER -> jackhammer.toFloat()
         SWIPES -> swipes.toFloat()
+        DOUBLE -> double.toFloat()
+        GRABMILL -> grabmill.toFloat()
+        SUPERMAN -> superman.toFloat()
+        TOMBSTONE -> tombstone.toFloat()
+        WINDMILL_TO_HANDSTAND -> windmillToHandstand.toFloat()
 
         ANGLE -> angle.toFloat()
         BRIDGE -> bridge.toFloat()
@@ -466,6 +508,12 @@ fun PupilModel.getRecord(elementTitle: String): Int {
         CHAIR -> chairfrezze.toFloat()
         ELBOW -> elbowfrezze.toFloat()
         HEAD_HOLLOWBACK -> headhollowbackfrezze.toFloat()*/
+        AIRBABY -> airBabyfrezzeRecord
+        DOUBLE -> doubleRecord
+        GRABMILL -> grabmillRecord
+        SUPERMAN -> supermanRecord
+        TOMBSTONE -> tombstoneRecord
+        WINDMILL_TO_HANDSTAND -> windmillToHandstandRecord
         ONE_HAND -> onehandfrezzeRecord
         INVERT -> invertfrezzeRecord
   //      HOLLOWBACK -> hollowbackfrezze.toFloat()
@@ -522,6 +570,7 @@ fun PupilModel.getRecord(elementTitle: String): Int {
 
 fun PupilModel.setProgress(elementTitle: String, progress: Int) {
     when (elementTitle) {
+        AIRBABY -> airBabyfrezze = progress
         BABY -> babyfrezze = progress
         SHOULDER -> shoulderfrezze = progress
         TURTLE -> turtlefrezze = progress
@@ -549,6 +598,11 @@ fun PupilModel.setProgress(elementTitle: String, progress: Int) {
         ELBOW_AIRFLARE -> elbowairflare = progress
         JACKHAMMER -> jackhammer = progress
         SWIPES -> swipes = progress
+        DOUBLE -> double = progress
+        GRABMILL -> grabmill = progress
+        SUPERMAN -> superman = progress
+        TOMBSTONE -> tombstone = progress
+        WINDMILL_TO_HANDSTAND -> windmillToHandstand = progress
 
         ANGLE -> angle = progress
         BRIDGE -> bridge = progress
@@ -574,6 +628,7 @@ fun PupilModel.setProgress(elementTitle: String, progress: Int) {
 
 fun PupilModel.setRecord(elementTitle: String, recordCount: Int) {
     when (elementTitle) {
+        AIRBABY -> airBabyfrezzeRecord = recordCount
       /*  BABY -> babyfrezze = recordCount
         SHOULDER -> shoulderfrezze = recordCount
         TURTLE -> turtlefrezze = recordCount
@@ -600,6 +655,11 @@ fun PupilModel.setRecord(elementTitle: String, recordCount: Int) {
         UFO -> ufoRecord = recordCount
         ELBOW_AIRFLARE -> elbowairflareRecord = recordCount
         JACKHAMMER -> jackhammerRecord = recordCount
+        DOUBLE -> doubleRecord = recordCount
+        GRABMILL -> grabmillRecord = recordCount
+        SUPERMAN -> supermanRecord = recordCount
+        TOMBSTONE -> tombstoneRecord = recordCount
+        WINDMILL_TO_HANDSTAND -> windmillToHandstandRecord = recordCount
  //       SWIPES -> swipes = recordCount
 
   /*      ANGLE -> angle = recordCount

@@ -4,6 +4,7 @@ const val EMAIL_KEY = "email"
 const val RATING = "rating"
 
 // Freeze
+const val AIRBABY = "AirBaby"
 const val BABY = "Baby"
 const val SHOULDER = "Shoulder"
 const val TURTLE = "Turtle"
@@ -32,6 +33,16 @@ const val NINETYNINE = "Ninetynine"
 const val UFO = "Ufo"
 const val ELBOW_AIRFLARE = "ElbowAirflare"
 const val JACKHAMMER = "Jackhammer"
+
+const val DOUBLE = "Double"
+
+const val GRABMILL = "Grabmill"
+
+const val SUPERMAN = "Superman"
+
+const val TOMBSTONE = "Tombstone"
+
+const val WINDMILL_TO_HANDSTAND = "WindmillToHandstand"
 
 // OFP
 const val ANGLE = "Angle"
