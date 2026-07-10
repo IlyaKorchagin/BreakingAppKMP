@@ -37,6 +37,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -189,6 +190,21 @@ class MainViewModel(
 
             event.copy(participants = updatedParticipants)
         }
+    }
+
+    fun getSelectionPoints(
+        pupilId: String,
+        judgeId: String?
+    ): Flow<Double> {
+
+
+            val eventId = _currentEventId.value ?: return flowOf(0.0)
+            val safeJudgeId = judgeId ?: return flowOf(0.0)
+
+            return mainUseCase
+                .getSelectionPoints
+                .getSelectionPoints(eventId, pupilId, safeJudgeId)
+
     }
 
     fun sendSelectionResult() {

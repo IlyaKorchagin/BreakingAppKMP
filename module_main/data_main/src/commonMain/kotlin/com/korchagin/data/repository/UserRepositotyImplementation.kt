@@ -224,6 +224,20 @@ class UserRepositotyImplementation(
         }
     }
 
+   /* override suspend fun getBboysList(): Flow<List<BboyEntry>> = channelFlow {
+        bboysDB.valueEvents.collect { bboys ->
+            val bboysElements = bboys.children.mapNotNull {
+                try {
+                    it.value<BboyEntry>()
+                } catch (e: Exception) {
+                    println("Error decoding user: ${e.message}")
+                    null
+                }
+            }
+            send(bboysElements)
+        }
+    }*/
+
     override suspend fun getBboysList(): Flow<List<BboyEntry>> = channelFlow {
         bboysDB.valueEvents.collect { bboys ->
             val bboysElements = bboys.children.mapNotNull {
@@ -687,6 +701,44 @@ class UserRepositotyImplementation(
                 .setValue(pointsList[index])
         }
     }
+
+    override fun getSelectionPoints(
+        eventId: String,
+        pupilId: String,
+        judgeId: String
+    ): Flow<Double> = channelFlow {
+
+        eventsDB
+            .child(eventId)
+            .child("participants")
+            .child(pupilId)
+            .child("selectionPoints")
+            .child(judgeId)
+            .valueEvents
+            .collect { snapshot ->
+
+                send(snapshot.children.firstOrNull()?.value<Double>() ?: 0.0)
+            }
+    }
+
+   /* override suspend fun getUserById(id: String): Flow<UserEntry> = channelFlow {
+        coroutineScope {
+            pupilsDB
+                .orderByChild("email")
+                .equalTo(id)
+                .valueEvents
+                .onEach { snapshot ->
+                    val user = snapshot.children.firstOrNull()?.value<UserEntry>()
+                    println("Found user: ${user?.name}")
+                    if (user != null) {
+                        trySend(user)
+                    }
+                }
+                .launchIn(this)
+        }
+    }*/
+
+
 
     override suspend fun setBattlePoints(
         eventId: String,

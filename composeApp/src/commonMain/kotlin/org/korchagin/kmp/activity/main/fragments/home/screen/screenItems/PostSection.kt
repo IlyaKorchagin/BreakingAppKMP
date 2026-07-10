@@ -40,6 +40,7 @@ import com.korchagin.presentation.models.ElementModel
 import com.korchagin.presentation.models.Elements
 import com.korchagin.presentation.models.PupilModel
 import com.korchagin.presentation.models.getProgress
+import com.korchagin.presentation.models.getRecord
 import com.korchagin.presentation.models.setProgress
 import com.korchagin.presentation.models.setRecord
 import com.korchagin.presentation.viewModel.MainViewModel
@@ -75,8 +76,17 @@ fun PostSection(
             .fillMaxSize()
     ) {
         itemsIndexed(posts) { index, value ->
-            var progress by remember { mutableStateOf(value.progress ?: 0f) }
-            var record by remember { mutableStateOf(value.record) }
+         //   var progress by remember { mutableStateOf(value.progress ?: 0f) }
+            var progress by remember(pupil, value.title) {
+                mutableStateOf(
+                    pupil.getProgress(value.title).toFloat()
+                )
+            }
+            var record by remember(pupil, value.title) {
+                mutableStateOf(
+                    pupil.getRecord(value.title)
+                )
+            }
             val startBackgroundColor = Color.White
             val endBackgroundColor = setElementColor(value.title)
             Row(
@@ -166,7 +176,7 @@ fun PostSection(
                                     )
                                 ),
                                 progress.toInt(),
-                                true
+                               true
                             )
                         }
                         if (value.icon == LOCK) {
@@ -191,7 +201,7 @@ fun PostSection(
                     } else {
                         if (!footWork) {
                             Spacer(modifier = Modifier.height(5.dp))
-                            ProgressSlider(progress.toInt(), {
+                            ProgressSlider(  progress.toInt(), {
                                 progress = it.toFloat()
                                 pupil.setProgress(value.title, progress.toInt())
                                 mainViewModel.updateClickedPupil(pupil)

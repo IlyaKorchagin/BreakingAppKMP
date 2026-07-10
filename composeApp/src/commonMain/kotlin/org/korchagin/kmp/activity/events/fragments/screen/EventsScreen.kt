@@ -34,7 +34,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.korchagin.presentation.models.JudgeModel
 import com.korchagin.presentation.viewModel.MainViewModel
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -104,12 +103,6 @@ fun EventsScreen(componentNavigator: ComponentNavigator) {
                     Button(onClick = {
                         coroutineScope.launch {
                             mainViewModel.setCurrentEvent(event.id)
-
-                            // Ждём, пока participants станут доступны
-                            mainViewModel.currentEventParticipants
-                                .first { it.isNotEmpty() }
-
-                            // После этого навигация
                             findNavHost().navigateToActivity(BattleSelectionActivity)
                         }
 
@@ -123,24 +116,29 @@ fun EventsScreen(componentNavigator: ComponentNavigator) {
                         OutlinedButton(
                             onClick = {
                                 coroutineScope.launch {
-                                    if (event.participants.containsKey(pupil.id)) mainViewModel.unregisterToEvent(
-                                        event
-                                    )
-                                    else mainViewModel.registerToEvent(event)
+                                    val isRegistered = event.participants.values.any {
+                                        it.userId == pupil.id
+                                    }
+
+                                    if (isRegistered) {
+                                        mainViewModel.unregisterToEvent(event)
+                                    } else {
+                                        mainViewModel.registerToEvent(event)
+                                    }
                                 }
                             },
                             border = BorderStroke(
                                 3.dp,
-                                color = if (event.participants.containsKey(pupil.id)) AppColors.colors().dislikeColor
+                                color = if (event.participants.values.any { it.userId == pupil.id }) AppColors.colors().dislikeColor
                                 else AppColors.colors().mainGreen
                             )
                         ) {
                             Text(
-                                text = if (event.participants.containsKey(pupil.id)) "Unregister" else "Register",
+                                text = if (event.participants.values.any { it.userId == pupil.id }) "Unregister" else "Register",
                                 style = TextStyle(
                                     fontSize = 16.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = if (event.participants.containsKey(pupil.id)) AppColors.colors().dislikeColor
+                                    color = if (event.participants.values.any { it.userId == pupil.id }) AppColors.colors().dislikeColor
                                     else AppColors.colors().mainGreen
                                 )
                             )
@@ -160,7 +158,7 @@ fun EventsScreen(componentNavigator: ComponentNavigator) {
                                 onClick = {
                                     coroutineScope.launch {
 
-                                        if (event.judges.containsKey(selectedJudge?.id)) {
+                                        if (selectedJudge?.id in event.judges) {
                                             mainViewModel.unregisterJudgeFromEvent(
                                                 event,
                                                 judge
@@ -172,16 +170,16 @@ fun EventsScreen(componentNavigator: ComponentNavigator) {
                                 },
                                 border = BorderStroke(
                                     3.dp,
-                                    color = if (event.judges.contains(judge.id)) AppColors.colors().dislikeColor
+                                    color = if (selectedJudge?.id in event.judges) AppColors.colors().dislikeColor
                                     else AppColors.colors().mainGreen
                                 )
                             ) {
                                 Text(
-                                    text = if (event.judges.contains(judge.id)) "Unregister Judge" else "Register Judge",
+                                    text = if (selectedJudge?.id in event.judges) "Unregister Judge" else "Register Judge",
                                     style = TextStyle(
                                         fontSize = 16.sp,
                                         fontWeight = FontWeight.Bold,
-                                        color = if (event.judges.contains(judge.id)) AppColors.colors().dislikeColor
+                                        color = if (selectedJudge?.id in event.judges) AppColors.colors().dislikeColor
                                         else AppColors.colors().mainGreen
                                     )
                                 )

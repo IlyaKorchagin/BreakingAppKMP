@@ -13,6 +13,7 @@ import com.korchagin.domain_main.useCase.GetJudges
 import com.korchagin.domain_main.useCase.GetOfpElements
 import com.korchagin.domain_main.useCase.GetPowerElements
 import com.korchagin.domain_main.useCase.GetPupilById
+import com.korchagin.domain_main.useCase.GetSelectionPoints
 import com.korchagin.domain_main.useCase.GetStretchElements
 import com.korchagin.domain_main.useCase.ObserveParticipants
 import com.korchagin.domain_main.useCase.RegisterJudgeToEvent
@@ -51,7 +52,8 @@ val mainDomainModule = module {
             unregisterJudgeToEvent = UnregisterJudgeToEvent(repository = get()),
             setSelectionResult = SetSelectionResult(repository = get()),
             setBattleResult = SetBattleResult(repository = get()),
-            observeParticipants = ObserveParticipants(repository = get())
+            observeParticipants = ObserveParticipants(repository = get()),
+            getSelectionPoints = GetSelectionPoints(repository = get())
         )
     }
 }

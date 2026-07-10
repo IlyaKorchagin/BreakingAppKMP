@@ -12,6 +12,7 @@ import com.korchagin.domain_main.useCase.GetJudges
 import com.korchagin.domain_main.useCase.GetOfpElements
 import com.korchagin.domain_main.useCase.GetPowerElements
 import com.korchagin.domain_main.useCase.GetPupilById
+import com.korchagin.domain_main.useCase.GetSelectionPoints
 import com.korchagin.domain_main.useCase.GetStretchElements
 import com.korchagin.domain_main.useCase.ObserveParticipants
 import com.korchagin.domain_main.useCase.RegisterJudgeToEvent
@@ -49,4 +50,5 @@ data class MainUseCase(
     val setSelectionResult: SetSelectionResult,
     val setBattleResult: SetBattleResult,
     val observeParticipants: ObserveParticipants,
+    val getSelectionPoints: GetSelectionPoints
 )

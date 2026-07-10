@@ -44,6 +44,8 @@ interface UserRepository {
 
     suspend fun setSelectionPoints( eventId: String, usersList: List<String>, judgeId: String, pointsList: List<Double>)
 
+     fun getSelectionPoints(eventId: String, pupilId: String, judgeId: String):Flow<Double>
+
     suspend fun setBattlePoints( eventId: String, usersList: List<String>, judgeId: String, pointsList: List<Int>, round: String)
 
     suspend fun observeParticipants(eventId: String): Flow<List<EventParticipantsEntry>>
