@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -42,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.korchagin.presentation.models.battle.EventParticipants
+import com.korchagin.presentation.models.battle.isComplete
 import com.korchagin.presentation.models.getProgress
 import com.korchagin.presentation.viewModel.MainViewModel
 import kotlinx.coroutines.flow.map
@@ -69,8 +71,15 @@ fun BattleSelectionScreen(componentNavigator: ComponentNavigator) {
     val coroutineScope = rememberCoroutineScope()
     val showShimmer = remember { mutableStateOf(true) }
     val currentEvent by mainViewModel.currentEvent.collectAsState(initial = null)
-    //val visibleGroups by mainViewModel.visibleGroups.collectAsState()
-    //println("Log: visibleGroups - $visibleGroups")
+    val group by mainViewModel.currentSelectionGroup.collectAsState(emptyList())
+    val groups by mainViewModel.allSelectionGroups.collectAsState(emptyList())
+    val isCurrentSelectionGroupComplete by mainViewModel.isCurrentSelectionGroupComplete.collectAsState(
+        false
+    )
+    val isLastGroup by mainViewModel.isLastSelectionGroup
+        .collectAsState(false)
+    val isSelectionFinished by mainViewModel.isSelectionFinished
+        .collectAsState(false)
 
 
     if (selectedJudge != null) {
@@ -86,14 +95,8 @@ fun BattleSelectionScreen(componentNavigator: ComponentNavigator) {
                     style = Typography.text2xl(weights = FontWeights.SemiBold)
                 )
             }
-            itemsIndexed(eventsParticipants) { index, pupil ->
-               /* val sliderValue by mainViewModel
-                    .getSelectionPoints(
-                        pupil.userId,
-                        selectedJudge?.id
-                    )
-                    .collectAsState(initial = 0.0)*/
-
+            println("group - $group")
+            itemsIndexed(group) { index, pupil ->
                 val sliderValue =
                     currentEvent
                         ?.participants
@@ -147,17 +150,6 @@ fun BattleSelectionScreen(componentNavigator: ComponentNavigator) {
                         Spacer(modifier = Modifier.height(5.dp))
 
                         Column {
-                          /*  Slider(
-                                value = sliderValue.toFloat(),
-                                onValueChange = { newValue ->
-                                    mainViewModel.setSelectionPoints(
-                                        pupil.userId,
-                                        newValue
-                                    )
-                                },
-                                valueRange = 0f..10f,
-                                steps = 19
-                            )*/
                             Slider(
                                 value = sliderValue,
                                 onValueChange = { newValue ->
@@ -203,99 +195,129 @@ fun BattleSelectionScreen(componentNavigator: ComponentNavigator) {
                 }
             }
             item {
-                Button(onClick = {
-                    coroutineScope.launch {
-                        mainViewModel.sendSelectionResult()
-                        findNavHost().navigateToActivity(BattleActivity)
+
+                if (isCurrentSelectionGroupComplete) {
+                    println("isLastGroup = $isLastGroup")
+
+                    Button(
+                        onClick = {
+                            coroutineScope.launch {
+                                mainViewModel.sendSelectionResult()   // сохранить оценки текущей 4-ки
+                                if (isLastGroup) {
+                                    findNavHost()
+                                        .navigateToActivity(BattleActivity)
+                                }
+                                else {
+                                    mainViewModel.nextSelectionGroup()    // перейти к следующей
+                                }
+                            }
+                        }
+                    ) {
+                        if (isLastGroup) Text("Сформировать сетку")
+                        else
+                            Text("Следующая четверка")
                     }
-                }) {
-                    Text(text = "Сформировать сетку")
                 }
+
+            }
+
+        }
+    } else {
+        LaunchedEffect(isSelectionFinished) {
+            if (isSelectionFinished) {
+
+                findNavHost()
+                    .navigateToActivity(BattleActivity)
+
             }
         }
-    }
-    /*else {
         LazyColumn(
-            modifier = Modifier.fillMaxSize().padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(24.dp)
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            item {
-                Text(
-                    text = "Турнирная сетка",
-                    style = Typography.text2xl(weights = FontWeights.SemiBold)
-                )
-            }
 
-            itemsIndexed(visibleGroups) { groupIndex, group ->
-                // твоя карточка с 4 участниками
-                Card(
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(20.dp),
-                    elevation = CardDefaults.cardElevation(6.dp)
-                ) {
 
-                    Column(
-                        modifier = Modifier.padding(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(12.dp)
+            itemsIndexed(groups) { index, group ->
+
+
+                val isCurrent =
+                    index == currentEvent?.currentSelectionGroup
+
+
+                val isFinished =
+                    group.all { participant ->
+                        participant.isComplete(
+                            currentEvent?.judges?.keys ?: emptySet()
+                        )
+                    }
+
+
+                if (!isFinished || isCurrent) {
+
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .border(
+                                width = if (isCurrent) 3.dp else 0.dp,
+                                color = if (isCurrent)
+                                    Color.Green
+                                else
+                                    Color.Transparent,
+                                shape = RoundedCornerShape(20.dp)
+                            ),
+                        shape = RoundedCornerShape(20.dp),
+                        elevation = CardDefaults.cardElevation(6.dp)
                     ) {
 
-                        Text(
-                            text = "Батл ${groupIndex + 1}",
-                            style = Typography.textLg(
-                                weights = FontWeights.SemiBold
-                            )
-                        )
 
-                        group.forEachIndexed { index, pupil ->
+                        Column(
+                            modifier = Modifier.padding(12.dp)
+                        ) {
 
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .background(
-                                        color = AppColors.colors().defaultBackground,
-                                        shape = RoundedCornerShape(12.dp)
-                                    )
-                                    .padding(12.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
 
-                                AsyncImage(
-                                    model = "",
-                                    contentDescription = null,
-                                    modifier = Modifier
-                                        .size(60.dp)
-                                        .clip(CircleShape)
-                                        .border(
-                                            2.dp,
-                                            Color.LightGray,
-                                            CircleShape
-                                        ),
-                                    contentScale = ContentScale.Crop
+                            Text(
+                                text = "Группа ${index + 1}",
+                                style = Typography.textLg(
+                                    weights = FontWeights.SemiBold
                                 )
+                            )
 
-                                Spacer(modifier = Modifier.width(12.dp))
 
-                                Column(
-                                    modifier = Modifier.weight(1f)
+                            Spacer(
+                                Modifier.height(8.dp)
+                            )
+
+
+                            group.forEach { pupil ->
+
+
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 6.dp),
+                                    verticalAlignment = Alignment.CenterVertically
                                 ) {
+
 
                                     Text(
                                         text = pupil.name,
-                                        style = Typography.text2xl(
-                                            weights = FontWeights.Regular,
-                                        ),
-                                        color = AppColors.colors().textDefault
+                                        modifier = Modifier.weight(1f)
                                     )
 
-                                    Spacer(modifier = Modifier.height(4.dp))
+
+                                    val score =
+                                        pupil.selectionPoints.values.sum()
+
 
                                     Text(
-                                        text = "Участник ${index + 1}",
-                                        style = Typography.text2xl(
-                                            weights = FontWeights.Regular
-                                        ),
-                                        color = AppColors.colors().textDefault
+                                        text = if(score > 0)
+                                            score.toString()
+                                        else
+                                            "-"
                                     )
+
                                 }
                             }
                         }
@@ -303,7 +325,7 @@ fun BattleSelectionScreen(componentNavigator: ComponentNavigator) {
                 }
             }
         }
-    }*/
+    }
 
 }
 

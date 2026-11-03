@@ -1,10 +1,6 @@
 package com.korchagin.domain_main.useCase
 
-import com.korchagin.data.repository.UserRepository
-import com.korchagin.domain_main.models.EventDomainModel
-import com.korchagin.domain_main.models.EventParticipantsDomain
-import com.korchagin.domain_main.models.toEventDataModel
-import com.korchagin.domain_main.models.toEventParticipantsEntry
+import com.korchagin.data.repository.user.UserRepository
 
 
 class SetSelectionResult(private val repository: UserRepository) {

@@ -1,6 +1,6 @@
 package com.korchagin.domain_main.useCase
 
-import com.korchagin.data.repository.UserRepository
+import com.korchagin.data.repository.user.UserRepository
 import com.korchagin.domain_main.models.EventDomainModel
 import com.korchagin.domain_main.models.PupilDomainModel
 import com.korchagin.domain_main.models.toEventDataModel

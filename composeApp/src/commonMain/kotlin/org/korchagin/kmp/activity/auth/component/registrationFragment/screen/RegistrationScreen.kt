@@ -24,6 +24,7 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -72,8 +73,6 @@ fun RegistrationScreen(
     var password by rememberSaveable { mutableStateOf("") }
     val scope = rememberCoroutineScope()
     var selected by remember { mutableStateOf(listOf<String>()) }
-
-
 
 
     Scaffold(
@@ -164,13 +163,43 @@ fun RegistrationScreen(
                     enabled = email.isNotEmpty() && password.isNotEmpty() && name.isNotEmpty() && selected.isNotEmpty(),
                     onClick = {
                         scope.launch {
-                            authViewModel.signIn(email, password, name, selected,
+                            authViewModel.signIn(
+                                email,
+                                password,
+                                name,
+                                selected,
                                 onSuccess = {
-                                    mainViewModel.loadCurrentUser(currentUser = email)
-                                    findNavHost().navigateToActivitySingleTop(MainActivity)
+                                    scope.launch {
+                                        val authUid = authViewModel.authState.value?.uid
+
+                                        if (authUid != null) {
+                                            try {
+                                                mainViewModel.saveCurrentFcmToken(authUid)
+                                            } catch (e: Exception) {
+                                                println(
+                                                    "❌ Ошибка сохранения FCM-токена: ${e.message}"
+                                                )
+                                            }
+                                        } else {
+                                            snackbarHostState.showSnackbar(
+                                                "Не удалось получить UID пользователя"
+                                            )
+                                        }
+
+                                        mainViewModel.loadCurrentUser(
+                                            currentUser = email
+                                        )
+
+                                        findNavHost()
+                                            .navigateToActivitySingleTop(MainActivity)
+                                    }
                                 },
                                 onError = {
-                                    scope.launch { snackbarHostState.showSnackbar("Что-то пошло не так!") }
+                                    scope.launch {
+                                        snackbarHostState.showSnackbar(
+                                            "Что-то пошло не так!"
+                                        )
+                                    }
                                 }
                             )
                         }
@@ -238,7 +267,8 @@ fun MultiSelectDropdown(
 
         DropdownMenu(
             expanded = expanded,
-            onDismissRequest = { expanded = false }
+            onDismissRequest = { expanded = false },
+            containerColor = MaterialTheme.colorScheme.surface
         ) {
             items.forEach { item ->
                 DropdownMenuItem(
@@ -260,8 +290,13 @@ fun MultiSelectDropdown(
                                     onSelectionChange(newList)
                                 }
                             )
+
                             Spacer(modifier = Modifier.width(8.dp))
-                            Text(text = item)
+
+                            Text(
+                                text = item,
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
                         }
                     }
                 )

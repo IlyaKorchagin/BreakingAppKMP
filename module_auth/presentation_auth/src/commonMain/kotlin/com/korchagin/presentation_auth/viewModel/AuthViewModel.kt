@@ -35,13 +35,39 @@ class AuthViewModel(
 
     suspend fun logOut() = authUseCase.logOut.logOut()
 
-    suspend fun signIn(email: String, password: String, name: String, coach: List<String>, onSuccess: () -> Unit, onError: (Throwable) -> Unit) {
+    suspend fun signIn(
+        email: String,
+        password: String,
+        name: String,
+        coach: List<String>,
+        onSuccess: () -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
         val result = authUseCase.signIn.signIn(email, password)
+
         if (result.isSuccess) {
-            onSuccess()
-            mainUseCase.createNewPupil.createNewPupil(email, name, coach)
+            try {
+                val authUid = authState.value?.uid
+                    ?: throw IllegalStateException(
+                        "Не удалось получить UID пользователя Firebase"
+                    )
+
+                mainUseCase.createNewPupil.createNewPupil(
+                    email = email,
+                    name = name,
+                    coach = coach,
+                    authUid = authUid
+                )
+
+                onSuccess()
+            } catch (e: Exception) {
+                onError(e)
+            }
         } else {
-            onError(result.exceptionOrNull() ?: Exception("Unknown error"))
+            onError(
+                result.exceptionOrNull()
+                    ?: Exception("Unknown error")
+            )
         }
     }
 

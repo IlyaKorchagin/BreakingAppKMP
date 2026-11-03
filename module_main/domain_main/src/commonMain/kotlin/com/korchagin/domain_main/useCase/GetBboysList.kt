@@ -1,6 +1,6 @@
 package com.korchagin.domain_main.useCase
 
-import com.korchagin.data.repository.UserRepository
+import com.korchagin.data.repository.user.UserRepository
 import com.korchagin.domain_main.models.BboyDomainModel
 import com.korchagin.domain_main.models.toBboyDomainModel
 import kotlinx.coroutines.flow.Flow

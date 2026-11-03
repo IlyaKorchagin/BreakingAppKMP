@@ -35,6 +35,7 @@ import org.koin.core.annotation.KoinExperimentalAPI
 import org.korchagin.kmp.activity.main.fragments.home.screen.screenItems.ProfileSection
 import org.korchagin.kmp.uiElements.AnimatedTabWithHorizontalPager
 import team.platforma.extra_nav.navigator.component.api.ComponentNavigator
+import kotlin.time.Duration.Companion.milliseconds
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
@@ -43,10 +44,11 @@ fun HomeScreen(componentNavigator: ComponentNavigator) {
     // 🔁 Вызов обновления данных
     LaunchedEffect(Unit) {
         // Небольшая задержка — даёт layout завершиться
-        kotlinx.coroutines.delay(100)
+        kotlinx.coroutines.delay(100.milliseconds)
         mainViewModel.loadData()
      //   mainViewModel.loadMedia()
     }
+
     val currentPupil by mainViewModel.currentPupil.collectAsState(null)
     val freezeElements by mainViewModel.freezeElements.collectAsState(null)
     val powerElements by mainViewModel.powerElements.collectAsState(null)

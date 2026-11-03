@@ -51,6 +51,9 @@ kotlin {
             //Firebase
             implementation(project.dependencies.platform(libs.android.firebase.bom))
             implementation(libs.firebase.database)
+            implementation(libs.firebase.messaging)
+
+            implementation(libs.kotlinx.coroutines.play.services)
 
             //DI
             implementation(libs.koin.android)

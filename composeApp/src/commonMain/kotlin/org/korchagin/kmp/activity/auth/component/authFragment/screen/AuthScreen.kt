@@ -177,22 +177,29 @@ fun AuthScreen(componentNavigator: ComponentNavigator, fragmentNavigator: Fragme
                                     scope.launch {
                                         val user = authViewModel.authState
                                             .filterNotNull()
-                                            .first() // ждём пока Firebase обновит текущего пользователя
+                                            .first()
 
                                         println("✅ Вход выполнен: ${user.email}")
+
+                                        try {
+                                            mainViewModel.saveCurrentFcmToken(user.uid)
+                                            println("✅ FCM-токен действительно сохранён для UID: ${user.uid}")
+                                        } catch (e: Exception) {
+                                            println("❌ Ошибка сохранения FCM-токена: ${e.message}")
+                                        }
+
+// Продолжаем вход, даже если сохранение токена не удалось.
                                         mainViewModel.loadCurrentUser(
                                             currentUser = user.email ?: ""
                                         )
-                                        delay(300)
-                                        if (mainViewModel.currentPupil.value?.role == "admin")
-                                            findNavHost().navigateToActivitySingleTop(
-                                                AdminActivity
-                                            )
-                                        else
-                                            findNavHost().navigateToActivitySingleTop(
-                                                MainActivity
-                                            )
 
+                                        delay(300)
+
+                                        if (mainViewModel.currentPupil.value?.role == "admin") {
+                                            findNavHost().navigateToActivitySingleTop(AdminActivity)
+                                        } else {
+                                            findNavHost().navigateToActivitySingleTop(MainActivity)
+                                        }
                                     }
                                 },
                                 onError = { e ->

@@ -9,5 +9,7 @@ data class EventEntry(
     val data: String,
     val regUrl: String,
     val participants: Map<String, EventParticipantsEntry> = emptyMap(),
-    val judges: Map<String, Boolean> = emptyMap()
+    val judges: Map<String, Boolean> = emptyMap(),
+    val currentSelectionGroup: Int = 0,
+    val currentPairIndex: Int = 0
 )

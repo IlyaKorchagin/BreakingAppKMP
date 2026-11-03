@@ -39,6 +39,7 @@ import breakingkmpapp.composeapp.generated.resources.Res
 import breakingkmpapp.composeapp.generated.resources.people
 import coil3.compose.AsyncImage
 import com.korchagin.module_common.Rounds
+import com.korchagin.presentation.models.JudgeResult
 import com.korchagin.presentation.models.battle.BattleResult
 import com.korchagin.presentation.models.battle.EventParticipants
 import com.korchagin.presentation.viewModel.MainViewModel
@@ -53,9 +54,17 @@ import team.platforma.infoteam.theme.typography.Typography
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
-fun BattleScreen(componentNavigator: ComponentNavigator) {
+fun BattleScreen(
+    componentNavigator: ComponentNavigator
+) {
+
     val mainViewModel = koinViewModel<MainViewModel>()
+
     val showShimmer = remember { mutableStateOf(true) }
+
+    // ---------------------------------------------------------
+    // SCORE STATE
+    // ---------------------------------------------------------
 
     var firstBboyPower by remember { mutableStateOf(0) }
     var secondBboyPower by remember { mutableStateOf(0) }
@@ -66,262 +75,573 @@ fun BattleScreen(componentNavigator: ComponentNavigator) {
     var firstBboyCreativity by remember { mutableStateOf(0) }
     var secondBboyCreativity by remember { mutableStateOf(0) }
 
+
+    // ---------------------------------------------------------
+    // BATTLE STATE
+    // ---------------------------------------------------------
+
     val pairs by mainViewModel.currentRoundPairs.collectAsState()
 
-    var currentPairIndex by remember { mutableStateOf(0) }
+    val currentPairIndex by
+    mainViewModel.currentPairIndex.collectAsState(initial = 0)
+
+    val currentPairIndexForUser by
+    mainViewModel.currentPairIndexForUser.collectAsState(initial = 0)
+
+    val isCurrentBattleComplete by
+    mainViewModel.isCurrentBattleComplete.collectAsState(initial = false)
+
+    val isFullBattleRoundComplete by
+    mainViewModel.isFullBattleRoundComplete.collectAsState(false)
 
 
-    val winner by mainViewModel.winner.collectAsState()
-    val eventsParticipants by mainViewModel.currentEventParticipants.collectAsState()
-    val isSelectionComplete by mainViewModel.isSelectionComplete.collectAsState(false)
-    val isBattleComplete by mainViewModel.isBattleComplete.collectAsState(false)
+    // ---------------------------------------------------------
+    // OTHER STATE
+    // ---------------------------------------------------------
+
+    val winner by
+    mainViewModel.winner.collectAsState()
+
+    val eventsParticipants by
+    mainViewModel.currentEventParticipants.collectAsState()
+
+    val isSelectionComplete by
+    mainViewModel.isSelectionComplete.collectAsState(false)
+
+    val selectedJudge by
+    mainViewModel.selectedJudge.collectAsState(null)
+
+
+    // ---------------------------------------------------------
+    // START FIRST ROUND
+    // ---------------------------------------------------------
 
     LaunchedEffect(isSelectionComplete) {
+
         if (isSelectionComplete) {
+
             println("Все оценки проставлены! Стартуем первый раунд")
-            mainViewModel.startNextRound(eventsParticipants, true)
+
+            mainViewModel.startFirstRound(
+                eventsParticipants
+            )
         }
     }
 
-    println("Log: isSelectionComplete - $isSelectionComplete")
-    if(isSelectionComplete) {
-        if (pairs.isNotEmpty()) {
 
-            if (currentPairIndex < pairs.size) {
-                val pair = pairs[currentPairIndex]
-                LaunchedEffect(currentPairIndex) {
-                    firstBboyPower = 0
-                    firstBboyMusicality = 0
-                    firstBboyCreativity = 0
+    // ---------------------------------------------------------
+    // RESET SLIDERS WHEN PAIR CHANGES
+    // ---------------------------------------------------------
 
-                    secondBboyPower = 0
-                    secondBboyMusicality = 0
-                    secondBboyCreativity = 0
-                }
+    LaunchedEffect(currentPairIndex) {
 
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
+        firstBboyPower = 0
+        firstBboyMusicality = 0
+        firstBboyCreativity = 0
+
+        secondBboyPower = 0
+        secondBboyMusicality = 0
+        secondBboyCreativity = 0
+    }
+
+
+    // ---------------------------------------------------------
+    // WAIT FOR SELECTION
+    // ---------------------------------------------------------
+
+    if (!isSelectionComplete) {
+
+        CircularProgressIndicator()
+
+        return
+    }
+
+
+    // ---------------------------------------------------------
+    // JUDGE
+    // ---------------------------------------------------------
+
+    if (selectedJudge != null) {
+
+        // Нет пар
+        if (pairs.isEmpty()) {
+
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+
+                Text(
+                    text = "Победитель - ${winner?.name}",
+                    style = Typography.text3xl(
+                        weights = FontWeights.SemiBold
+                    )
+                )
+
+                Spacer(
+                    modifier = Modifier.height(24.dp)
+                )
+
+                Button(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = {
+                        mainViewModel.finishEvent()
+                    }
                 ) {
-                    item {
+
+                    Text("Соревнования завершены")
+                }
+            }
+
+            return
+        }
+
+
+        // -----------------------------------------------------
+        // CURRENT PAIR
+        // -----------------------------------------------------
+
+        val pair = pairs.getOrNull(currentPairIndex)
+
+
+        if (pair != null) {
+
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+
+                verticalArrangement =
+                    Arrangement.spacedBy(16.dp),
+
+                horizontalAlignment =
+                    Alignment.CenterHorizontally
+            ) {
+
+                item {
+
+                    // -------------------------------------------------
+                    // ROUND TITLE
+                    // -------------------------------------------------
+
+                    Text(
+                        text = getRoundTitle(
+                            mainViewModel.currentRound.value.name
+                        ),
+
+                        style = Typography.text3xl(
+                            weights = FontWeights.SemiBold
+                        )
+                    )
+
+
+                    Spacer(
+                        modifier = Modifier.height(16.dp)
+                    )
+
+
+                    // -------------------------------------------------
+                    // PAIR NUMBER
+                    // -------------------------------------------------
+
+                    Text(
+                        text =
+                            "Пара ${currentPairIndex + 1} из ${pairs.size}",
+
+                        style = Typography.text3xl(
+                            weights = FontWeights.SemiBold
+                        )
+                    )
+
+
+                    Spacer(
+                        modifier = Modifier.height(16.dp)
+                    )
+
+
+                    // -------------------------------------------------
+                    // PARTICIPANTS
+                    // -------------------------------------------------
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+
+                        Box(
+                            modifier = Modifier.weight(1f),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            PupilImage(
+                                url = "",
+                                showShimmer = showShimmer,
+                                participants = pair.left,
+                                color = Color(0xFF1976D2)
+                            )
+                        }
+
                         Text(
-                            text = when (mainViewModel.currentRound.value) {
-                                Rounds.TOP32 -> "TOP 32"
-                                Rounds.TOP16 -> "TOP 16"
-                                Rounds.TOP8 -> "TOP 8"
-                                Rounds.TOP4 -> "TOP 4"
-                                Rounds.BIG_FINAL -> "Большой финал"
-                                Rounds.LITTLE_FINAL -> "Малый финал"
-                            },
-                            style = Typography.text3xl(weights = FontWeights.SemiBold)
+                            text = "VS",
+                            modifier = Modifier.padding(horizontal = 12.dp),
+                            style = Typography.text3xl(FontWeights.SemiBold)
+                                .copy(
+                                    color = AppColors.colors().primaryColor
+                                )
                         )
 
-                        // --- Шапка с фотками ---
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.SpaceEvenly
+                        Box(
+                            modifier = Modifier.weight(1f),
+                            contentAlignment = Alignment.Center
                         ) {
-                            PupilImage("", showShimmer, pair.left)
+                            PupilImage(
+                                url = "",
+                                showShimmer = showShimmer,
+                                participants = pair.right,
+                                color = Color(0xFFD32F2F)
+                            )
+                        }
+                    }
 
-                            Text(
-                                text = "VS",
-                                style = Typography.text3xl(FontWeights.SemiBold)
-                                    .copy(color = AppColors.colors().primaryColor)
+
+                    Spacer(
+                        modifier = Modifier.height(24.dp)
+                    )
+
+
+                    // -------------------------------------------------
+                    // SCORES
+                    // -------------------------------------------------
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+
+                        verticalAlignment =
+                            Alignment.CenterVertically,
+
+                        horizontalArrangement =
+                            Arrangement.SpaceBetween
+                    ) {
+
+                        Column(
+                            Modifier.weight(1f)
+                        ) {
+
+                            ProgressSlider(
+                                progress = firstBboyPower,
+                                onProgressChange = {
+                                    firstBboyPower = it
+                                },
+                                title = "Сила"
                             )
 
-                            PupilImage("", showShimmer, pair.right)
+
+                            ProgressSlider(
+                                progress = firstBboyMusicality,
+                                onProgressChange = {
+                                    firstBboyMusicality = it
+                                },
+                                title = "Музыкальность"
+                            )
+
+
+                            ProgressSlider(
+                                progress = firstBboyCreativity,
+                                onProgressChange = {
+                                    firstBboyCreativity = it
+                                },
+                                title = "Оригинальность"
+                            )
                         }
 
-                        // --- Слайдеры для левого и правого ---
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.SpaceBetween
+
+                        Column(
+                            Modifier.weight(1f)
                         ) {
-                            Column(Modifier.weight(1f)) {
-                                ProgressSlider(firstBboyPower, { firstBboyPower = it }, "Сила")
-                                ProgressSlider(
-                                    firstBboyMusicality,
-                                    { firstBboyMusicality = it },
-                                    "Музыкальность"
-                                )
-                                ProgressSlider(
-                                    firstBboyCreativity,
-                                    { firstBboyCreativity = it },
-                                    "Оригинальность"
-                                )
-                            }
 
-                            Column(Modifier.weight(1f)) {
-                                ProgressSlider(secondBboyPower, { secondBboyPower = it }, "Сила")
-                                ProgressSlider(
-                                    secondBboyMusicality,
-                                    { secondBboyMusicality = it },
-                                    "Музыкальность"
-                                )
-                                ProgressSlider(
-                                    secondBboyCreativity,
-                                    { secondBboyCreativity = it },
-                                    "Оригинальность"
-                                )
-                            }
+                            ProgressSlider(
+                                progress = secondBboyPower,
+                                onProgressChange = {
+                                    secondBboyPower = it
+                                },
+                                title = "Сила"
+                            )
+
+
+                            ProgressSlider(
+                                progress = secondBboyMusicality,
+                                onProgressChange = {
+                                    secondBboyMusicality = it
+                                },
+                                title = "Музыкальность"
+                            )
+
+
+                            ProgressSlider(
+                                progress = secondBboyCreativity,
+                                onProgressChange = {
+                                    secondBboyCreativity = it
+                                },
+                                title = "Оригинальность"
+                            )
                         }
+                    }
 
-                        Spacer(Modifier.height(24.dp))
+
+                    Spacer(
+                        modifier = Modifier.height(24.dp)
+                    )
+
+
+                    // -------------------------------------------------
+                    // CURRENT BATTLE STATUS
+                    // -------------------------------------------------
+
+                    if (!isCurrentBattleComplete) {
 
                         Button(
                             modifier = Modifier.fillMaxWidth(),
                             onClick = {
-                                val pairId = listOf(pair.left.userId, pair.right.userId)
+                                val pairId = listOf(
+                                    pair.left.userId,
+                                    pair.right.userId
+                                )
                                     .sorted()
                                     .joinToString("_")
+
                                 val result = BattleResult(
                                     pairId = pairId,
                                     left = pair.left,
                                     right = pair.right,
-                                    leftScore = firstBboyPower + firstBboyMusicality + firstBboyCreativity,
-                                    rightScore = secondBboyPower + secondBboyMusicality + secondBboyCreativity
+                                    leftScore =
+                                        firstBboyPower +
+                                                firstBboyMusicality +
+                                                firstBboyCreativity,
+                                    rightScore =
+                                        secondBboyPower +
+                                                secondBboyMusicality +
+                                                secondBboyCreativity
                                 )
 
-                                   mainViewModel.addBattleResult(result)
-                                currentPairIndex++
+                                mainViewModel.addBattleResult(result)
                             }
                         ) {
                             Text("Готово")
                         }
-                    }
-                }
-            } else {
-                if (isBattleComplete) {
-                    // Все участники завершили оценки, можно переходить к следующему кругу
 
-                    Button(
-                        modifier = Modifier.fillMaxWidth(),
-                        onClick = {
-                            currentPairIndex = 0
-                            mainViewModel.buildNextRound()
+                    } else {
+                        if (!isFullBattleRoundComplete) {
+                            Button(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = {
+                                    mainViewModel.nextPair()
+                                }
+                            ) {
+                                Text("Следующая пара")
+                            }
                         }
-                    ) {
-                        Text("Следующий круг")
+                        else{
+                            Button(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = {
+                                    mainViewModel.buildNextRound()
+                                }
+                            ) {
+                                Text("Следующий раунд")
+                            }
+                        }
                     }
-                } else {
-                    // Ожидаем, пока все участники завершат свои оценки
-                    CircularProgressIndicator()
-                    Text("Ожидаем решения судей")
                 }
             }
 
         } else {
-            Column {
-                Text(text = "Победитель - ${winner?.name}")
-                Button(
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = {
-                           mainViewModel.finishEvent()
-                    }
-                ) {
-                    Text("Соревнования завершены")
-                }
 
-            }
+            CircularProgressIndicator()
         }
-    }
-    else{
-        CircularProgressIndicator()
-    }
-    /*else {
-        println("wait judges decisions")
-        CircularProgressIndicator()
-        Text("Ждём решения судей")
-    }*/
+
+    } else {
+
+        // =========================================================
+        // SPECTATOR / USER
+        // =========================================================
+
+        val pair =
+            pairs.getOrNull(currentPairIndexForUser)
 
 
-    /*if (!eventsParticipants.isEmpty()) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            items(createBattlePairs(eventsParticipants)) {
-                // шапка с фотками
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    PupilImage("", showShimmer, it.left)
+        if (pair != null) {
+
+            val judgeResults =
+                mainViewModel.getJudgeResults(pair)
+
+
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+
+                verticalArrangement =
+                    Arrangement.spacedBy(16.dp)
+            ) {
+
+                item {
 
                     Text(
-                        text = "Vs",
-                        style = Typography.text3xl(FontWeights.SemiBold)
-                            .copy(color = AppColors.colors().primaryColor)
+                        text =
+                            getRoundTitle(
+                                mainViewModel.currentRound.value.name
+                            ),
+
+                        style =
+                            Typography.text3xl(
+                                weights =
+                                    FontWeights.SemiBold
+                            )
                     )
 
-                    PupilImage("", showShimmer, it.right)
-                }
-                //-Шапка с фотками
+
+                    Spacer(
+                        modifier =
+                            Modifier.height(8.dp)
+                    )
 
 
-                // Слайдеры
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Column(
-                        modifier = Modifier.weight(1f),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    Text(
+                        text =
+                            "Пара ${currentPairIndexForUser + 1} из ${pairs.size-1}",
+
+                        style =
+                            Typography.text3xl(
+                                weights =
+                                    FontWeights.SemiBold
+                            )
+                    )
+
+
+                    Spacer(
+                        modifier =
+                            Modifier.height(16.dp)
+                    )
+
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        ProgressSlider(
-                            firstBboyPower,
-                            onProgressChange = { firstBboyPower = it },
-                            "Сила"
-                        )
-                        ProgressSlider(
-                            firstBboyMusicality,
-                            onProgressChange = { firstBboyMusicality = it },
-                            "Музыкальность"
-                        )
-                        ProgressSlider(
-                            firstBboyCreativity,
-                            onProgressChange = { firstBboyCreativity = it },
-                            "Оригинальность"
+
+                        Box(
+                            modifier = Modifier.weight(1f),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            PupilImage(
+                                url = "",
+                                showShimmer = showShimmer,
+                                participants = pair.left,
+                                color = Color(0xFF1976D2)
+                            )
+                        }
+
+                        Text(
+                            text = "VS",
+                            modifier = Modifier.padding(horizontal = 12.dp),
+                            style = Typography.text3xl(FontWeights.SemiBold)
+                                .copy(
+                                    color = AppColors.colors().primaryColor
+                                )
                         )
 
-
+                        Box(
+                            modifier = Modifier.weight(1f),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            PupilImage(
+                                url = "",
+                                showShimmer = showShimmer,
+                                participants = pair.right,
+                                color = Color(0xFFD32F2F)
+                            )
+                        }
                     }
-                    Column(
-                        modifier = Modifier.weight(1f),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        ProgressSlider(
-                            secondBboyPower,
-                            onProgressChange = { secondBboyPower = it },
-                            "Сила"
-                        )
-                        ProgressSlider(
-                            secondBboyMusicality,
-                            onProgressChange = { secondBboyMusicality = it },
-                            "Музыкальность"
-                        )
-                        ProgressSlider(
-                            secondBboyCreativity,
-                            onProgressChange = { secondBboyCreativity = it },
-                            "Оригинальность"
-                        )
 
-                    }
+
+                    Spacer(
+                        modifier =
+                            Modifier.height(24.dp)
+                    )
+
+
+                    Text(
+                        text = "Решение судей",
+
+                        style =
+                            Typography.text3xl(
+                                weights =
+                                    FontWeights.SemiBold
+                            )
+                    )
                 }
 
 
+                item {
+                    JudgeResultsRow(
+                        judgeResults = judgeResults,
+                        left = pair.left,
+                        right = pair.right
+                    )
+                }
+
+
+                if (judgeResults.isEmpty()) {
+
+                    item {
+
+                        Text(
+                            text =
+                                "Ожидаем решения судей...",
+
+                            style =
+                                Typography.text3xl(
+                                    weights =
+                                        FontWeights.SemiBold
+                                )
+                        )
+                    }
+                }
             }
 
-        }*/
+        } else {
+
+            CircularProgressIndicator()
+        }
+    }
+}
+
+private fun getRoundTitle(round: String): String {
+    return when (round) {
+
+        Rounds.TOP32.name ->
+            "TOP 32"
+
+        Rounds.TOP16.name ->
+            "TOP 16"
+
+        Rounds.TOP8.name ->
+            "TOP 8"
+
+        Rounds.TOP4.name ->
+            "TOP 4"
+
+        Rounds.BIG_FINAL.name ->
+            "Большой финал"
+
+        Rounds.LITTLE_FINAL.name ->
+            "Малый финал"
+
+        else ->
+            round
+    }
 }
 
 
@@ -362,14 +682,20 @@ fun ProgressSlider(
 fun PupilImage(
     url: String,
     showShimmer: MutableState<Boolean>,
-    participants: EventParticipants
+    participants: EventParticipants,
+    color: Color
 ) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+
         if (url.isBlank()) {
             Image(
                 painter = painterResource(Res.drawable.people),
                 contentDescription = participants.name,
-                modifier = Modifier.size(128.dp).clip(CircleShape)
+                modifier = Modifier
+                    .size(128.dp)
+                    .clip(CircleShape)
             )
         } else {
             AsyncImage(
@@ -378,14 +704,99 @@ fun PupilImage(
                 modifier = Modifier
                     .size(128.dp)
                     .clip(CircleShape)
-                    .background(
-                        Color.Gray
-                    ),
-                onSuccess = { showShimmer.value = false },
-                onError = { showShimmer.value = false }
+                    .background(Color.Gray),
+                onSuccess = {
+                    showShimmer.value = false
+                },
+                onError = {
+                    showShimmer.value = false
+                }
             )
         }
-        Text(text = participants.name)
+
+        Spacer(
+            modifier = Modifier.height(8.dp)
+        )
+
+        // Имя участника
+        Box(
+            modifier = Modifier
+                .height(45.dp)
+                .background(color),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = participants.name,
+                color = Color.White,
+                fontWeight = FontWeight.Bold,
+                fontSize = 16.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(horizontal = 8.dp)
+            )
+        }
+    }
+}
+
+@Composable
+fun JudgeResultsRow(
+    judgeResults: List<JudgeResult>,
+    left: EventParticipants,
+    right: EventParticipants
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceEvenly
+    ) {
+        judgeResults.forEach { judgeResult ->
+
+            val leftWin = judgeResult.winnerId == left.userId
+            val rightWin = judgeResult.winnerId == right.userId
+
+            Column(
+                modifier = Modifier.weight(1f),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+
+                // Имя судьи
+                Text(
+                    text = judgeResult.judgeName,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp,
+                    textAlign = TextAlign.Center
+                )
+
+                Spacer(
+                    modifier = Modifier.height(8.dp)
+                )
+
+                // Оценка
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 4.dp)
+                        .height(45.dp)
+                        .background(
+                            when {
+                                leftWin -> Color(0xFF1976D2)
+                                rightWin -> Color(0xFFD32F2F)
+                                else -> Color.Gray
+                            }
+                        ),
+                    contentAlignment = Alignment.Center
+                ){} /*{
+                    Text(
+                        text = when {
+                            leftWin -> left.name
+                            rightWin -> right.name
+                            else -> "Ничья"
+                        },
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center
+                    )
+                }*/
+            }
+        }
     }
 }
 

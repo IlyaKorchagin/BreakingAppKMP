@@ -1,6 +1,7 @@
 package com.korchagin.module_common
 
 enum class Rounds( val round: Int) {
+    SELECTION(0),
     TOP32(32),
     TOP16(16),
     TOP8(8),

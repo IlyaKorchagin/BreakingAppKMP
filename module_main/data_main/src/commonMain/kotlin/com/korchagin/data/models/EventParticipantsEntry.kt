@@ -9,6 +9,7 @@ data class EventParticipantsEntry(
     val name: String,
     val phone: String,
     val event_id: String,
+    val selectionOrder: Int = 0,
 
     val selectionPoints: Map<String, Double> = emptyMap(), // judgeId -> points
     val battlePoints: Map<String, Map<String, Int>> = emptyMap(), // round -> judgeId -> points
@@ -26,6 +27,7 @@ fun List<EventParticipantsEntry>.toSheetRows(): List<List<Any?>> =
                 participant.name,
                 participant.phone,
                 participant.event_id,
+                participant.selectionOrder,
                 participant.selectionPoints.orEmpty(),
                 round,
                 points,

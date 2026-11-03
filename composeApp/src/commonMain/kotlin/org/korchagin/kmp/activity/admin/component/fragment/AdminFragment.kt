@@ -22,6 +22,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -63,6 +64,9 @@ object AdminFragment : Fragment(
         val pupilsList by mainViewModel.pupils.collectAsState(emptyList())
         val currentPupil by mainViewModel.currentPupil.collectAsState(null)
 
+     /*   LaunchedEffect(Unit) {
+            mainViewModel.fetchFcmToken()
+        }*/
         Box(
             modifier = Modifier
                 .fillMaxSize(),

@@ -1,4 +1,4 @@
-package com.korchagin.data.repository
+package com.korchagin.data.repository.user
 
 
 import com.korchagin.data.models.BboyEntry
@@ -53,6 +53,11 @@ class UserRepositotyImplementation(
 
     private val JUDGES_KEY = "Judges"
 
+    private val FCM_TOKENS_KEY = "FcmTokens"
+
+    private val fcmTokensDB by lazy {
+        Firebase.database.reference(FCM_TOKENS_KEY)
+    }
 
     private val pupilsDB by lazy { Firebase.database.reference(PUPILS_KEY) }
     private val freezeDB by lazy { Firebase.database.reference(FREEZE_KEY) }
@@ -252,7 +257,7 @@ class UserRepositotyImplementation(
         }
     }
 
-    override suspend fun createNewPupil(email: String, name: String, coach: List<String>) {
+    override suspend fun createNewPupil(email: String, name: String, coach: List<String>, authUid: String) {
         val normalizedEmail = email.trim().lowercase()
         val uid = pupilsDB.push().key
         if (uid != null) {
@@ -262,6 +267,7 @@ class UserRepositotyImplementation(
                 nick = "",
                 name = name,
                 avatar = "",
+                authUid = authUid,
                 born = "",
                 breaking_start = "",
                 country = "",
@@ -488,17 +494,24 @@ class UserRepositotyImplementation(
         return Response.Success(Unit, 200)
     }
 
+
+    private suspend fun getNextSelectionOrder(event: EventEntry): Int {
+
+        val orderRef = eventsDB
+            .child(event.title)
+            .child("nextSelectionOrder")
+
+        val snapshot = orderRef.valueEvents.first()
+
+        val currentOrder = snapshot.value?.toString()?.toIntOrNull() ?: 1
+
+        orderRef.setValue(currentOrder + 1)
+
+        return currentOrder
+    }
+
+
     override suspend fun registerToEvent(pupil: UserEntry, event: EventEntry): Boolean {
-        val participant = EventParticipantsEntry(
-            user_id = pupil.id,
-            name = pupil.name,
-            event_id = event.id,
-            phone = pupil.email,
-            timestamp = "",
-            battlePoints = emptyMap(),
-            selectionPoints = emptyMap(),
-            battlePosition = 0
-        )
         val eventRef = eventsDB.child(event.title)
             .child("participants")
             .child(pupil.id)
@@ -510,6 +523,22 @@ class UserRepositotyImplementation(
             println("⚠ Пользователь уже зарегистрирован")
             return false
         }
+
+        // Получаем следующий номер
+        val selectionOrder = getNextSelectionOrder(event)
+
+
+        val participant = EventParticipantsEntry(
+            user_id = pupil.id,
+            name = pupil.name,
+            event_id = event.id,
+            phone = pupil.email,
+            timestamp = "",
+            selectionOrder = selectionOrder,
+            battlePoints = emptyMap(),
+            selectionPoints = emptyMap(),
+            battlePosition = 0
+        )
 
 
         val payload = mapOf(
@@ -538,13 +567,19 @@ class UserRepositotyImplementation(
 
     }
 
-    override suspend fun unregisterFromEvent(pupil: UserEntry, event: EventEntry): Boolean {
+    override suspend fun unregisterFromEvent(
+        pupil: UserEntry,
+        event: EventEntry
+    ): Boolean {
 
-        val eventRef = eventsDB.child(event.title)
-            .child("participants")
-            .child(pupil.id)
+        val eventRoot = eventsDB
+            .child(event.title)
 
-        // Проверяем наличие записи
+        val participantsRef = eventRoot.child("participants")
+
+        val eventRef = participantsRef.child(pupil.id)
+
+        // Получаем удаляемого участника
         val snapshot = eventRef.valueEvents.first()
 
         if (snapshot.value == null) {
@@ -552,39 +587,37 @@ class UserRepositotyImplementation(
             return false
         }
 
-        // Попробуем удалить запись на Google Script
-        val payload = mapOf(
-            "user_id" to pupil.id,
-            "name" to pupil.name,
-            "phone" to pupil.email,
-            "event_id" to "event_id",
-            "action" to "unregister",
+        val participant = snapshot.value<EventParticipantsEntry>()
+        val removedOrder = participant.selectionOrder
+
+
+        // Удаляем запись
+        eventRef.removeValue()
+
+
+        // Получаем всех участников
+        val participantsSnapshot = participantsRef.valueEvents.first()
+
+        participantsSnapshot.children.forEach { child ->
+
+            val user = child.value<EventParticipantsEntry>()
+
+            if (user.selectionOrder > removedOrder) {
+
+                participantsRef
+                    .child(child.key!!)
+                    .child("selectionOrder")
+                    .setValue(user.selectionOrder - 1)
+
+            }
+        }
+
+
+        println(
+            "🗑 Пользователь ${pupil.name} удалён, порядок сдвинут"
         )
 
-        try {
-            val responseText = client.post("${event.regUrl}/api/register") {
-                contentType(ContentType.Application.Json)
-                header("Accept", "*/*")
-                setBody(payload)
-            }.body<String>()
-
-            println("Google script unregister response = $responseText")
-            // Можно здесь парсить JSON ответа, если нужно
-        } catch (e: Exception) {
-            println("❌ Ошибка при отмене регистрации в Google Script: ${e.message}")
-            // Реши, хочешь ли вернуть false или продолжить
-            return false
-        }
-
-        // Удаляем запись пользователя из Firebase
-        return try {
-            eventRef.removeValue()
-            println("🗑 Пользователь ${pupil.name} отписан от события ${event.title}")
-            true
-        } catch (e: Exception) {
-            println("❌ Ошибка при удалении из Firebase: ${e.message}")
-            false
-        }
+        return true
     }
 
     override suspend fun getEventParticipants(event: EventEntry): Flow<List<EventParticipantsEntry>> =
@@ -799,6 +832,46 @@ class UserRepositotyImplementation(
                 send(users)
             }
     }
+
+    override suspend fun setCurrentSelectionGroup(eventId: String, selectionGroup: Int) {
+        eventsDB
+            .child(eventId)
+            .child("currentSelectionGroup")
+            .setValue(selectionGroup)
+    }
+
+    override suspend fun setCurrentRound(eventId: String, round: String) {
+        eventsDB
+            .child(eventId)
+            .child("currentRound")
+            .setValue(round)
+    }
+
+    override suspend fun setCurrentPairIndex(eventId: String, pairIndex: Int) {
+        println("set pairIndex - $pairIndex")
+        eventsDB
+            .child(eventId)
+            .child("currentPairIndex")
+            .setValue(pairIndex)
+    }
+
+    override suspend fun saveFcmToken(
+        authUid: String,
+        token: String
+    ) {
+        try {
+            fcmTokensDB
+                .child(authUid)
+                .child("token")
+                .setValue(token)
+
+            println("✅ FCM token saved for user: $authUid")
+        } catch (e: Exception) {
+            println("❌ Failed to save FCM token: ${e.message}")
+            throw e
+        }
+    }
+
 
 
 
