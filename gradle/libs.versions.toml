@@ -52,6 +52,8 @@ media_picker = { module = "team.multi-platforma:media_picker", version.ref = "me
 core-youtubeplayer = { module = "com.pierfrancescosoffritti.androidyoutubeplayer:core", version.ref = "core-youtubeplayer" }
 html-core = { module = "org.jetbrains.compose.html:html-core", version.ref = "htmlCore" }
 android-firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
+firebase-messaging = { module = "com.google.firebase:firebase-messaging" }
+kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "coroutines" }
 firebase-database = {module = "dev.gitlive:firebase-database", version.ref = "firebase"}
 firebase-auth = { module = "dev.gitlive:firebase-auth", version.ref = "firebaseAuth" }
 firebase-firestore = { module = "dev.gitlive:firebase-firestore", version.ref = "firebaseFirestore" }

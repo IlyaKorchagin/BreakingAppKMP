@@ -17,9 +17,13 @@ import com.korchagin.domain_main.useCase.GetStretchElements
 import com.korchagin.domain_main.useCase.ObserveParticipants
 import com.korchagin.domain_main.useCase.RegisterJudgeToEvent
 import com.korchagin.domain_main.useCase.RegisterToEvent
+import com.korchagin.domain_main.useCase.SaveFcmToken
 import com.korchagin.domain_main.useCase.SavePupil
 import com.korchagin.domain_main.useCase.SendBattleProtocol
 import com.korchagin.domain_main.useCase.SetBattleResult
+import com.korchagin.domain_main.useCase.SetCurrentPairIndex
+import com.korchagin.domain_main.useCase.SetCurrentRound
+import com.korchagin.domain_main.useCase.SetCurrentSelectionGroup
 import com.korchagin.domain_main.useCase.SetSelectionResult
 import com.korchagin.domain_main.useCase.UnregisterFromEvent
 import com.korchagin.domain_main.useCase.UnregisterJudgeToEvent
@@ -50,5 +54,9 @@ data class MainUseCase(
     val setSelectionResult: SetSelectionResult,
     val setBattleResult: SetBattleResult,
     val observeParticipants: ObserveParticipants,
-    val getSelectionPoints: GetSelectionPoints
+    val getSelectionPoints: GetSelectionPoints,
+    val setCurrentSelectionGroup: SetCurrentSelectionGroup,
+    val setCurrentRound: SetCurrentRound,
+    val setCurrentPairIndex: SetCurrentPairIndex,
+    val saveFcmToken: SaveFcmToken
 )

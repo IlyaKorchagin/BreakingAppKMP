@@ -9,6 +9,7 @@ data class UserEntry(
     var nick: String,
     var email: String,
     var avatar: String,
+    var authUid: String,
     var born: String,
     var breaking_start: String,
     var country: String,

@@ -21,15 +21,19 @@ import com.korchagin.domain_main.useCase.RegisterToEvent
 import com.korchagin.domain_main.useCase.SavePupil
 import com.korchagin.domain_main.useCase.SendBattleProtocol
 import com.korchagin.domain_main.useCase.SetBattleResult
+import com.korchagin.domain_main.useCase.SetCurrentPairIndex
+import com.korchagin.domain_main.useCase.SetCurrentRound
+import com.korchagin.domain_main.useCase.SetCurrentSelectionGroup
 import com.korchagin.domain_main.useCase.SetSelectionResult
 import com.korchagin.domain_main.useCase.UnregisterFromEvent
 import com.korchagin.domain_main.useCase.UnregisterJudgeToEvent
 import com.korchagin.domain_main.useCase.UploadAvatar
+import com.korchagin.domain_main.useCase.SaveFcmToken
 import org.koin.dsl.module
 
 val mainDomainModule = module {
     single {
-        MainUseCase(
+        val mainUseCase = MainUseCase(
             getAllPupils = GetAllPupils(repository = get()),
             getPupilById = GetPupilById(repository = get()),
             getFreezeElements = GetFreezeElements(repository = get()),
@@ -53,7 +57,12 @@ val mainDomainModule = module {
             setSelectionResult = SetSelectionResult(repository = get()),
             setBattleResult = SetBattleResult(repository = get()),
             observeParticipants = ObserveParticipants(repository = get()),
-            getSelectionPoints = GetSelectionPoints(repository = get())
+            getSelectionPoints = GetSelectionPoints(repository = get()),
+            setCurrentSelectionGroup = SetCurrentSelectionGroup(repository = get()),
+            setCurrentRound = SetCurrentRound(repository = get()),
+            setCurrentPairIndex = SetCurrentPairIndex(repository = get()),
+            saveFcmToken = SaveFcmToken(repository = get())
         )
+        mainUseCase
     }
 }

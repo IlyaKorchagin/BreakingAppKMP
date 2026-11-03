@@ -4,6 +4,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.rememberNavController
@@ -19,10 +20,12 @@ import org.korchagin.kmp.activity.events.EventsActivity
 import org.korchagin.kmp.activity.main.MainActivity
 import org.korchagin.kmp.activity.profile.ProfileActivity
 import org.korchagin.kmp.activity.splash.SplashActivity
+import org.korchagin.kmp.notifications.NotificationEvent
 import org.korchagin.kmp.theme.colors.AppColorsTheme
 import org.korchagin.kmp.theme.global.NavViewStyle
 import org.korchagin.kmp.theme.global.ToolbarTheme
 import team.platforma.extra_nav.navigator.activity.GlobalNavigator
+import team.platforma.extra_nav.navigator.activity.findNavHost
 import team.platforma.infoteam.theme.typography.Typography
 import team.platforma.multiplatform_material_extension.ui.theme.isDark
 import team.platforma.multiplatform_material_extension.ui.theme.rememberTheme
@@ -31,7 +34,10 @@ import team.platforma.multiplatform_material_extension.ui.theme.rememberTheme
 @Composable
 @Preview
 
-fun App() {
+fun App(
+    notificationEvent: NotificationEvent? = null,
+    onNotificationHandled: () -> Unit = {}
+) {
     val navHostController = rememberNavController()
     val globalNavigator = remember { GlobalNavigator(navHostController) }
 
@@ -81,6 +87,19 @@ fun App() {
             activities = activityList,
             startActivity = SplashActivity
         )
+        LaunchedEffect(notificationEvent) {
+            val event = notificationEvent ?: return@LaunchedEffect
+
+            when (event.type) {
+                "event" -> {
+                    findNavHost().navigateToActivity(ProfileActivity)
+                }
+            }
+
+            onNotificationHandled()
+        }
     }
+
+
 }
 

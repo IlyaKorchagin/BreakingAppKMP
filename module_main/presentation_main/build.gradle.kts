@@ -37,6 +37,11 @@ kotlin {
     }
 
     sourceSets {
+        androidMain.dependencies {
+            implementation(project.dependencies.platform(libs.android.firebase.bom))
+            implementation(libs.firebase.messaging)
+            implementation(libs.kotlinx.coroutines.play.services)
+        }
         commonMain.dependencies {
             //DI
             api(libs.koin.core)

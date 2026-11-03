@@ -1,4 +1,4 @@
-package com.korchagin.data.repository
+package com.korchagin.data.repository.user
 
 import com.korchagin.data.models.BboyEntry
 import com.korchagin.data.models.CoachEntry
@@ -22,7 +22,7 @@ interface UserRepository {
     suspend fun getStretchElements(): Flow<List<ElementEntry>>
     suspend fun getFootWorkElements(): Flow<List<ElementEntry>>
     suspend fun getBboysList(): Flow<List<BboyEntry>>
-    suspend fun createNewPupil(email: String, name: String, coach: List<String>)
+    suspend fun createNewPupil(email: String, name: String, coach: List<String>, authUid: String)
 
     suspend fun updateAvatar(email: String, data: ByteArray):Response<Unit>
 
@@ -52,6 +52,16 @@ interface UserRepository {
 
     suspend fun setBattlePosition(eventId: String, usersList: List<String>, battlePositions: List<Int>)
   //  fun observeEventsRealtime():Flow<List<EventEntry>>
+    suspend fun setCurrentSelectionGroup(eventId: String, selectionGroup: Int)
+
+    suspend fun setCurrentRound(eventId: String, round: String)
+
+    suspend fun setCurrentPairIndex(eventId: String, pairIndex: Int)
+
+    suspend fun saveFcmToken(
+        authUid: String,
+        token: String
+    )
 
 }
 
