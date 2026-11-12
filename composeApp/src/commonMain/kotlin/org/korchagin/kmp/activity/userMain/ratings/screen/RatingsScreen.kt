@@ -114,13 +114,16 @@ import team.platforma.infoteam.theme.typography.Typography
 
 
 @Composable
-fun RatingsScreen() {
+fun RatingsScreen(
+    onProfileClick: () -> Unit
+) {
     val mainViewModel = koinViewModel<MainViewModel>()
     val pupilsList by mainViewModel.pupils.collectAsState(emptyList<PupilModel>())
     var selected by remember { mutableStateOf(RATING) }
 
 
-    val ELEMENTS = listOf( RATING,
+    val ELEMENTS = listOf(
+        RATING,
         // Freeze
         BABY, SHOULDER, TURTLE, HEAD, CHAIR, ELBOW, HEAD_HOLLOWBACK, ONE_HAND, INVERT, HOLLOWBACK,
 
@@ -150,13 +153,15 @@ fun RatingsScreen() {
         if (mainViewModel.checkedState) NewRatingTable(
             selected = selected,
             ratingList = sortedPupils,
-            mainViewModel = mainViewModel
+            mainViewModel = mainViewModel,
+            onProfileClick = onProfileClick
         )
         else {
             RatingTable(
                 selected = selected,
                 mainViewModel = mainViewModel,
-                pupilsList = sortedPupils
+                pupilsList = sortedPupils,
+                onProfileClick = onProfileClick
             )
         }
     }
@@ -167,7 +172,8 @@ fun NewRatingTable(
     selected: String,
     ratingList: List<PupilModel>,
     mainViewModel: MainViewModel,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onProfileClick: () -> Unit
 ) {
     val showShimmer = remember { mutableStateOf(true) }
     LazyColumn(
@@ -191,7 +197,7 @@ fun NewRatingTable(
                     .padding(5.dp)
                     .clickable {
                         mainViewModel.setClickedPupil(pupil)
-                     //   findNavHost().navigateToActivity(ProfileActivity)
+                        onProfileClick()
                     },
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceEvenly
@@ -232,7 +238,12 @@ fun NewRatingTable(
                                 shape = RoundedCornerShape(5.dp)
                             ),
                         Color.White,
-                        Brush.horizontalGradient(listOf(Color.White, LocalAppColors.current.progress)),
+                        Brush.horizontalGradient(
+                            listOf(
+                                Color.White,
+                                LocalAppColors.current.progress
+                            )
+                        ),
                         pupil.getProgress(selected).toInt(),
                         true
                     )
@@ -271,10 +282,12 @@ fun NewRatingTable(
                             text = "${index + 1} - место", fontSize = positionSize.sp,
                             color = Color.Black,
                         )
-                        if(pupil.currentPosition != pupil.newPosition) {
+                        if (pupil.currentPosition != pupil.newPosition) {
                             Spacer(modifier = Modifier.weight(1f))
                             Image(
-                                painter = if (pupil.newPosition < pupil.currentPosition) painterResource(Res.drawable.position_up)
+                                painter = if (pupil.newPosition < pupil.currentPosition) painterResource(
+                                    Res.drawable.position_up
+                                )
                                 else painterResource(Res.drawable.position_down),
                                 contentDescription = null,
                                 modifier = Modifier.size(24.dp)
@@ -283,7 +296,7 @@ fun NewRatingTable(
                                 text = if (pupil.newPosition < pupil.currentPosition) "${pupil.currentPosition - pupil.newPosition}"
                                 else "${pupil.newPosition - pupil.currentPosition}",
                                 color = if (pupil.newPosition < pupil.currentPosition) LocalAppColors.current.mainGreen
-                                else  Color.Red,
+                                else Color.Red,
                                 style = TextStyle(
                                     fontWeight = FontWeight.Medium,
                                     fontSize = 16.sp
@@ -314,7 +327,10 @@ fun NewRatingTable(
 @Composable
 fun RatingTable(
     selected: String,
-    pupilsList: List<PupilModel>, modifier: Modifier = Modifier, mainViewModel: MainViewModel
+    pupilsList: List<PupilModel>,
+    modifier: Modifier = Modifier,
+    mainViewModel: MainViewModel,
+    onProfileClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -374,7 +390,7 @@ fun RatingTable(
                         .fillMaxWidth()
                         .clickable {
                             mainViewModel.setClickedPupil(pupil)
-                   //         findNavHost().navigateToActivity(ProfileActivity)
+                            onProfileClick()
                         },
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceEvenly
@@ -399,7 +415,11 @@ fun RatingTable(
                     Box(
                         modifier = Modifier.width(100.dp), contentAlignment = Alignment.Center
                     ) {
-                        Text(text = "${pupil.getProgress(selected).toInt()}", fontSize = fontSize.sp, color = color)
+                        Text(
+                            text = "${pupil.getProgress(selected).toInt()}",
+                            fontSize = fontSize.sp,
+                            color = color
+                        )
                     }
                 }
             }
@@ -423,7 +443,7 @@ fun ElementSelector(
                 .background(
                     MaterialTheme.colorScheme.surface.copy(alpha = 0.8f), // полупрозрачный фон
                     shape = MaterialTheme.shapes.medium
-                ) .border(
+                ).border(
                     width = 3.dp,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
                 )
@@ -452,8 +472,12 @@ fun ElementSelector(
         ) {
             elements.forEach { item ->
                 DropdownMenuItem(
-                    text = { Text(text = setElementTitle(item),
-                        style = Typography.text3xl(weights = FontWeights.SemiBold)) },
+                    text = {
+                        Text(
+                            text = setElementTitle(item),
+                            style = Typography.text3xl(weights = FontWeights.SemiBold)
+                        )
+                    },
                     onClick = {
                         onSelect(item)
                         expanded = false

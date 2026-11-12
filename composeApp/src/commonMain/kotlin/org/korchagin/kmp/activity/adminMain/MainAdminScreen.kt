@@ -41,6 +41,7 @@ import breakingkmpapp.composeapp.generated.resources.Res
 import breakingkmpapp.composeapp.generated.resources.position_down
 import breakingkmpapp.composeapp.generated.resources.position_up
 import coil3.compose.AsyncImage
+import com.korchagin.presentation.models.PupilModel
 import com.korchagin.presentation.viewModel.MainViewModel
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -54,7 +55,9 @@ import org.korchagin.kmp.uiElements.ShimmerBrush
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
-fun MainAdminScreen() {
+fun MainAdminScreen(
+    onStudentClick: (PupilModel) -> Unit
+) {
     val mainViewModel = koinViewModel<MainViewModel>()
     val pupilsList by mainViewModel.pupils.collectAsState(emptyList())
     val currentPupil by mainViewModel.currentPupil.collectAsState(null)
@@ -89,7 +92,7 @@ fun MainAdminScreen() {
                         .padding(5.dp)
                         .clickable {
                             mainViewModel.setClickedPupil(pupil)
-                            //     findNavHost().navigateToActivity(EditUserActivity)
+                            onStudentClick(pupil)
                         },
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceEvenly

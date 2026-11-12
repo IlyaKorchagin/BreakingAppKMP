@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import breakingkmpapp.composeapp.generated.resources.Res
 import breakingkmpapp.composeapp.generated.resources.logout
 import org.jetbrains.compose.resources.painterResource
+import org.korchagin.kmp.activity.userMain.ratings.topBar.TopBarRatingActions
 import org.korchagin.kmp.theme.colors.LocalAppColors
 
 private val userDestinations = listOf(
@@ -45,7 +46,9 @@ fun UserScaffold(
     val colors = LocalAppColors.current
     val isBackEnabled = currentDestination in setOf(
         UserDestination.Profile,
-        UserDestination.ElementDetails
+        UserDestination.ElementDetails,
+        UserDestination.BboysDetails,
+        UserDestination.OtherProfile
     )
     BoxWithConstraints(
         modifier = Modifier.fillMaxSize()
@@ -75,26 +78,34 @@ fun UserScaffold(
                         }
                     },
                     actions = {
-                        if (currentDestination != UserDestination.Profile) {
-                            // Переход в профиль
-                            IconButton(
-                                onClick = onProfileClick
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Filled.AccountCircle,
-                                    contentDescription = "Профиль"
-                                )
+                        when (currentDestination) {
+                            UserDestination.Home -> {
+                                IconButton(
+                                    onClick = onProfileClick
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Filled.AccountCircle,
+                                        contentDescription = "Профиль"
+                                    )
+                                }
                             }
-                        } else {
-                            // Выход из аккаунта — только на экране профиля
-                            IconButton(
-                                onClick = onLogoutClick
-                            ) {
-                                Icon(
-                                    painter = painterResource(Res.drawable.logout),
-                                    contentDescription = "Выйти"
-                                )
+
+                            UserDestination.Profile -> {
+                                IconButton(
+                                    onClick = onLogoutClick
+                                ) {
+                                    Icon(
+                                        painter = painterResource(Res.drawable.logout),
+                                        contentDescription = "Выйти"
+                                    )
+                                }
                             }
+
+                            UserDestination.Ratings, UserDestination.Records -> {
+                                TopBarRatingActions()
+                            }
+
+                            else -> {}
                         }
                     }
                 )
@@ -110,7 +121,10 @@ fun UserScaffold(
                                     onDestinationSelected(destination)
                                 },
                                 icon = {
-                                    Text(destination.title.take(1))
+                                    Icon(
+                                        painter = painterResource(destination.icon),
+                                        contentDescription = destination.title
+                                    )
                                 },
                                 label = {
                                     Text(destination.title)

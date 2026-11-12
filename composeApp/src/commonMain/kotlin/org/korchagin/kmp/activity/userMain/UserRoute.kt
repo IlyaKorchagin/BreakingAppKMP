@@ -13,6 +13,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.korchagin.kmp.activity.bboysDetails.BboysDetailScreen
 import org.korchagin.kmp.activity.elementDetails.ElementDetailsScreen
+import org.korchagin.kmp.activity.events.EventsRoute
 import org.korchagin.kmp.activity.profile.ProfileScreen
 import org.korchagin.kmp.activity.userMain.navigation.UserDestination
 import org.korchagin.kmp.activity.userMain.navigation.UserScaffold
@@ -48,10 +49,10 @@ fun UserRoute(
             currentDestination = previousDestination
         },
         onLogoutClick = {
-           scope.launch {
-               authViewModel.logOut()
-               onLogout()
-           }
+            scope.launch {
+                authViewModel.logOut()
+                onLogout()
+            }
         }
     ) {
         when (currentDestination) {
@@ -65,17 +66,42 @@ fun UserRoute(
                 )
             }
 
-            UserDestination.Ratings -> RatingsScreen()
+            UserDestination.Ratings -> RatingsScreen(
+                onProfileClick = {
+                    previousDestination = UserDestination.Ratings
+                    currentDestination = UserDestination.OtherProfile
+                }
+            )
 
-            UserDestination.Records -> RecordsScreen()
+            UserDestination.Records -> RecordsScreen(
+                onProfileClick = {
+                    previousDestination = UserDestination.Ratings
+                    currentDestination = UserDestination.OtherProfile
+                }
+            )
 
-            UserDestination.Bboys ->BboysScreen()
+            UserDestination.Bboys -> BboysScreen(
+                toBboyDetails = {
+                    previousDestination = UserDestination.Bboys
+                    currentDestination = UserDestination.BboysDetails
+                }
+            )
 
             UserDestination.Profile -> ProfileScreen()
 
             UserDestination.ElementDetails -> ElementDetailsScreen()
 
             UserDestination.BboysDetails -> BboysDetailScreen()
+
+            UserDestination.OtherProfile -> ProfileScreen()
+
+            UserDestination.Events -> {
+                EventsRoute(
+                    onExit = {
+                        currentDestination = previousDestination
+                    }
+                )
+            }
         }
     }
 }

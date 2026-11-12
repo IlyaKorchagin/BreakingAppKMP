@@ -1,9 +1,9 @@
 package org.korchagin.kmp.navigation
 
+import AppRoute
 import androidx.compose.runtime.Composable
 import org.korchagin.kmp.activity.adminMain.AdminRoute
 import org.korchagin.kmp.activity.auth.AuthRoute
-import org.korchagin.kmp.activity.events.EventsRoute
 import org.korchagin.kmp.activity.splash.SplashRoute
 import org.korchagin.kmp.activity.userMain.UserRoute
 
@@ -43,7 +43,9 @@ fun AppNavigation(
         }
 
         AppRoute.MainAdmin -> {
-            AdminRoute()
+            AdminRoute( onLogout = {
+                navigator.navigate(AppRoute.Auth)
+            })
         }
 
         AppRoute.MainUser -> {
@@ -54,8 +56,5 @@ fun AppNavigation(
                 )
         }
 
-        AppRoute.Events -> {
-           EventsRoute()
-        }
     }
 }
