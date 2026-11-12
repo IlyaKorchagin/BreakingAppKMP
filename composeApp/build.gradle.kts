@@ -119,11 +119,15 @@ kotlin {
 
         }
 
-        val jsMain by getting {
-            dependencies {
-                implementation(libs.html.core)
-            }
+
+        val jsMain by getting
+
+        jsMain.dependencies {
+            implementation(libs.html.core)
+            implementation(npm("os-browserify", "0.2.1"))
+            implementation(npm("path-browserify", "1.0.1"))
         }
+
     }
 }
 
