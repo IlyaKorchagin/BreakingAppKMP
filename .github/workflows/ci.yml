@@ -38,5 +38,11 @@ jobs:
       - name: Build Android Debug
         run: ./gradlew :composeApp:assembleDebug
 
+      - name: Check Node.js environment
+        run: |
+          node --version
+          npm --version
+          java -version
+
       - name: Build Web Production
-        run: ./gradlew :composeApp:jsBrowserProductionWebpack
+        run: ./gradlew :composeApp:jsBrowserProductionWebpack --stacktrace --info
