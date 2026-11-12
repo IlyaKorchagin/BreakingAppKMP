@@ -47,7 +47,9 @@ import org.korchagin.kmp.uiElements.ShimmerBrush
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
-fun BboysScreen() {
+fun BboysScreen(
+    toBboyDetails:() -> Unit
+) {
     val mainViewModel = koinViewModel<MainViewModel>()
     val showShimmer = remember { mutableStateOf(true) }
     val bboysList by mainViewModel.bboysList.collectAsState(emptyList())
@@ -121,8 +123,8 @@ fun BboysScreen() {
                                 scope.launch {
                                     mainViewModel.addBboy(bboy)
                                 }
-                               // if (pupil.rating.toInt() >= bboy.rating.toInt())
-                                 //   findNavHost().navigateToActivity(BboysDetailsActivity)
+                                if (pupil.rating.toInt() >= bboy.rating.toInt())
+                                    toBboyDetails()
                             },
                         onSuccess = { showShimmer.value = false },
                         contentScale = ContentScale.Crop

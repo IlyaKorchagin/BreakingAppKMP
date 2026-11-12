@@ -103,7 +103,9 @@ import team.platforma.infoteam.theme.typography.Typography
 
 
 @Composable
-fun RecordsScreen() {
+fun RecordsScreen(
+    onProfileClick: () -> Unit
+) {
     val mainViewModel = koinViewModel<MainViewModel>()
     val pupilsList by mainViewModel.pupils.collectAsState(emptyList<PupilModel>())
     var selected by remember { mutableStateOf(WINDMILL) }
@@ -141,13 +143,15 @@ fun RecordsScreen() {
         if (mainViewModel.checkedState) NewRatingTable(
             selected = selected,
             ratingList = sortedPupils,
-            mainViewModel = mainViewModel
+            mainViewModel = mainViewModel,
+            onProfileClick = onProfileClick
         )
         else {
             RatingTable(
                 selected = selected,
                 mainViewModel = mainViewModel,
-                pupilsList = sortedPupils
+                pupilsList = sortedPupils,
+                onProfileClick = onProfileClick
             )
         }
     }
@@ -158,7 +162,8 @@ fun NewRatingTable(
     selected: String,
     ratingList: List<PupilModel>,
     mainViewModel: MainViewModel,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onProfileClick: () -> Unit
 ) {
     val showShimmer = remember { mutableStateOf(true) }
     LazyColumn(
@@ -182,7 +187,7 @@ fun NewRatingTable(
                     .padding(5.dp)
                     .clickable {
                         mainViewModel.setClickedPupil(pupil)
-                   //     findNavHost().navigateToActivity(ProfileActivity)
+                        onProfileClick()
                     },
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceEvenly
@@ -296,7 +301,10 @@ fun NewRatingTable(
 @Composable
 fun RatingTable(
     selected: String,
-    pupilsList: List<PupilModel>, modifier: Modifier = Modifier, mainViewModel: MainViewModel
+    pupilsList: List<PupilModel>,
+    modifier: Modifier = Modifier,
+    mainViewModel: MainViewModel,
+    onProfileClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -356,7 +364,7 @@ fun RatingTable(
                         .fillMaxWidth()
                         .clickable {
                             mainViewModel.setClickedPupil(pupil)
-                     //       findNavHost().navigateToActivity(ProfileActivity)
+                            onProfileClick()
                         },
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceEvenly

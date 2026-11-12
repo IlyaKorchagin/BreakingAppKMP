@@ -54,7 +54,7 @@ import team.platforma.infoteam.theme.typography.Typography
 @OptIn(KoinExperimentalAPI::class)
 @Composable
 fun BattleScreen(
-
+    onBack:()-> Unit
 ) {
 
     val mainViewModel = koinViewModel<MainViewModel>()

@@ -51,7 +51,10 @@ import team.platforma.infoteam.theme.typography.Typography
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
-fun BattleSelectionScreen() {
+fun BattleSelectionScreen(
+    onBack: () -> Unit,
+    onBattleClick: () -> Unit
+) {
 
     val mainViewModel = koinViewModel<MainViewModel>()
     val pupilsList by mainViewModel.pupils.collectAsState(emptyList())
@@ -193,9 +196,8 @@ fun BattleSelectionScreen() {
                             coroutineScope.launch {
                                 mainViewModel.sendSelectionResult()   // сохранить оценки текущей 4-ки
                                 if (isLastGroup) {
-               //                     findNavHost().navigateToActivity(BattleActivity)
-                                }
-                                else {
+                                    onBattleClick()
+                                } else {
                                     mainViewModel.nextSelectionGroup()    // перейти к следующей
                                 }
                             }
@@ -213,9 +215,7 @@ fun BattleSelectionScreen() {
     } else {
         LaunchedEffect(isSelectionFinished) {
             if (isSelectionFinished) {
-
-      //          findNavHost().navigateToActivity(BattleActivity)
-
+                onBattleClick()
             }
         }
         LazyColumn(
@@ -299,7 +299,7 @@ fun BattleSelectionScreen() {
 
 
                                     Text(
-                                        text = if(score > 0)
+                                        text = if (score > 0)
                                             score.toString()
                                         else
                                             "-"

@@ -1,14 +1,12 @@
 package org.korchagin.kmp
 
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
+import AppRoute
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
-import androidx.compose.ui.graphics.Color
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.korchagin.kmp.navigation.AppNavigator
 import org.korchagin.kmp.navigation.AppNavigation
+import org.korchagin.kmp.navigation.AppNavigator
 import org.korchagin.kmp.notifications.NotificationEvent
 import org.korchagin.kmp.theme.AppTheme
 
@@ -39,7 +37,7 @@ fun App(
 
                 "event" -> {
                     // Переход на экран событий
-                    navigator.navigate(AppRoute.Events)
+                    navigator.navigate(AppRoute.SplashScreen)
                 }
             }
 

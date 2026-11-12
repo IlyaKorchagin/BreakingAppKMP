@@ -42,7 +42,9 @@ import org.korchagin.kmp.theme.colors.LocalAppColors
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
-fun EventsScreen() {
+fun EventsScreen(
+    onEventClick: () -> Unit
+) {
     val mainViewModel = koinViewModel<MainViewModel>()
     val events by mainViewModel.events.collectAsState()
     val currentPupil by mainViewModel.currentPupil.collectAsState()
@@ -100,7 +102,7 @@ fun EventsScreen() {
                     Button(onClick = {
                         coroutineScope.launch {
                             mainViewModel.setCurrentEvent(event.id)
-                     //       findNavHost().navigateToActivity(BattleSelectionActivity)
+                            onEventClick()
                         }
 
                     }) {
