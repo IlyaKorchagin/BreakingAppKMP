@@ -18,19 +18,13 @@ junit = "4.13.2"
 kotlin = "2.2.10"
 
 kotlinxDatetimeVersion = "0.5.0"
-multi_image = "1.1.2"
-media_picker = "0.0.1-alpha23"
-permissionx = "0.0.1-alpha15"
-
 
 koin = "3.6.0-Beta4"
 koinComposeMultiplatform = "1.2.0-Beta4"
 
 kotlinxDatetime = "0.6.1"
 navigationCompose = "2.8.0-alpha12"
-navigationComposeExtra = "1.1.20"
 
-material_extension = "0.0.8-alpha70"
 firebase-bom = "33.4.0"
 firebase = "2.1.0"
 firebaseAuth = "2.1.0"
@@ -47,11 +41,11 @@ runner = "1.7.0"
 core = "1.7.0"
 
 [libraries]
-permissionX = { module = "team.multi-platforma:permissionX", version.ref = "permissionx" }
-media_picker = { module = "team.multi-platforma:media_picker", version.ref = "media_picker" }
 core-youtubeplayer = { module = "com.pierfrancescosoffritti.androidyoutubeplayer:core", version.ref = "core-youtubeplayer" }
 html-core = { module = "org.jetbrains.compose.html:html-core", version.ref = "htmlCore" }
 android-firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
+firebase-messaging = { module = "com.google.firebase:firebase-messaging" }
+kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "coroutines" }
 firebase-database = {module = "dev.gitlive:firebase-database", version.ref = "firebase"}
 firebase-auth = { module = "dev.gitlive:firebase-auth", version.ref = "firebaseAuth" }
 firebase-firestore = { module = "dev.gitlive:firebase-firestore", version.ref = "firebaseFirestore" }
@@ -68,7 +62,6 @@ androidx-material = { group = "com.google.android.material", name = "material", 
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "androidx-constraintlayout" }
 
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetimeVersion" }
-multi_image = { module = "team.multi-platforma:multi_image", version.ref = "multi_image" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
@@ -80,9 +73,6 @@ koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koinComp
 koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koinComposeMultiplatform" }
 
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
-navigation-compose-extra = { module = "team.multi-platforma:navigation-compose-extra", version.ref = "navigationComposeExtra" }
-
-material_extension = { module = "team.multi-platforma:material_extension", version.ref = "material_extension" }
 
 coil-gif = { module = "io.coil-kt:coil-gif", version = "2.6.0" }
 coil-compose = { module = "io.coil-kt:coil-compose", version = "2.4.0" }

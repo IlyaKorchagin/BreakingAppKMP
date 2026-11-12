@@ -1,8 +1,8 @@
 package com.korchagin.data.di
 
 import com.korchagin.data.client.provideHttpClient
-import com.korchagin.data.repository.UserRepository
-import com.korchagin.data.repository.UserRepositotyImplementation
+import com.korchagin.data.repository.user.UserRepository
+import com.korchagin.data.repository.user.UserRepositotyImplementation
 
 import org.koin.dsl.bind
 import org.koin.dsl.module

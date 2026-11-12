@@ -51,6 +51,9 @@ kotlin {
             //Firebase
             implementation(project.dependencies.platform(libs.android.firebase.bom))
             implementation(libs.firebase.database)
+            implementation(libs.firebase.messaging)
+
+            implementation(libs.kotlinx.coroutines.play.services)
 
             //DI
             implementation(libs.koin.android)
@@ -91,10 +94,6 @@ kotlin {
 
             //Navigation
             implementation(libs.navigation.compose)
-            implementation(libs.navigation.compose.extra)
-
-            //UI elements
-            implementation(libs.material.extension)
 
             //Date
             implementation(libs.kotlinx.datetime)
@@ -104,14 +103,6 @@ kotlin {
             implementation(libs.firebase.firestore)
             implementation(libs.firebase.storage)
 
-            //MultiImage
-            implementation(libs.multi.image)
-
-            //Permissions
-            implementation(libs.permissionX)
-
-            //Media picker
-            implementation(libs.media.picker)
 
 
             //Project modules
@@ -128,11 +119,15 @@ kotlin {
 
         }
 
-        val jsMain by getting {
-            dependencies {
-                implementation(libs.html.core)
-            }
+
+        val jsMain by getting
+
+        jsMain.dependencies {
+            implementation(libs.html.core)
+            implementation(npm("os-browserify", "0.2.1"))
+            implementation(npm("path-browserify", "1.0.1"))
         }
+
     }
 }
 

@@ -9,7 +9,9 @@ data class EventDomainModel(
     val data: String,
     val regUrl: String,
     val participants: Map<String, EventParticipantsDomain> = emptyMap(),
-    val judges: Map<String, Boolean> = emptyMap()
+    val judges: Map<String, Boolean> = emptyMap(),
+    val currentSelectionGroup: Int,
+    val currentPairIndex: Int
 )
 
 fun EventEntry.toEventDomainModel() = EventDomainModel(
@@ -18,7 +20,10 @@ fun EventEntry.toEventDomainModel() = EventDomainModel(
     data = data,
     regUrl = regUrl,
     participants = participants.mapValues { it.value.toEventParticipantsDomain() },
-    judges = judges
+    judges = judges,
+    currentSelectionGroup = currentSelectionGroup,
+    currentPairIndex = currentPairIndex
+
 )
 
 fun EventDomainModel.toEventDataModel() = EventEntry(
@@ -27,5 +32,7 @@ fun EventDomainModel.toEventDataModel() = EventEntry(
     data = data,
     regUrl = regUrl,
     participants = participants.mapValues { it.value.toEventParticipantsEntry() },
-    judges = judges
+    judges = judges,
+    currentSelectionGroup = currentSelectionGroup,
+    currentPairIndex = currentPairIndex
 )

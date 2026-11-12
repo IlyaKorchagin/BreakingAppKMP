@@ -1,6 +1,6 @@
 package com.korchagin.domain_main.useCase
 
-import com.korchagin.data.repository.UserRepository
+import com.korchagin.data.repository.user.UserRepository
 import com.korchagin.domain_main.models.CoachDomainModel
 import com.korchagin.domain_main.models.toCoachDomainModel
 import kotlinx.coroutines.flow.Flow

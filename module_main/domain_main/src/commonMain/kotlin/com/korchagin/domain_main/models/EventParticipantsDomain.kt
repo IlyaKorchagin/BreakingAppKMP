@@ -8,6 +8,7 @@ data class EventParticipantsDomain(
     val name: String,
     val email: String,
     val eventId: String,
+    val selectionOrder: Int,
    /* var selectionPoints: Float,
     val battlePoints: Map<Rounds, Int> = emptyMap(),*/
     val selectionPoints: Map<String, Double> = emptyMap(), // judgeId -> points
@@ -21,6 +22,7 @@ fun EventParticipantsEntry.toEventParticipantsDomain() = EventParticipantsDomain
     name = name,
     email = phone,
     eventId = event_id,
+    selectionOrder = selectionOrder,
     selectionPoints = selectionPoints,
     battlePoints = battlePoints,
     battlePosition = battlePosition
@@ -32,6 +34,7 @@ fun EventParticipantsDomain.toEventParticipantsEntry() = EventParticipantsEntry(
     name = name,
     phone = email,
     event_id = eventId,
+    selectionOrder = selectionOrder,
     selectionPoints = selectionPoints,
     battlePoints = battlePoints,
     battlePosition = battlePosition
