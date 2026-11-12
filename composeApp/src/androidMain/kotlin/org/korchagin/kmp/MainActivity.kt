@@ -21,8 +21,7 @@ import com.google.firebase.FirebaseApp
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import org.korchagin.kmp.notifications.NotificationEvent
-import team.platforma.apppermissions.PermissionX
-import team.platforma.kotlinmultiplatformsharedmodule.MediaPicker
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,8 +35,6 @@ class MainActivity : ComponentActivity() {
         handleNotificationIntent(intent)
 
         // Остальной существующий код:
-        MediaPicker.create(this)
-        PermissionX.create(this)
         FirebaseApp.initializeApp(this)
 
         setContent {

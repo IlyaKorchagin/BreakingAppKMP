@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.Color
 
 private object AppColorsDefined {
     object LightTheme {
-        val textDefault = Color(0x00000000)
+        val textDefault = Color(0xFF000000)
         val textDisabled = Color(0xFF787F88)
 
         val teal200 = Color(0xFF03DAC5)
@@ -119,117 +119,108 @@ private object AppColorsDefined {
     }
 }
 
-object AppColors {
-    private var mColors: Colors = Colors()
-    fun colors() = mColors
-    fun define(colors: Colors) {
-        mColors = colors
-    }
-}
 
 class AppColorsTheme() {
-    fun light() {
-        AppColors.define(
-            Colors(
-                teal200 = AppColorsDefined.LightTheme.teal200,
-                mainGreen = AppColorsDefined.LightTheme.mainGreen,
-                easy = AppColorsDefined.LightTheme.easy,
-                medium = AppColorsDefined.LightTheme.medium,
-                hard = AppColorsDefined.LightTheme.hard,
-                progress = AppColorsDefined.LightTheme.progress,
-                silver = AppColorsDefined.LightTheme.silver,
-                gold = AppColorsDefined.LightTheme.gold,
-                bronze = AppColorsDefined.LightTheme.bronze,
-                default = AppColorsDefined.LightTheme.default,
-                startAvatar = AppColorsDefined.LightTheme.startAvatar,
-                startGold = AppColorsDefined.LightTheme.startGold,
-                startBronze = AppColorsDefined.LightTheme.startBronze,
-                onePosition = AppColorsDefined.LightTheme.onePosition,
-                twoPosition = AppColorsDefined.LightTheme.twoPosition,
-                threePosition = AppColorsDefined.LightTheme.threePosition,
-                fourPosition = AppColorsDefined.LightTheme.fourPosition,
-                fivePosition = AppColorsDefined.LightTheme.fivePosition,
-                sixPosition = AppColorsDefined.LightTheme.sixPosition,
-                sevenPosition = AppColorsDefined.LightTheme.sevenPosition,
-                eightPosition = AppColorsDefined.LightTheme.eightPosition,
-                ninePosition = AppColorsDefined.LightTheme.ninePosition,
-                primaryColor = AppColorsDefined.LightTheme.primaryColor,
-                textDefault = AppColorsDefined.LightTheme.textDefault,
-                textDisabled = AppColorsDefined.LightTheme.textDisabled,
-                textOnPrimary = AppColorsDefined.LightTheme.textOnPrimary,
-                iconOnPrimary = AppColorsDefined.LightTheme.iconOnPrimary,
-                textGrey = AppColorsDefined.LightTheme.textGrey,
-                defaultBackground = AppColorsDefined.LightTheme.defaultBackground,
-                iconGrey = AppColorsDefined.LightTheme.iconGrey,
-                defaultDividerColor = AppColorsDefined.LightTheme.defaultDividerColor,
-                dislikeColor = AppColorsDefined.LightTheme.dislikeColor,
-                shareColor = AppColorsDefined.LightTheme.shareColor,
-                likeColor = AppColorsDefined.LightTheme.likeColor,
-                reportStatusAcceptedColor = AppColorsDefined.LightTheme.reportStatusAcceptedColor,
-                reportStatusRejectedColor = AppColorsDefined.LightTheme.reportStatusRejectedColor,
-                reportStatusModeratedColor = AppColorsDefined.LightTheme.reportStatusModeratedColor,
-                reportOnAcceptedTextColor = AppColorsDefined.LightTheme.reportOnAcceptedTextColor,
-                reportOnRejectedTextColor = AppColorsDefined.LightTheme.reportOnRejectedTextColor,
-                reportOnModerationTextColor = AppColorsDefined.LightTheme.reportOnModerationTextColor,
 
-                ratingFistPlaceColor = AppColorsDefined.LightTheme.ratingFistPlaceColor,
-                ratingSecondPlaceColor = AppColorsDefined.LightTheme.ratingSecondPlaceColor,
-                ratingThirdPlaceColor = AppColorsDefined.LightTheme.ratingThirdPlaceColor
-            )
+    fun light(): Colors {
+        return Colors(
+            teal200 = AppColorsDefined.LightTheme.teal200,
+            mainGreen = AppColorsDefined.LightTheme.mainGreen,
+            easy = AppColorsDefined.LightTheme.easy,
+            medium = AppColorsDefined.LightTheme.medium,
+            hard = AppColorsDefined.LightTheme.hard,
+            progress = AppColorsDefined.LightTheme.progress,
+            silver = AppColorsDefined.LightTheme.silver,
+            gold = AppColorsDefined.LightTheme.gold,
+            bronze = AppColorsDefined.LightTheme.bronze,
+            default = AppColorsDefined.LightTheme.default,
+            startAvatar = AppColorsDefined.LightTheme.startAvatar,
+            startGold = AppColorsDefined.LightTheme.startGold,
+            startBronze = AppColorsDefined.LightTheme.startBronze,
+            onePosition = AppColorsDefined.LightTheme.onePosition,
+            twoPosition = AppColorsDefined.LightTheme.twoPosition,
+            threePosition = AppColorsDefined.LightTheme.threePosition,
+            fourPosition = AppColorsDefined.LightTheme.fourPosition,
+            fivePosition = AppColorsDefined.LightTheme.fivePosition,
+            sixPosition = AppColorsDefined.LightTheme.sixPosition,
+            sevenPosition = AppColorsDefined.LightTheme.sevenPosition,
+            eightPosition = AppColorsDefined.LightTheme.eightPosition,
+            ninePosition = AppColorsDefined.LightTheme.ninePosition,
+            primaryColor = AppColorsDefined.LightTheme.primaryColor,
+            textDefault = AppColorsDefined.LightTheme.textDefault,
+            textDisabled = AppColorsDefined.LightTheme.textDisabled,
+            textOnPrimary = AppColorsDefined.LightTheme.textOnPrimary,
+            iconOnPrimary = AppColorsDefined.LightTheme.iconOnPrimary,
+            textGrey = AppColorsDefined.LightTheme.textGrey,
+            defaultBackground = AppColorsDefined.LightTheme.defaultBackground,
+            iconGrey = AppColorsDefined.LightTheme.iconGrey,
+            defaultDividerColor = AppColorsDefined.LightTheme.defaultDividerColor,
+            dislikeColor = AppColorsDefined.LightTheme.dislikeColor,
+            shareColor = AppColorsDefined.LightTheme.shareColor,
+            likeColor = AppColorsDefined.LightTheme.likeColor,
+            reportStatusAcceptedColor = AppColorsDefined.LightTheme.reportStatusAcceptedColor,
+            reportStatusRejectedColor = AppColorsDefined.LightTheme.reportStatusRejectedColor,
+            reportStatusModeratedColor = AppColorsDefined.LightTheme.reportStatusModeratedColor,
+            reportOnAcceptedTextColor = AppColorsDefined.LightTheme.reportOnAcceptedTextColor,
+            reportOnRejectedTextColor = AppColorsDefined.LightTheme.reportOnRejectedTextColor,
+            reportOnModerationTextColor = AppColorsDefined.LightTheme.reportOnModerationTextColor,
+
+            ratingFistPlaceColor = AppColorsDefined.LightTheme.ratingFistPlaceColor,
+            ratingSecondPlaceColor = AppColorsDefined.LightTheme.ratingSecondPlaceColor,
+            ratingThirdPlaceColor = AppColorsDefined.LightTheme.ratingThirdPlaceColor
         )
     }
 
-    fun dark() {
-        AppColors.define(
-            Colors(
-                teal200 = AppColorsDefined.DarkTheme.teal200,
-                mainGreen = AppColorsDefined.DarkTheme.mainGreen,
-                easy = AppColorsDefined.DarkTheme.easy,
-                medium = AppColorsDefined.DarkTheme.medium,
-                hard = AppColorsDefined.DarkTheme.hard,
-                progress = AppColorsDefined.DarkTheme.progress,
-                silver = AppColorsDefined.DarkTheme.silver,
-                gold = AppColorsDefined.DarkTheme.gold,
-                bronze = AppColorsDefined.DarkTheme.bronze,
-                default = AppColorsDefined.DarkTheme.default,
-                startAvatar = AppColorsDefined.DarkTheme.startAvatar,
-                startGold = AppColorsDefined.DarkTheme.startGold,
-                startBronze = AppColorsDefined.DarkTheme.startBronze,
-                onePosition = AppColorsDefined.DarkTheme.onePosition,
-                twoPosition = AppColorsDefined.DarkTheme.twoPosition,
-                threePosition = AppColorsDefined.DarkTheme.threePosition,
-                fourPosition = AppColorsDefined.DarkTheme.fourPosition,
-                fivePosition = AppColorsDefined.DarkTheme.fivePosition,
-                sixPosition = AppColorsDefined.DarkTheme.sixPosition,
-                sevenPosition = AppColorsDefined.DarkTheme.sevenPosition,
-                eightPosition = AppColorsDefined.DarkTheme.eightPosition,
-                ninePosition = AppColorsDefined.DarkTheme.ninePosition,
-                primaryColor = AppColorsDefined.DarkTheme.primaryColor,
-                textDefault = AppColorsDefined.DarkTheme.textDefault,
-                textDisabled = AppColorsDefined.DarkTheme.textDisabled,
-                textOnPrimary = AppColorsDefined.DarkTheme.textOnPrimary,
-                iconOnPrimary = AppColorsDefined.DarkTheme.iconOnPrimary,
-                textGrey = AppColorsDefined.DarkTheme.textGrey,
-                defaultBackground = AppColorsDefined.DarkTheme.defaultBackground,
-                iconGrey = AppColorsDefined.DarkTheme.iconGrey,
-                defaultDividerColor = AppColorsDefined.DarkTheme.defaultDividerColor,
-                dislikeColor = AppColorsDefined.DarkTheme.dislikeColor,
-                shareColor = AppColorsDefined.DarkTheme.shareColor,
-                likeColor = AppColorsDefined.DarkTheme.likeColor,
+    fun dark(): Colors {
+        return Colors(
+            teal200 = AppColorsDefined.DarkTheme.teal200,
+            mainGreen = AppColorsDefined.DarkTheme.mainGreen,
+            easy = AppColorsDefined.DarkTheme.easy,
+            medium = AppColorsDefined.DarkTheme.medium,
+            hard = AppColorsDefined.DarkTheme.hard,
+            progress = AppColorsDefined.DarkTheme.progress,
+            silver = AppColorsDefined.DarkTheme.silver,
+            gold = AppColorsDefined.DarkTheme.gold,
+            bronze = AppColorsDefined.DarkTheme.bronze,
+            default = AppColorsDefined.DarkTheme.default,
+            startAvatar = AppColorsDefined.DarkTheme.startAvatar,
+            startGold = AppColorsDefined.DarkTheme.startGold,
+            startBronze = AppColorsDefined.DarkTheme.startBronze,
+            onePosition = AppColorsDefined.DarkTheme.onePosition,
+            twoPosition = AppColorsDefined.DarkTheme.twoPosition,
+            threePosition = AppColorsDefined.DarkTheme.threePosition,
+            fourPosition = AppColorsDefined.DarkTheme.fourPosition,
+            fivePosition = AppColorsDefined.DarkTheme.fivePosition,
+            sixPosition = AppColorsDefined.DarkTheme.sixPosition,
+            sevenPosition = AppColorsDefined.DarkTheme.sevenPosition,
+            eightPosition = AppColorsDefined.DarkTheme.eightPosition,
+            ninePosition = AppColorsDefined.DarkTheme.ninePosition,
+            primaryColor = AppColorsDefined.DarkTheme.primaryColor,
+            textDefault = AppColorsDefined.DarkTheme.textDefault,
+            textDisabled = AppColorsDefined.DarkTheme.textDisabled,
+            textOnPrimary = AppColorsDefined.DarkTheme.textOnPrimary,
+            iconOnPrimary = AppColorsDefined.DarkTheme.iconOnPrimary,
+            textGrey = AppColorsDefined.DarkTheme.textGrey,
+            defaultBackground = AppColorsDefined.DarkTheme.defaultBackground,
+            iconGrey = AppColorsDefined.DarkTheme.iconGrey,
+            defaultDividerColor = AppColorsDefined.DarkTheme.defaultDividerColor,
+            dislikeColor = AppColorsDefined.DarkTheme.dislikeColor,
+            shareColor = AppColorsDefined.DarkTheme.shareColor,
+            likeColor = AppColorsDefined.DarkTheme.likeColor,
 
-                reportStatusAcceptedColor = AppColorsDefined.DarkTheme.reportStatusAcceptedColor,
-                reportStatusRejectedColor = AppColorsDefined.DarkTheme.reportStatusRejectedColor,
-                reportStatusModeratedColor = AppColorsDefined.DarkTheme.reportStatusModeratedColor,
-                reportOnAcceptedTextColor = AppColorsDefined.DarkTheme.reportOnAcceptedTextColor,
-                reportOnRejectedTextColor = AppColorsDefined.DarkTheme.reportOnRejectedTextColor,
-                reportOnModerationTextColor = AppColorsDefined.DarkTheme.reportOnModerationTextColor,
+            reportStatusAcceptedColor = AppColorsDefined.DarkTheme.reportStatusAcceptedColor,
+            reportStatusRejectedColor = AppColorsDefined.DarkTheme.reportStatusRejectedColor,
+            reportStatusModeratedColor = AppColorsDefined.DarkTheme.reportStatusModeratedColor,
+            reportOnAcceptedTextColor = AppColorsDefined.DarkTheme.reportOnAcceptedTextColor,
+            reportOnRejectedTextColor = AppColorsDefined.DarkTheme.reportOnRejectedTextColor,
+            reportOnModerationTextColor = AppColorsDefined.DarkTheme.reportOnModerationTextColor,
 
-                ratingFistPlaceColor = AppColorsDefined.DarkTheme.ratingFistPlaceColor,
-                ratingSecondPlaceColor = AppColorsDefined.DarkTheme.ratingSecondPlaceColor,
-                ratingThirdPlaceColor = AppColorsDefined.DarkTheme.ratingThirdPlaceColor
-            )
+            ratingFistPlaceColor = AppColorsDefined.DarkTheme.ratingFistPlaceColor,
+            ratingSecondPlaceColor = AppColorsDefined.DarkTheme.ratingSecondPlaceColor,
+            ratingThirdPlaceColor = AppColorsDefined.DarkTheme.ratingThirdPlaceColor
         )
     }
+
 }
 
 data class Colors(

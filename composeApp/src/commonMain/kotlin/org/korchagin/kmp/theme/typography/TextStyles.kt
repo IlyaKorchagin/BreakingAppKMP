@@ -1,6 +1,5 @@
 package team.platforma.infoteam.theme.typography
 
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.W400
@@ -24,15 +23,6 @@ object Typography {
     private var textXs = TextXS()
     fun textXs(weights: FontWeights) = textXs.style(weights)
 
-    @Composable
-    fun define(isDark: Boolean) {
-        isDark
-        text3xl = Text3XL()
-        text2xl = Text2XL()
-        textLg = TextLG()
-        textSm = TextSM()
-        textXs = TextXS()
-    }
 }
 
 class Text3XL() {

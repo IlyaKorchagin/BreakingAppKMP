@@ -22,10 +22,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
-    env:
-      NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
-      NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -38,28 +34,6 @@ jobs:
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
-
-      - name: Verify Nexus credentials
-        run: |
-          if [ -z "$NEXUS_USERNAME" ]; then
-            echo "::error::NEXUS_USERNAME is empty or unavailable"
-            exit 1
-          fi
-          
-          if [ -z "$NEXUS_PASSWORD" ]; then
-            echo "::error::NEXUS_PASSWORD is empty or unavailable"
-            exit 1
-          fi
-          
-          echo "Nexus credentials are available"
-
-      - name: Test Nexus authentication
-        run: |
-          curl --silent --show-error \
-            --output /dev/null \
-            --write-out "Nexus HTTP status: %{http_code}\n" \
-            --user "$NEXUS_USERNAME:$NEXUS_PASSWORD" \
-            "https://nexus.x840.ru/repository/maven-releases/team/multi-platforma/navigation-compose-extra/1.1.20/navigation-compose-extra-1.1.20.pom"
 
       - name: Build Android Debug
         run: ./gradlew :composeApp:assembleDebug

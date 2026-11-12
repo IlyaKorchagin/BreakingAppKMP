@@ -1,18 +1,21 @@
 package org.korchagin.kmp.helper
 
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import org.korchagin.kmp.theme.colors.AppColors
+import org.korchagin.kmp.theme.colors.LocalAppColors
 
+
+@Composable
 fun setPositionColor(index: Int): Color {
     return when(index){
-        0 -> AppColors.colors().onePosition
-        1 -> AppColors.colors().twoPosition
-        2 -> AppColors.colors().threePosition
-        3 -> AppColors.colors().fourPosition
-        4 -> AppColors.colors().fivePosition
-        5 -> AppColors.colors().sixPosition
-        6 -> AppColors.colors().sevenPosition
-        7 -> AppColors.colors().eightPosition
-        else -> AppColors.colors().ninePosition
+        0 -> LocalAppColors.current.onePosition
+        1 -> LocalAppColors.current.twoPosition
+        2 -> LocalAppColors.current.threePosition
+        3 -> LocalAppColors.current.fourPosition
+        4 -> LocalAppColors.current.fivePosition
+        5 -> LocalAppColors.current.sixPosition
+        6 -> LocalAppColors.current.sevenPosition
+        7 -> LocalAppColors.current.eightPosition
+        else -> LocalAppColors.current.ninePosition
     }
 }

@@ -26,14 +26,6 @@ dependencyResolutionManagement {
             }
         }
         mavenCentral()
-        maven {
-            url = uri("https://nexus.x840.ru/repository/maven-releases/")
-
-            credentials {
-                username = providers.environmentVariable("NEXUS_USERNAME").orNull
-                password = providers.environmentVariable("NEXUS_PASSWORD").orNull
-            }
-        }
     }
 }
 

@@ -94,10 +94,6 @@ kotlin {
 
             //Navigation
             implementation(libs.navigation.compose)
-            implementation(libs.navigation.compose.extra)
-
-            //UI elements
-            implementation(libs.material.extension)
 
             //Date
             implementation(libs.kotlinx.datetime)
@@ -107,14 +103,6 @@ kotlin {
             implementation(libs.firebase.firestore)
             implementation(libs.firebase.storage)
 
-            //MultiImage
-            implementation(libs.multi.image)
-
-            //Permissions
-            implementation(libs.permissionX)
-
-            //Media picker
-            implementation(libs.media.picker)
 
 
             //Project modules

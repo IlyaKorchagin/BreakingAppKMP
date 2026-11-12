@@ -46,9 +46,9 @@ import com.korchagin.presentation.viewModel.MainViewModel
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
-import org.korchagin.kmp.activity.main.fragments.home.screen.screenItems.PostSection
+import org.korchagin.kmp.activity.userMain.homeScreen.screenItems.PostSection
 import org.korchagin.kmp.helper.setElementImage
-import org.korchagin.kmp.theme.colors.AppColors
+import org.korchagin.kmp.theme.colors.LocalAppColors
 
 @OptIn(ExperimentalFoundationApi::class, KoinExperimentalAPI::class)
 @Composable
@@ -61,7 +61,8 @@ fun AnimatedTabWithHorizontalPager(
     stretch: List<ElementModel>,
     footWork: List<ElementModel>,
     pupil: PupilModel,
-    editMode: Boolean = false
+    editMode: Boolean = false,
+    onElementClick: (ElementModel) -> Unit
 ) {
     val mainViewModel = koinViewModel<MainViewModel>()
     val pagerState = rememberPagerState(initialPage = mainViewModel.elementTabPosition) {
@@ -113,7 +114,7 @@ fun AnimatedTabWithHorizontalPager(
                             .graphicsLayer(scaleX = scale.value, scaleY = scale.value)
                             .border(
                                 width = 1.dp,
-                                color = if (selected) AppColors.colors().mainGreen else Color.LightGray,
+                                color = if (selected) LocalAppColors.current.mainGreen else Color.LightGray,
                                 shape = CircleShape
                             )
                     )
@@ -122,7 +123,7 @@ fun AnimatedTabWithHorizontalPager(
                         text = tab.text,
                         style = TextStyle(
                             color = if (selected)
-                                AppColors.colors().mainGreen
+                                LocalAppColors.current.mainGreen
                             else Color.Gray,
                             fontSize = 11.sp
                         ),
@@ -172,7 +173,9 @@ fun AnimatedTabWithHorizontalPager(
                             //  navController = navController,
                             modifier = Modifier.fillMaxWidth(),
                             pupil = pupil,
-                            editMode = editMode
+                            editMode = editMode,
+                            onElementClick = onElementClick
+
                         )
                     }
 
@@ -203,7 +206,8 @@ fun AnimatedTabWithHorizontalPager(
                             // navController = navController,
                             modifier = Modifier.fillMaxWidth(),
                             pupil = pupil,
-                            editMode = editMode
+                            editMode = editMode,
+                            onElementClick = onElementClick
                         )
                     }
 
@@ -233,7 +237,8 @@ fun AnimatedTabWithHorizontalPager(
                             // navController = navController,
                             modifier = Modifier.fillMaxWidth(),
                             pupil = pupil,
-                            editMode = editMode
+                            editMode = editMode,
+                            onElementClick = onElementClick
                         )
                     }
 
@@ -262,7 +267,8 @@ fun AnimatedTabWithHorizontalPager(
                             // navController = navController,
                             modifier = Modifier.fillMaxWidth(),
                             pupil = pupil,
-                            editMode = editMode
+                            editMode = editMode,
+                            onElementClick = onElementClick
                         )
                     }
 
@@ -291,7 +297,8 @@ fun AnimatedTabWithHorizontalPager(
                             modifier = Modifier.fillMaxWidth(),
                             pupil = pupil,
                             editMode = editMode,
-                            footWork = true
+                            footWork = true,
+                            onElementClick = onElementClick
                         )
                     }
                 }
