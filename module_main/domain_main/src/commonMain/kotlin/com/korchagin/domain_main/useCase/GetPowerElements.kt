@@ -1,13 +1,13 @@
 package com.korchagin.domain_main.useCase
 
-import com.korchagin.data.repository.user.UserRepository
+import com.korchagin.data.repository.elements.ElementRepository
 import com.korchagin.domain_main.models.ElementDomainModel
 import com.korchagin.domain_main.models.toElementDomainModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 
-class GetPowerElements(private val repository: UserRepository) {
+class GetPowerElements(private val repository: ElementRepository) {
     suspend fun getPowerElements(): Flow<List<ElementDomainModel>> = repository.getPowerElements().map { elements ->
         elements.map { it.toElementDomainModel() }
     }

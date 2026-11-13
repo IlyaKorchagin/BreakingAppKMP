@@ -3,7 +3,7 @@ package com.korchagin.presentation_auth.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.korchagin.domain_auth.AuthUseCase
-import com.korchagin.domain_main.MainUseCase
+import com.korchagin.domain_main.PupilUseCases
 import dev.gitlive.firebase.auth.FirebaseAuth
 import dev.gitlive.firebase.auth.FirebaseUser
 import kotlinx.coroutines.flow.SharingStarted
@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.stateIn
 
 class AuthViewModel(
     private val authUseCase: AuthUseCase,
-    private val mainUseCase: MainUseCase,
+    private val pupilUseCases: PupilUseCases,
     auth: FirebaseAuth
 ) : ViewModel() {
     private val _authState = auth.authStateChanged
@@ -52,7 +52,7 @@ class AuthViewModel(
                         "Не удалось получить UID пользователя Firebase"
                     )
 
-                mainUseCase.createNewPupil.createNewPupil(
+                pupilUseCases.createNewPupil.createNewPupil(
                     email = email,
                     name = name,
                     coach = coach,
