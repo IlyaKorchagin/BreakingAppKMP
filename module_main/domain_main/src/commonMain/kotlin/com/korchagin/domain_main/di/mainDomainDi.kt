@@ -1,6 +1,12 @@
 package com.korchagin.domain_main.di
 
-import com.korchagin.domain_main.MainUseCase
+import com.korchagin.domain_main.AdditionalUseCases
+import com.korchagin.domain_main.BattleUseCases
+import com.korchagin.domain_main.ElementUseCases
+import com.korchagin.domain_main.EventUseCases
+import com.korchagin.domain_main.JudgeUseCases
+import com.korchagin.domain_main.PupilUseCases
+import com.korchagin.domain_main.SelectionUseCases
 import com.korchagin.domain_main.useCase.CreateNewPupil
 import com.korchagin.domain_main.useCase.GetAllPupils
 import com.korchagin.domain_main.useCase.GetBboysList
@@ -18,6 +24,7 @@ import com.korchagin.domain_main.useCase.GetStretchElements
 import com.korchagin.domain_main.useCase.ObserveParticipants
 import com.korchagin.domain_main.useCase.RegisterJudgeToEvent
 import com.korchagin.domain_main.useCase.RegisterToEvent
+import com.korchagin.domain_main.useCase.SaveFcmToken
 import com.korchagin.domain_main.useCase.SavePupil
 import com.korchagin.domain_main.useCase.SendBattleProtocol
 import com.korchagin.domain_main.useCase.SetBattleResult
@@ -28,41 +35,70 @@ import com.korchagin.domain_main.useCase.SetSelectionResult
 import com.korchagin.domain_main.useCase.UnregisterFromEvent
 import com.korchagin.domain_main.useCase.UnregisterJudgeToEvent
 import com.korchagin.domain_main.useCase.UploadAvatar
-import com.korchagin.domain_main.useCase.SaveFcmToken
 import org.koin.dsl.module
+
 
 val mainDomainModule = module {
     single {
-        val mainUseCase = MainUseCase(
+        PupilUseCases(
             getAllPupils = GetAllPupils(repository = get()),
             getPupilById = GetPupilById(repository = get()),
+            createNewPupil = CreateNewPupil(repository = get()),
+            uploadAvatar = UploadAvatar(repository = get()),
+            savePupil = SavePupil(repository = get())
+        )
+    }
+
+    single {
+        ElementUseCases(
             getFreezeElements = GetFreezeElements(repository = get()),
             getPowerElements = GetPowerElements(repository = get()),
             getOfpElements = GetOfpElements(repository = get()),
             getStretchElements = GetStretchElements(repository = get()),
-            getBboysList = GetBboysList(repository = get()),
-            createNewPupil = CreateNewPupil(repository = get()),
-            uploadAvatar = UploadAvatar(repository = get()),
-            savePupil = SavePupil(repository = get()),
-            registerToEvent = RegisterToEvent(repository = get()),
+            getFootWorkElements = GetFootWorkElements(repository = get())
+        )
+    }
+
+    single {
+        EventUseCases(
             getEvents = GetEvents(repository = get()),
-            unregisterFromEvent = UnregisterFromEvent(repository = get()),
-            getCoaches = GetCoaches(repository = get()),
             getEventParticipants = GetEventParticipants(repository = get()),
-            setBattleProtocol = SendBattleProtocol(repository = get()),
-            getFootWorkElements = GetFootWorkElements(repository = get()),
+            observeParticipants = ObserveParticipants(repository = get()),
+            registerToEvent = RegisterToEvent(repository = get()),
+            unregisterFromEvent = UnregisterFromEvent(repository = get())
+        )
+    }
+
+    single {
+        JudgeUseCases(
             getJudges = GetJudges(repository = get()),
             registerJudgeToEvent = RegisterJudgeToEvent(repository = get()),
-            unregisterJudgeToEvent = UnregisterJudgeToEvent(repository = get()),
-            setSelectionResult = SetSelectionResult(repository = get()),
-            setBattleResult = SetBattleResult(repository = get()),
-            observeParticipants = ObserveParticipants(repository = get()),
+            unregisterJudgeToEvent = UnregisterJudgeToEvent(repository = get())
+        )
+    }
+
+    single {
+        SelectionUseCases(
             getSelectionPoints = GetSelectionPoints(repository = get()),
-            setCurrentSelectionGroup = SetCurrentSelectionGroup(repository = get()),
+            setSelectionResult = SetSelectionResult(repository = get()),
+            setCurrentSelectionGroup = SetCurrentSelectionGroup(repository = get())
+        )
+    }
+
+    single {
+        BattleUseCases(
+            setBattleProtocol = SendBattleProtocol(repository = get()),
+            setBattleResult = SetBattleResult(repository = get()),
             setCurrentRound = SetCurrentRound(repository = get()),
-            setCurrentPairIndex = SetCurrentPairIndex(repository = get()),
+            setCurrentPairIndex = SetCurrentPairIndex(repository = get())
+        )
+    }
+
+    single {
+        AdditionalUseCases(
+            getBboysList = GetBboysList(repository = get()),
+            getCoaches = GetCoaches(repository = get()),
             saveFcmToken = SaveFcmToken(repository = get())
         )
-        mainUseCase
     }
 }

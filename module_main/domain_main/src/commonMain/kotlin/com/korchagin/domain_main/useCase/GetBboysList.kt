@@ -1,13 +1,13 @@
 package com.korchagin.domain_main.useCase
 
-import com.korchagin.data.repository.user.UserRepository
+import com.korchagin.data.repository.additional.AdditionalRepository
 import com.korchagin.domain_main.models.BboyDomainModel
 import com.korchagin.domain_main.models.toBboyDomainModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 
-class GetBboysList(private val repository: UserRepository) {
+class GetBboysList(private val repository: AdditionalRepository) {
     suspend fun getBboysList(): Flow<List<BboyDomainModel>> = repository.getBboysList().map { bboys ->
         bboys.map { it.toBboyDomainModel() }
     }

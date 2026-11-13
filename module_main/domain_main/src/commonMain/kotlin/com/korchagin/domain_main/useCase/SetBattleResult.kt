@@ -1,9 +1,9 @@
 package com.korchagin.domain_main.useCase
 
-import com.korchagin.data.repository.user.UserRepository
+import com.korchagin.data.repository.battle.BattleRepository
 
 
-class SetBattleResult(private val repository: UserRepository) {
+class SetBattleResult(private val repository: BattleRepository) {
     suspend fun setBattleResult(usersList: List<String>, pointsList: List<Int>, eventId: String , judgeId: String, round: String) =
         repository.setBattlePoints(
             eventId = eventId,
