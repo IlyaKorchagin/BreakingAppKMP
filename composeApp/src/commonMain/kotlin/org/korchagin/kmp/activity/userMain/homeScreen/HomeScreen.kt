@@ -1,9 +1,8 @@
 package org.korchagin.kmp.activity.userMain.homeScreen
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.widthIn
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -27,6 +26,7 @@ import breakingkmpapp.composeapp.generated.resources.stretch_title
 import breakingkmpapp.composeapp.generated.resources.twin
 import com.korchagin.presentation.models.ElementModel
 import com.korchagin.presentation.models.ElementsTab
+import com.korchagin.presentation.models.HomeUiState
 import com.korchagin.presentation.models.ImageWithText
 import com.korchagin.presentation.viewModel.MainViewModel
 import kotlinx.coroutines.delay
@@ -49,21 +49,10 @@ fun HomeScreen(
         // Небольшая задержка — даёт layout завершиться
         delay(100.milliseconds)
         mainViewModel.loadData()
-     //   mainViewModel.loadMedia()
     }
 
-    val currentPupil by mainViewModel.currentPupil.collectAsState(null)
-    val freezeElements by mainViewModel.freezeElements.collectAsState(null)
-    val powerElements by mainViewModel.powerElements.collectAsState(null)
-    val ofpElements by mainViewModel.ofpElements.collectAsState(null)
-    val stretchElements by mainViewModel.stretchElements.collectAsState(null)
-    val footWorkElements by mainViewModel.footWorkElements.collectAsState(null)
-    val pupil = currentPupil ?: return
-    val freezes = freezeElements ?: return
-    val powerMoves = powerElements ?: return
-    val ofp = ofpElements ?: return
-    val stretch = stretchElements ?: return
-    val footWork = footWorkElements ?: return
+
+    val homeState by mainViewModel.homeUiState.collectAsState()
 
     var selectedTabIndex by remember {
         mutableIntStateOf(ElementsTab.FREEZE.ordinal)
@@ -91,32 +80,46 @@ fun HomeScreen(
         )
 
     )
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.TopCenter // Центрируем по ширине
-    ) {
-        Column(
-            modifier = Modifier
-                .widthIn(max = 900.dp) // Ограничиваем максимальную ширину
-        ) {
 
-            ProfileSection(
-                pupil,
-                mainViewModel,
-                selectedTabIndex
-            )
+    when (val state = homeState) {
 
-            AnimatedTabWithHorizontalPager(
-                freeze = freezes,
-                power = powerMoves,
-                ofp = ofp,
-                stretch = stretch,
-                footWork = footWork,
-                pupil = pupil,
-                //   navController = navController,
-                tabs = imageWithTexts,
-                onTabSelected = { selectedTabIndex = it },
-                onElementClick = onElementClick
+        HomeUiState.Loading -> {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        }
+
+        is HomeUiState.Content -> {
+
+            CollapsibleProfile(
+                profileHeight = 150.dp,
+
+                header = { modifier ->
+                    ProfileSection(
+                        curPupil = state.pupil,
+                        selectedTabIndex = selectedTabIndex,
+                        modifier = modifier
+                    )
+                },
+
+                content = {
+                    AnimatedTabWithHorizontalPager(
+                        freeze = state.freezes,
+                        power = state.powerMoves,
+                        ofp = state.ofp,
+                        stretch = state.stretch,
+                        footWork = state.footWork,
+                        pupil = state.pupil,
+                        tabs = imageWithTexts,
+                        onTabSelected = {
+                            selectedTabIndex = it
+                        },
+                        onElementClick = onElementClick
+                    )
+                }
             )
         }
     }

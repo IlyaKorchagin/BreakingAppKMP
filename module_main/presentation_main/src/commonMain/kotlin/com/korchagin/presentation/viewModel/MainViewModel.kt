@@ -16,6 +16,7 @@ import com.korchagin.module_common.Rounds
 import com.korchagin.presentation.models.BboyModel
 import com.korchagin.presentation.models.CoachModel
 import com.korchagin.presentation.models.ElementModel
+import com.korchagin.presentation.models.HomeUiState
 import com.korchagin.presentation.models.JudgeModel
 import com.korchagin.presentation.models.JudgeResult
 import com.korchagin.presentation.models.PupilModel
@@ -37,15 +38,15 @@ import com.korchagin.presentation.viewModel.controllers.EventsController
 import com.korchagin.presentation.viewModel.controllers.JudgesController
 import com.korchagin.presentation.viewModel.controllers.PupilsController
 import com.korchagin.presentation.viewModel.controllers.SelectionController
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -60,13 +61,11 @@ class MainViewModel(
     private val fcmTokenProvider: FcmTokenProvider,
 ) : ViewModel() {
 
-    private val singletonMainScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
-
     //--- Pupils case --->
 
     private val pupilsController = PupilsController(
         pupilsUseCases = pupilUseCases,
-        scope = singletonMainScope
+        scope = viewModelScope
     )
 
     val pupils = pupilsController.pupils
@@ -118,7 +117,7 @@ class MainViewModel(
 
 
     fun loadCurrentUser(currentUser: String) {
-        singletonMainScope.launch {
+        viewModelScope.launch {
             pupilUseCases.getPupilById.getAllPupils(currentUser).collect {
                 _currentPupil.value = it.toPupilModel()
             }
@@ -126,7 +125,7 @@ class MainViewModel(
     }
 
     fun loadCoachesList() {
-        singletonMainScope.launch {
+        viewModelScope.launch {
             additionalUseCases.getCoaches.getCoaches().collect { coachesList ->
                 _coaches.value = coachesList
                     .map { it.toCoachModel() }
@@ -172,7 +171,7 @@ class MainViewModel(
         eventsController = eventsController,
         currentEventId = currentEventId,
         selectedJudge = selectedJudge,
-        scope = singletonMainScope
+        scope = viewModelScope
     )
 
     val currentEventParticipants =
@@ -357,7 +356,7 @@ class MainViewModel(
     fun setCurrentRound(round: String) {
         val eventId = _currentEventId.value ?: return
 
-        singletonMainScope.launch {
+        viewModelScope.launch {
             battleUseCases.setCurrentRound.setCurrentRound(eventId, round)
         }
     }
@@ -397,7 +396,7 @@ class MainViewModel(
             _battleResults.add(result)
         }
 
-        singletonMainScope.launch {
+        viewModelScope.launch {
 
             battleUseCases.setBattleResult.setBattleResult(
                 usersList = listOf(
@@ -496,7 +495,7 @@ class MainViewModel(
 
         val eventId = _currentEventId.value ?: return
 
-        singletonMainScope.launch {
+        viewModelScope.launch {
             battleUseCases.setCurrentPairIndex.setCurrentPairIndex(
                 eventId = eventId,
                 pairIndex = index
@@ -882,7 +881,7 @@ class MainViewModel(
         val battlePositions = sortedParticipants.map { it.battlePosition }
 
         // Сохраняем позиции
-        singletonMainScope.launch {
+        viewModelScope.launch {
             battleUseCases.setBattleResult.setBattlePosition(
                 eventId = eventId,
                 usersList = usersList,
@@ -896,7 +895,7 @@ class MainViewModel(
 
 
     fun sendFinishEvent(event: EventModel) {
-        singletonMainScope.launch {
+        viewModelScope.launch {
             battleUseCases.setBattleProtocol.sendBattleProtocol(
                 event.participants.values.map { it.toEventParticipantsDomain() },
                 event.toEventDomainModel()
@@ -905,7 +904,7 @@ class MainViewModel(
     }
 
     fun finishEvent(event: EventModel) {
-        singletonMainScope.launch {
+        viewModelScope.launch {
             battleUseCases.setBattleProtocol.sendBattleProtocol(
                 event.participants.values.map { it.toEventParticipantsDomain() },
                 event.toEventDomainModel()
@@ -959,7 +958,7 @@ class MainViewModel(
     fun uploadNewUserAvatar(authUid: String, bytes: ByteArray) {
         _userAvatarOnLoading.value = true
         println(" uploadNewUserAvatar bytes: $bytes")
-        singletonMainScope.launch {
+        viewModelScope.launch {
             pupilUseCases.uploadAvatar.uploadAvatar(authUid, bytes)
                 .onSuccess { data, code ->
                     _userAvatarOnLoading.value = false
@@ -988,7 +987,7 @@ class MainViewModel(
     //--- Registration to Battle Case --->
 
     fun registerToEvent(event: EventModel) {
-        singletonMainScope.launch {
+        viewModelScope.launch {
             _currentPupil.value?.let {
                 eventsUseCases.registerToEvent.registerToEvent(
                     it.toPupilDomainModel(),
@@ -999,7 +998,7 @@ class MainViewModel(
     }
 
     fun unregisterToEvent(event: EventModel) {
-        singletonMainScope.launch {
+        viewModelScope.launch {
             _currentPupil.value?.let {
                 eventsUseCases.unregisterFromEvent.unregisterFromEvent(
                     it.toPupilDomainModel(),
@@ -1010,7 +1009,7 @@ class MainViewModel(
     }
 
     fun registerJudgeToEvent(event: EventModel, judge: JudgeModel) {
-        singletonMainScope.launch {
+        viewModelScope.launch {
             judgesUseCases.registerJudgeToEvent.registerJudgeToEvent(
                 judge.toJudgeDomainModel(),
                 event.toEventDomainModel()
@@ -1019,7 +1018,7 @@ class MainViewModel(
     }
 
     fun unregisterJudgeFromEvent(event: EventModel, judge: JudgeModel) {
-        singletonMainScope.launch {
+        viewModelScope.launch {
             judgesUseCases.unregisterJudgeToEvent.unregisterJudgeToEvent(
                 judge.toJudgeDomainModel(),
                 event.toEventDomainModel()
@@ -1050,9 +1049,59 @@ class MainViewModel(
         }
     }
 
-    fun loadData() {
-        singletonMainScope.launch {
-            mainDataController.loadData()
+    val homeUiState = combine(
+        combine(
+            currentPupil,
+            freezeElements,
+            powerElements
+        ) { pupil, freezes, powerMoves ->
+            Triple(pupil, freezes, powerMoves)
+        },
+        combine(
+            ofpElements,
+            stretchElements,
+            footWorkElements
+        ) { ofp, stretch, footWork ->
+            Triple(ofp, stretch, footWork)
         }
+    ) { first, second ->
+
+        val (pupil, freezes, powerMoves) = first
+        val (ofp, stretch, footWork) = second
+
+        if (
+            pupil != null &&
+            freezes != null &&
+            powerMoves != null &&
+            ofp != null &&
+            stretch != null &&
+            footWork != null
+        ) {
+            HomeUiState.Content(
+                pupil = pupil,
+                freezes = freezes,
+                powerMoves = powerMoves,
+                ofp = ofp,
+                stretch = stretch,
+                footWork = footWork
+            )
+        } else {
+            HomeUiState.Loading
+        }
+
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.Eagerly,
+        initialValue = HomeUiState.Loading
+    )
+
+    private var isDataLoadingStarted = false
+
+    fun loadData() {
+        if (isDataLoadingStarted) return
+        println("loadData")
+        isDataLoadingStarted = true
+
+        mainDataController.loadData()
     }
 }
