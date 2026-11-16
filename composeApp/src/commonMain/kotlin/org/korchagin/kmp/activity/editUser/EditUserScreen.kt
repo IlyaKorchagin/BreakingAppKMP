@@ -120,7 +120,6 @@ fun EditUserScreen() {
 
                 ProfileSection(
                     pupil,
-                    mainViewModel,
                     selectedTabIndex
                 )
 
