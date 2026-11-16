@@ -63,6 +63,7 @@ class BattleRepositoryImpl(
         }
     }
 
+
     override suspend fun setBattlePoints(
         eventId: String,
         usersList: List<String>,
@@ -70,15 +71,17 @@ class BattleRepositoryImpl(
         pointsList: List<Int>,
         round: String
     ) {
+        val updates = mutableMapOf<String, Any?>()
+
         usersList.forEachIndexed { index, userId ->
-           eventsDB
+            updates["$userId/battlePoints/$round/$judgeId"] = pointsList[index]
+        }
+
+        if (updates.isNotEmpty()) {
+            eventsDB
                 .child(eventId)
                 .child("participants")
-                .child(userId)
-                .child("battlePoints")
-                .child(round)
-                .child(judgeId)
-                .setValue(pointsList[index])
+                .updateChildren(updates)
         }
     }
 
@@ -87,13 +90,17 @@ class BattleRepositoryImpl(
         usersList: List<String>,
         battlePositions: List<Int>
     ) {
+        val updates = mutableMapOf<String, Any?>()
+
         usersList.forEachIndexed { index, userId ->
+            updates["$userId/battlePosition"] = battlePositions[index]
+        }
+
+        if (updates.isNotEmpty()) {
             eventsDB
                 .child(eventId)
                 .child("participants")
-                .child(userId)
-                .child("battlePosition")
-                .setValue(battlePositions[index])
+                .updateChildren(updates)
         }
     }
 

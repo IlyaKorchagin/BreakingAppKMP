@@ -1,11 +1,10 @@
-package com.korchagin.domain_main.useCase
+package com.korchagin.domain_main.useCase.events
 
 import com.korchagin.data.repository.events.EventRepository
 import com.korchagin.domain_main.models.EventDomainModel
 import com.korchagin.domain_main.models.PupilDomainModel
 import com.korchagin.domain_main.models.toEventDataModel
 import com.korchagin.domain_main.models.toPupilDataModel
-
 
 class UnregisterFromEvent(private val repository: EventRepository) {
     suspend fun unregisterFromEvent(pupil: PupilDomainModel, event: EventDomainModel): Boolean = repository.unregisterFromEvent(pupil.toPupilDataModel(), event.toEventDataModel())

@@ -1,4 +1,4 @@
-package com.korchagin.domain_main.useCase
+package com.korchagin.domain_main.useCase.battle
 
 import com.korchagin.data.repository.battle.BattleRepository
 

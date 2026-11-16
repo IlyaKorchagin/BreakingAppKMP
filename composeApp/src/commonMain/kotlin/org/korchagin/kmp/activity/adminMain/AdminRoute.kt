@@ -1,5 +1,6 @@
 package org.korchagin.kmp.activity.adminMain
 
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,7 +23,6 @@ import org.korchagin.kmp.activity.profile.ProfileScreen
 fun AdminRoute(
     onLogout: () -> Unit,
 ) {
-    val mainViewModel = koinViewModel<MainViewModel>()
     val authViewModel = koinViewModel<AuthViewModel>()
     val scope = rememberCoroutineScope()
     var currentDestination by remember {
@@ -32,6 +32,7 @@ fun AdminRoute(
     var previousDestination by remember {
         mutableStateOf<AdminDestination>(AdminDestination.Home)
     }
+    val listState = rememberLazyListState()
 
     AdminScaffold(
         currentDestination = currentDestination,
@@ -59,7 +60,8 @@ fun AdminRoute(
                     onStudentClick = {
                         previousDestination = currentDestination
                         currentDestination = AdminDestination.EditUser
-                    }
+                    },
+                    listState = listState
                 )
             }
 

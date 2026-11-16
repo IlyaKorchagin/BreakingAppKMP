@@ -7,34 +7,32 @@ import com.korchagin.domain_main.EventUseCases
 import com.korchagin.domain_main.JudgeUseCases
 import com.korchagin.domain_main.PupilUseCases
 import com.korchagin.domain_main.SelectionUseCases
-import com.korchagin.domain_main.useCase.CreateNewPupil
-import com.korchagin.domain_main.useCase.GetAllPupils
-import com.korchagin.domain_main.useCase.GetBboysList
-import com.korchagin.domain_main.useCase.GetCoaches
-import com.korchagin.domain_main.useCase.GetEventParticipants
-import com.korchagin.domain_main.useCase.GetEvents
-import com.korchagin.domain_main.useCase.GetFootWorkElements
-import com.korchagin.domain_main.useCase.GetFreezeElements
-import com.korchagin.domain_main.useCase.GetJudges
-import com.korchagin.domain_main.useCase.GetOfpElements
-import com.korchagin.domain_main.useCase.GetPowerElements
-import com.korchagin.domain_main.useCase.GetPupilById
-import com.korchagin.domain_main.useCase.GetSelectionPoints
-import com.korchagin.domain_main.useCase.GetStretchElements
-import com.korchagin.domain_main.useCase.ObserveParticipants
-import com.korchagin.domain_main.useCase.RegisterJudgeToEvent
-import com.korchagin.domain_main.useCase.RegisterToEvent
-import com.korchagin.domain_main.useCase.SaveFcmToken
-import com.korchagin.domain_main.useCase.SavePupil
-import com.korchagin.domain_main.useCase.SendBattleProtocol
-import com.korchagin.domain_main.useCase.SetBattleResult
-import com.korchagin.domain_main.useCase.SetCurrentPairIndex
-import com.korchagin.domain_main.useCase.SetCurrentRound
-import com.korchagin.domain_main.useCase.SetCurrentSelectionGroup
-import com.korchagin.domain_main.useCase.SetSelectionResult
-import com.korchagin.domain_main.useCase.UnregisterFromEvent
-import com.korchagin.domain_main.useCase.UnregisterJudgeToEvent
-import com.korchagin.domain_main.useCase.UploadAvatar
+import com.korchagin.domain_main.useCase.pupils.CreateNewPupil
+import com.korchagin.domain_main.useCase.pupils.GetAllPupils
+import com.korchagin.domain_main.useCase.additional.GetBboysList
+import com.korchagin.domain_main.useCase.additional.GetCoaches
+import com.korchagin.domain_main.useCase.events.GetEvents
+import com.korchagin.domain_main.useCase.elements.GetFootWorkElements
+import com.korchagin.domain_main.useCase.elements.GetFreezeElements
+import com.korchagin.domain_main.useCase.judges.GetJudges
+import com.korchagin.domain_main.useCase.elements.GetOfpElements
+import com.korchagin.domain_main.useCase.elements.GetPowerElements
+import com.korchagin.domain_main.useCase.pupils.GetPupilById
+import com.korchagin.domain_main.useCase.selection.GetSelectionPoints
+import com.korchagin.domain_main.useCase.elements.GetStretchElements
+import com.korchagin.domain_main.useCase.judges.RegisterJudgeToEvent
+import com.korchagin.domain_main.useCase.events.RegisterToEvent
+import com.korchagin.domain_main.useCase.additional.SaveFcmToken
+import com.korchagin.domain_main.useCase.pupils.SavePupil
+import com.korchagin.domain_main.useCase.battle.SendBattleProtocol
+import com.korchagin.domain_main.useCase.battle.SetBattleResult
+import com.korchagin.domain_main.useCase.battle.SetCurrentPairIndex
+import com.korchagin.domain_main.useCase.battle.SetCurrentRound
+import com.korchagin.domain_main.useCase.selection.SetCurrentSelectionGroup
+import com.korchagin.domain_main.useCase.selection.SetSelectionResult
+import com.korchagin.domain_main.useCase.events.UnregisterFromEvent
+import com.korchagin.domain_main.useCase.judges.UnregisterJudgeToEvent
+import com.korchagin.domain_main.useCase.pupils.UploadAvatar
 import org.koin.dsl.module
 
 
@@ -62,8 +60,6 @@ val mainDomainModule = module {
     single {
         EventUseCases(
             getEvents = GetEvents(repository = get()),
-            getEventParticipants = GetEventParticipants(repository = get()),
-            observeParticipants = ObserveParticipants(repository = get()),
             registerToEvent = RegisterToEvent(repository = get()),
             unregisterFromEvent = UnregisterFromEvent(repository = get())
         )

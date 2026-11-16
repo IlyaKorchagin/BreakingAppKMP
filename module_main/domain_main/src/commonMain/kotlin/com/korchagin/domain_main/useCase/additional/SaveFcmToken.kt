@@ -1,4 +1,4 @@
-package com.korchagin.domain_main.useCase
+package com.korchagin.domain_main.useCase.additional
 
 import com.korchagin.data.repository.additional.AdditionalRepository
 

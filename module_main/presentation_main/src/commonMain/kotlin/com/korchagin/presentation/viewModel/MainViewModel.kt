@@ -956,11 +956,11 @@ class MainViewModel(
         elementRating = rating
     }
 
-    fun uploadNewUserAvatar(email: String, bytes: ByteArray) {
+    fun uploadNewUserAvatar(authUid: String, bytes: ByteArray) {
         _userAvatarOnLoading.value = true
         println(" uploadNewUserAvatar bytes: $bytes")
         singletonMainScope.launch {
-            pupilUseCases.uploadAvatar.uploadAvatar(email, bytes)
+            pupilUseCases.uploadAvatar.uploadAvatar(authUid, bytes)
                 .onSuccess { data, code ->
                     _userAvatarOnLoading.value = false
                 }.onFail { message, code ->

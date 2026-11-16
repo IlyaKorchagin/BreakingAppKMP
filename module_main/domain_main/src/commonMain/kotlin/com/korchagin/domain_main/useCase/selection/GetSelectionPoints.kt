@@ -1,8 +1,7 @@
-package com.korchagin.domain_main.useCase
+package com.korchagin.domain_main.useCase.selection
 
 import com.korchagin.data.repository.selection.SelectionRepository
 import kotlinx.coroutines.flow.Flow
-
 
 class GetSelectionPoints(private val repository: SelectionRepository) {
     fun getSelectionPoints(

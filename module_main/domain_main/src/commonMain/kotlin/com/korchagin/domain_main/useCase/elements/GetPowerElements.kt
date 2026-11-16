@@ -1,4 +1,4 @@
-package com.korchagin.domain_main.useCase
+package com.korchagin.domain_main.useCase.elements
 
 import com.korchagin.data.repository.elements.ElementRepository
 import com.korchagin.domain_main.models.ElementDomainModel
@@ -8,7 +8,8 @@ import kotlinx.coroutines.flow.map
 
 
 class GetPowerElements(private val repository: ElementRepository) {
-    suspend fun getPowerElements(): Flow<List<ElementDomainModel>> = repository.getPowerElements().map { elements ->
-        elements.map { it.toElementDomainModel() }
-    }
+    fun getPowerElements(): Flow<List<ElementDomainModel>> =
+        repository.getPowerElements().map { elements ->
+            elements.map { it.toElementDomainModel() }
+        }
 }

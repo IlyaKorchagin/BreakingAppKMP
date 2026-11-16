@@ -1,4 +1,4 @@
-package com.korchagin.domain_main.useCase
+package com.korchagin.domain_main.useCase.events
 
 import com.korchagin.data.repository.events.EventRepository
 import com.korchagin.domain_main.models.EventDomainModel
@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.map
 
 
 class GetEvents(private val repository: EventRepository) {
-    suspend fun getEvents(): Flow<List<EventDomainModel>> = repository.getEvents().map { event ->
+    fun getEvents(): Flow<List<EventDomainModel>> = repository.getEvents().map { event ->
         event.map { it.toEventDomainModel() }
     }
 

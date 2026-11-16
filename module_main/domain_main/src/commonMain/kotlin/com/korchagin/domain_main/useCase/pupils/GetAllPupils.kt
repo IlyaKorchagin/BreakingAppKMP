@@ -1,4 +1,4 @@
-package com.korchagin.domain_main.useCase
+package com.korchagin.domain_main.useCase.pupils
 
 import com.korchagin.data.repository.pupils.PupilRepository
 import com.korchagin.domain_main.models.PupilDomainModel
@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.map
 
 
 class GetAllPupils(private val repository: PupilRepository) {
-    suspend fun getAllPupils(): Flow<List<PupilDomainModel>> =
+    fun getAllPupils(): Flow<List<PupilDomainModel>> =
         repository.getUsers().map { pupils ->
             pupils.map { it.toPupilDomainModel() }
         }

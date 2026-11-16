@@ -1,4 +1,4 @@
-package com.korchagin.domain_main.useCase
+package com.korchagin.domain_main.useCase.additional
 
 import com.korchagin.data.repository.additional.AdditionalRepository
 import com.korchagin.domain_main.models.CoachDomainModel
@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.map
 
 
 class GetCoaches(private val repository: AdditionalRepository) {
-    suspend fun getCoaches(): Flow<List<CoachDomainModel>> = repository.getCoaches().map { coach ->
+    fun getCoaches(): Flow<List<CoachDomainModel>> = repository.getCoaches().map { coach ->
         coach.map { it.toCoachDomainModel() }
     }
 }

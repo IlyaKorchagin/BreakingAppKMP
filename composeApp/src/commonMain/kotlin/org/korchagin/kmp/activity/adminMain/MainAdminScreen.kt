@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -56,11 +57,13 @@ import org.korchagin.kmp.uiElements.ShimmerBrush
 @OptIn(KoinExperimentalAPI::class)
 @Composable
 fun MainAdminScreen(
-    onStudentClick: (PupilModel) -> Unit
+    onStudentClick: (PupilModel) -> Unit,
+    listState: LazyListState
 ) {
     val mainViewModel = koinViewModel<MainViewModel>()
     val pupilsList by mainViewModel.pupils.collectAsState(emptyList())
     val currentPupil by mainViewModel.currentPupil.collectAsState(null)
+
 
     /*   LaunchedEffect(Unit) {
            mainViewModel.fetchFcmToken()
@@ -72,6 +75,7 @@ fun MainAdminScreen(
     ) {
         val showShimmer = remember { mutableStateOf(true) }
         LazyColumn(
+            state = listState,
             modifier = Modifier
                 .widthIn(max = 900.dp)
         ) {

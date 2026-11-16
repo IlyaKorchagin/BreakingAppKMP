@@ -1,4 +1,4 @@
-package com.korchagin.domain_main.useCase
+package com.korchagin.domain_main.useCase.elements
 
 import com.korchagin.data.repository.elements.ElementRepository
 import com.korchagin.domain_main.models.ElementDomainModel
@@ -8,7 +8,8 @@ import kotlinx.coroutines.flow.map
 
 
 class GetFreezeElements(private val repository: ElementRepository) {
-    suspend fun getFreezeElements(): Flow<List<ElementDomainModel>> = repository.getFreezeElements().map { elements ->
-        elements.map { it.toElementDomainModel() }
-    }
+    fun getFreezeElements(): Flow<List<ElementDomainModel>> =
+        repository.getFreezeElements().map { elements ->
+            elements.map { it.toElementDomainModel() }
+        }
 }

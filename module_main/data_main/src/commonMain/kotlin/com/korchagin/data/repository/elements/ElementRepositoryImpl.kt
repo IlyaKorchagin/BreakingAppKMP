@@ -28,7 +28,7 @@ class ElementRepositoryImpl : ElementRepository {
         Firebase.database.reference("Footwork")
     }
 
-    override suspend fun getFreezeElements(): Flow<List<ElementEntry>> = channelFlow {
+    override fun getFreezeElements(): Flow<List<ElementEntry>> = channelFlow {
         freezeDB.valueEvents.collect { freeze ->
             val freezeElements = freeze.children.mapNotNull {
                 try {
@@ -42,7 +42,7 @@ class ElementRepositoryImpl : ElementRepository {
         }
     }
 
-    override suspend fun getPowerElements(): Flow<List<ElementEntry>> = channelFlow {
+    override fun getPowerElements(): Flow<List<ElementEntry>> = channelFlow {
         powerDB.valueEvents.collect { power ->
             val powerElements = power.children.mapNotNull {
                 try {
@@ -56,7 +56,7 @@ class ElementRepositoryImpl : ElementRepository {
         }
     }
 
-    override suspend fun getOfpElements(): Flow<List<ElementEntry>> = channelFlow {
+    override fun getOfpElements(): Flow<List<ElementEntry>> = channelFlow {
         ofpDB.valueEvents.collect { ofp ->
             val ofpElements = ofp.children.mapNotNull {
                 try {
@@ -70,7 +70,7 @@ class ElementRepositoryImpl : ElementRepository {
         }
     }
 
-    override suspend fun getStretchElements(): Flow<List<ElementEntry>> = channelFlow {
+    override fun getStretchElements(): Flow<List<ElementEntry>> = channelFlow {
         stretchDB.valueEvents.collect { stretch ->
             val stretchElements = stretch.children.mapNotNull {
                 try {
@@ -84,7 +84,7 @@ class ElementRepositoryImpl : ElementRepository {
         }
     }
 
-    override suspend fun getFootWorkElements(): Flow<List<ElementEntry>> = channelFlow {
+    override fun getFootWorkElements(): Flow<List<ElementEntry>> = channelFlow {
         footWorkDB.valueEvents.collect { foot ->
             val footWorkElements = foot.children.mapNotNull {
                 try {

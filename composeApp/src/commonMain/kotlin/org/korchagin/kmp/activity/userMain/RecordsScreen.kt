@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -104,7 +105,8 @@ import team.platforma.infoteam.theme.typography.Typography
 
 @Composable
 fun RecordsScreen(
-    onProfileClick: () -> Unit
+    onProfileClick: () -> Unit,
+    listState: LazyListState
 ) {
     val mainViewModel = koinViewModel<MainViewModel>()
     val pupilsList by mainViewModel.pupils.collectAsState(emptyList<PupilModel>())
@@ -140,18 +142,21 @@ fun RecordsScreen(
         ElementSelector(ELEMENTS, selected) { selectedItem ->
             selected = selectedItem
         }
-        if (mainViewModel.checkedState) NewRatingTable(
+        if (mainViewModel.checkedState)
+            NewRatingTable(
             selected = selected,
             ratingList = sortedPupils,
             mainViewModel = mainViewModel,
-            onProfileClick = onProfileClick
+            onProfileClick = onProfileClick,
+            listState = listState
         )
         else {
             RatingTable(
                 selected = selected,
                 mainViewModel = mainViewModel,
                 pupilsList = sortedPupils,
-                onProfileClick = onProfileClick
+                onProfileClick = onProfileClick,
+                listState = listState
             )
         }
     }
@@ -163,10 +168,12 @@ fun NewRatingTable(
     ratingList: List<PupilModel>,
     mainViewModel: MainViewModel,
     modifier: Modifier = Modifier,
-    onProfileClick: () -> Unit
+    onProfileClick: () -> Unit,
+    listState: LazyListState
 ) {
     val showShimmer = remember { mutableStateOf(true) }
     LazyColumn(
+        state = listState,
         modifier = modifier
             .widthIn(max = 900.dp)
     ) {
@@ -304,7 +311,8 @@ fun RatingTable(
     pupilsList: List<PupilModel>,
     modifier: Modifier = Modifier,
     mainViewModel: MainViewModel,
-    onProfileClick: () -> Unit
+    onProfileClick: () -> Unit,
+    listState: LazyListState
 ) {
     Column(
         modifier = Modifier
@@ -355,6 +363,7 @@ fun RatingTable(
             }
         }
         LazyColumn(
+            state = listState,
             modifier = modifier
         ) {
             itemsIndexed(pupilsList) { index, pupil ->

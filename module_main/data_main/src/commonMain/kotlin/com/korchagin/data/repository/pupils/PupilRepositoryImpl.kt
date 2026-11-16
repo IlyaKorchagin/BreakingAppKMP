@@ -18,7 +18,7 @@ class PupilRepositoryImpl : PupilRepository {
 
     private val fireStorage = Firebase.storage
 
-    override suspend fun getUsers(): Flow<List<UserEntry>> = channelFlow {
+    override fun getUsers(): Flow<List<UserEntry>> = channelFlow {
         pupilsDB.valueEvents.collect { pupil ->
             val users = pupil.children.mapNotNull {
                 try {
@@ -33,7 +33,7 @@ class PupilRepositoryImpl : PupilRepository {
         }
     }
 
-    override suspend fun getUserById(id: String): Flow<UserEntry> = channelFlow {
+    override fun getUserById(id: String): Flow<UserEntry> = channelFlow {
         pupilsDB
             .orderByChild("email")
             .equalTo(id)
@@ -187,77 +187,53 @@ class PupilRepositoryImpl : PupilRepository {
     }
 
     override suspend fun updateAvatar(
-        email: String,
+        authUid: String,
         data: ByteArray
     ): Response<Unit> {
-        val normalizedEmail = email.trim().lowercase()
-
         val avatarRef = fireStorage
             .reference("ImageDB")
-            .child("${normalizedEmail.replace(".", "_")}-avatar.jpg")
+            .child("${authUid}-avatar.jpg")
 
         val firebaseData = data.toFirebaseData()
-
         avatarRef.putData(firebaseData, metadata = null)
 
         val downloadUrl = avatarRef.getDownloadUrl()
 
-        println("✅ Avatar uploaded to: $downloadUrl")
-
         val snapshot = pupilsDB
-            .orderByChild("email")
-            .equalTo(normalizedEmail)
+            .orderByChild("authUid")
+            .equalTo(authUid)
             .valueEvents
             .first()
 
         val userSnapshot = snapshot.children.firstOrNull()
+            ?: return Response.Fail("User not found", 404)
 
-        if (userSnapshot != null) {
-            val uid = userSnapshot.key
+        val uid = userSnapshot.key
+            ?: return Response.Fail("UID is null", 404)
 
-            if (uid != null) {
-                pupilsDB.child(uid).child("avatar").setValue(downloadUrl)
-                println("✅ Avatar URL updated in database for user: $email")
-                return Response.Success(data = Unit, statusCode = 200)
-            } else {
-                println("❌ UID is null for email: $email")
-                return Response.Fail("", 404)
-            }
-        } else {
-            println("❌ User with email $email not found in database")
-            return Response.Fail("", 404)
-        }
+        pupilsDB.child(uid).child("avatar").setValue(downloadUrl)
+
+        return Response.Success(Unit, 200)
     }
 
     override suspend fun updatePupil(
         newUserEntry: UserEntry
     ): Response<Unit> {
-        val email = newUserEntry.email
-        val normalizedEmail = email.trim().lowercase()
-
         val snapshot = pupilsDB
-            .orderByChild("email")
-            .equalTo(normalizedEmail)
+            .orderByChild("authUid")
+            .equalTo(newUserEntry.authUid)
             .valueEvents
             .first()
 
         val userSnapshot = snapshot.children.firstOrNull()
+            ?: return Response.Fail("User not found", 404)
 
-        if (userSnapshot != null) {
-            val uid = userSnapshot.key
+        val uid = userSnapshot.key
+            ?: return Response.Fail("UID is null", 404)
 
-            if (uid != null) {
-                pupilsDB.child(uid).setValue(newUserEntry)
-                println("✅ User data updated in database for user: $email")
-                return Response.Success(data = Unit, statusCode = 200)
-            } else {
-                println("❌ UID is null for email: $email")
-                return Response.Fail("", 404)
-            }
-        } else {
-            println("❌ User with email $email not found in database")
-            return Response.Fail("", 404)
-        }
+        pupilsDB.child(uid).setValue(newUserEntry)
+
+        return Response.Success(Unit, 200)
     }
 
     override suspend fun updatePupils(

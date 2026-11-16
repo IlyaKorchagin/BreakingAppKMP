@@ -21,7 +21,7 @@ class AdditionalRepositoryImpl : AdditionalRepository {
         Firebase.database.reference("FcmTokens")
     }
 
-    override suspend fun getCoaches(): Flow<List<CoachEntry>> = channelFlow {
+    override fun getCoaches(): Flow<List<CoachEntry>> = channelFlow {
         coachesDB.valueEvents.collect { coach ->
             val coaches = coach.children.mapNotNull {
                 try {
@@ -36,7 +36,7 @@ class AdditionalRepositoryImpl : AdditionalRepository {
         }
     }
 
-    override suspend fun getBboysList(): Flow<List<BboyEntry>> = channelFlow {
+    override fun getBboysList(): Flow<List<BboyEntry>> = channelFlow {
         bboysDB.valueEvents.collect { bboys ->
             val bboysElements = bboys.children.mapNotNull {
                 try {
