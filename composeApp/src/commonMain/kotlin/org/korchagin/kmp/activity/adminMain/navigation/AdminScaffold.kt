@@ -14,8 +14,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import breakingkmpapp.composeapp.generated.resources.Res
 import breakingkmpapp.composeapp.generated.resources.logout
 import org.jetbrains.compose.resources.painterResource
@@ -31,6 +33,7 @@ fun AdminScaffold(
     onLogoutClick: () -> Unit,
     content: @Composable () -> Unit
 ) {
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val colors = LocalAppColors.current
     val isBackEnabled = currentDestination != AdminDestination.Home
     BoxWithConstraints(
@@ -38,7 +41,9 @@ fun AdminScaffold(
     ) {
 
         Scaffold(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .nestedScroll(scrollBehavior.nestedScrollConnection),
 
             topBar = {
                 if (currentDestination != AdminDestination.Events) {
@@ -88,7 +93,8 @@ fun AdminScaffold(
 
                                 else -> Unit
                             }
-                        }
+                        },
+                        scrollBehavior = scrollBehavior
                     )
                 }
             },

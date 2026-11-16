@@ -17,14 +17,17 @@ class SelectionRepositoryImpl : SelectionRepository {
         judgeId: String,
         pointsList: List<Double>
     ) {
+        val updates = mutableMapOf<String, Any?>()
+
         usersList.forEachIndexed { index, userId ->
+            updates["$userId/selectionPoints/$judgeId"] = pointsList[index]
+        }
+
+        if (updates.isNotEmpty()) {
             eventsDB
                 .child(eventId)
                 .child("participants")
-                .child(userId)
-                .child("selectionPoints")
-                .child(judgeId)
-                .setValue(pointsList[index])
+                .updateChildren(updates)
         }
     }
 

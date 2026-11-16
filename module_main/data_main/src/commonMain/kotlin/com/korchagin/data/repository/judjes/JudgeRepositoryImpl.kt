@@ -18,7 +18,7 @@ class JudgeRepositoryImpl : JudgeRepository {
         Firebase.database.reference("Events")
     }
 
-    override suspend fun getJudges(): Flow<List<JudgeEntry>> = channelFlow {
+    override fun getJudges(): Flow<List<JudgeEntry>> = channelFlow {
         judgesDB.valueEvents.collect { judge ->
             val judges = judge.children.mapNotNull {
                 try {

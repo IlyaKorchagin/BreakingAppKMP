@@ -1,5 +1,6 @@
 package org.korchagin.kmp.activity.userMain
 
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -35,6 +36,8 @@ fun UserRoute(
     var previousDestination by remember {
         mutableStateOf<UserDestination>(UserDestination.Home)
     }
+    val ratingslistState = rememberLazyListState()
+    val recordslistState = rememberLazyListState()
 
     UserScaffold(
         currentDestination = currentDestination,
@@ -70,14 +73,16 @@ fun UserRoute(
                 onProfileClick = {
                     previousDestination = UserDestination.Ratings
                     currentDestination = UserDestination.OtherProfile
-                }
+                },
+                listState = ratingslistState
             )
 
             UserDestination.Records -> RecordsScreen(
                 onProfileClick = {
-                    previousDestination = UserDestination.Ratings
+                    previousDestination = UserDestination.Records
                     currentDestination = UserDestination.OtherProfile
-                }
+                },
+                listState = recordslistState
             )
 
             UserDestination.Bboys -> BboysScreen(

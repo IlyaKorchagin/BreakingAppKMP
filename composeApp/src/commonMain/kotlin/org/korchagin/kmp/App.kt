@@ -24,7 +24,6 @@ fun App(
     }
 
     AppTheme {
-
         AppNavigation(
             navigator = navigator
         )

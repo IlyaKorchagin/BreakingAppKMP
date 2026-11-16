@@ -9,16 +9,14 @@ import dev.gitlive.firebase.database.database
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.onUpload
-import io.ktor.client.request.post
-import io.ktor.client.request.get
 import io.ktor.client.request.header
+import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.todayIn
@@ -33,7 +31,7 @@ class EventRepositoryImpl(
 
     private val today = Clock.System.todayIn(TimeZone.currentSystemDefault())
 
-    override suspend fun getEvents(): Flow<List<EventEntry>> = channelFlow {
+    override fun getEvents(): Flow<List<EventEntry>> = channelFlow {
         eventsDB.valueEvents.collect { snapshot ->
             val events = snapshot.children.mapNotNull {
                 try {
@@ -155,42 +153,5 @@ class EventRepositoryImpl(
         println("🗑 Пользователь ${pupil.name} удалён, порядок сдвинут")
 
         return true
-    }
-
-    override suspend fun getEventParticipants(
-        event: EventEntry
-    ): Flow<List<EventParticipantsEntry>> = flow {
-        try {
-            val participants: List<EventParticipantsEntry> =
-                client.get("${event.regUrl}/api/register").body()
-
-            println("load participants - $participants")
-            emit(participants)
-        } catch (e: Exception) {
-            println("Ошибка при загрузке участников: $e")
-            emit(emptyList())
-        }
-    }
-
-    override suspend fun observeParticipants(
-        eventId: String
-    ): Flow<List<EventParticipantsEntry>> = channelFlow {
-        eventsDB
-            .child(eventId)
-            .child("participants")
-            .valueEvents
-            .collect { snapshot ->
-                val users = snapshot.children.mapNotNull { child ->
-                    try {
-                        child.value<EventParticipantsEntry>()
-                    } catch (e: Exception) {
-                        println("Error decoding user ${child.key}: ${e.message}")
-                        null
-                    }
-                }
-
-                println("users - $users")
-                send(users)
-            }
     }
 }

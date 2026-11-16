@@ -1,4 +1,4 @@
-package com.korchagin.domain_main.useCase
+package com.korchagin.domain_main.useCase.elements
 
 import com.korchagin.data.repository.elements.ElementRepository
 import com.korchagin.domain_main.models.ElementDomainModel
@@ -8,7 +8,8 @@ import kotlinx.coroutines.flow.map
 
 
 class GetOfpElements(private val repository: ElementRepository) {
-    suspend fun getOfpElements(): Flow<List<ElementDomainModel>> = repository.getOfpElements().map { elements ->
-        elements.map { it.toElementDomainModel() }
-    }
+    fun getOfpElements(): Flow<List<ElementDomainModel>> =
+        repository.getOfpElements().map { elements ->
+            elements.map { it.toElementDomainModel() }
+        }
 }

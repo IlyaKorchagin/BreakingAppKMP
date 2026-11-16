@@ -1,4 +1,4 @@
-package com.korchagin.domain_main.useCase
+package com.korchagin.domain_main.useCase.events
 
 import com.korchagin.data.repository.events.EventRepository
 import com.korchagin.domain_main.models.EventDomainModel
