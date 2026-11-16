@@ -33,16 +33,17 @@ import breakingkmpapp.composeapp.generated.resources.Res
 import breakingkmpapp.composeapp.generated.resources.people
 import coil3.compose.AsyncImage
 import com.korchagin.presentation.models.PupilModel
-import com.korchagin.presentation.viewModel.MainViewModel
 import org.jetbrains.compose.resources.painterResource
 import org.korchagin.kmp.helper.setAvatarBorder
 import org.korchagin.kmp.theme.colors.LocalAppColors
 import org.korchagin.kmp.uiElements.ShimmerBrush
 
-
 @Composable
-fun ProfileSection(curPupil: PupilModel, viewModel: MainViewModel, selectedTabIndex: Int) {
-    val infiniteTransition = rememberInfiniteTransition()
+fun ProfileSection(
+    curPupil: PupilModel,
+    selectedTabIndex: Int,
+    modifier: Modifier = Modifier
+) {    val infiniteTransition = rememberInfiniteTransition()
     val rotationValue = infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = 360f,
@@ -51,7 +52,9 @@ fun ProfileSection(curPupil: PupilModel, viewModel: MainViewModel, selectedTabIn
         )
     )
     val showShimmer = remember { mutableStateOf(true) }
-    Column(modifier = Modifier.fillMaxWidth()) {
+    Column(
+        modifier = modifier.fillMaxWidth()
+    ) {
         Row(
          //   verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
