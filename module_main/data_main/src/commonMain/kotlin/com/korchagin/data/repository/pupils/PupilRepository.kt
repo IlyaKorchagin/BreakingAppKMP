@@ -13,8 +13,11 @@ interface PupilRepository {
         coach: List<String>,
         authUid: String
     )
-
-    suspend fun updateAvatar(authUid: String, data: ByteArray): Response<Unit>
+    suspend fun updateAvatar(
+        authUid: String,
+        avatarUrl: String,
+        publicId: String
+    ): Response<Unit>
     suspend fun updatePupil(newUserEntry: UserEntry): Response<Unit>
     suspend fun updatePupils(newUserEntries: List<UserEntry>): Response<Unit>
 }

@@ -49,6 +49,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.koin.mp.KoinPlatform.getKoin
 
 class MainViewModel(
     private val elementUseCases: ElementUseCases,
@@ -60,7 +61,6 @@ class MainViewModel(
     private val additionalUseCases: AdditionalUseCases,
     private val fcmTokenProvider: FcmTokenProvider,
 ) : ViewModel() {
-
     //--- Pupils case --->
 
     private val pupilsController = PupilsController(
@@ -956,17 +956,23 @@ class MainViewModel(
     }
 
     fun uploadNewUserAvatar(authUid: String, bytes: ByteArray) {
-        _userAvatarOnLoading.value = true
-        println(" uploadNewUserAvatar bytes: $bytes")
         viewModelScope.launch {
-            pupilUseCases.uploadAvatar.uploadAvatar(authUid, bytes)
-                .onSuccess { data, code ->
-                    _userAvatarOnLoading.value = false
-                }.onFail { message, code ->
-                    _userAvatarOnLoading.value = false
-                }.onException { message, code ->
-                    _userAvatarOnLoading.value = false
+            _userAvatarOnLoading.value = true
+
+            try {
+                pupilUseCases.uploadAvatar(
+                    authUid = authUid,
+                    image = bytes
+                ).onSuccess { _, _ ->
+                    println("Avatar uploaded successfully")
+                }.onFail {_, _ ->
+                    println("Avatar upload failed")
+                }.onException {_, _ ->
+                    println("Avatar upload exception")
                 }
+            } finally {
+                _userAvatarOnLoading.value = false
+            }
         }
     }
 
@@ -1037,10 +1043,13 @@ class MainViewModel(
 
             println("FCM_DEBUG: token received")
 
-            additionalUseCases.saveFcmToken(
-                authUid = authUid,
-                token = token
-            )
+            if (token != null) {
+
+                additionalUseCases.saveFcmToken(
+                    authUid = authUid,
+                    token = token
+                )
+            }
 
             println("FCM_DEBUG: token saved successfully")
         } catch (e: Exception) {

@@ -1,6 +1,7 @@
 package com.korchagin.data.di
 
 import com.korchagin.data.client.provideHttpClient
+import com.korchagin.data.remote.cloudinary.CloudinaryDataSource
 import com.korchagin.data.repository.additional.AdditionalRepository
 import com.korchagin.data.repository.additional.AdditionalRepositoryImpl
 import com.korchagin.data.repository.battle.BattleRepository
@@ -11,6 +12,8 @@ import com.korchagin.data.repository.events.EventRepository
 import com.korchagin.data.repository.events.EventRepositoryImpl
 import com.korchagin.data.repository.judjes.JudgeRepository
 import com.korchagin.data.repository.judjes.JudgeRepositoryImpl
+import com.korchagin.data.repository.media.MediaRepository
+import com.korchagin.data.repository.media.MediaRepositoryImpl
 import com.korchagin.data.repository.pupils.PupilRepository
 import com.korchagin.data.repository.pupils.PupilRepositoryImpl
 import com.korchagin.data.repository.selection.SelectionRepository
@@ -22,6 +25,10 @@ import org.koin.dsl.module
 
 val mainDataRepositoryModule = module{
     single { provideHttpClient() }
+
+    singleOf(::CloudinaryDataSource)
+    singleOf(::MediaRepositoryImpl).bind<MediaRepository>()
+
     singleOf(::PupilRepositoryImpl).bind<PupilRepository>()
     singleOf(::EventRepositoryImpl).bind<EventRepository>()
     singleOf(::JudgeRepositoryImpl).bind<JudgeRepository>()
