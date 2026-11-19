@@ -42,7 +42,7 @@ val mainDomainModule = module {
             getAllPupils = GetAllPupils(repository = get()),
             getPupilById = GetPupilById(repository = get()),
             createNewPupil = CreateNewPupil(repository = get()),
-            uploadAvatar = UploadAvatar(repository = get()),
+            uploadAvatar = UploadAvatar(mediaRepository = get(), pupilRepository = get()),
             savePupil = SavePupil(repository = get())
         )
     }

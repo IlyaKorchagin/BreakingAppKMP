@@ -1,7 +1,6 @@
 package com.korchagin.data.repository.pupils
 
 import com.korchagin.data.models.UserEntry
-import com.korchagin.data.utils.toFirebaseData
 import com.korchagin.module_common.Response
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.database.database
@@ -188,17 +187,9 @@ class PupilRepositoryImpl : PupilRepository {
 
     override suspend fun updateAvatar(
         authUid: String,
-        data: ByteArray
+        avatarUrl: String,
+        publicId: String
     ): Response<Unit> {
-        val avatarRef = fireStorage
-            .reference("ImageDB")
-            .child("${authUid}-avatar.jpg")
-
-        val firebaseData = data.toFirebaseData()
-        avatarRef.putData(firebaseData, metadata = null)
-
-        val downloadUrl = avatarRef.getDownloadUrl()
-
         val snapshot = pupilsDB
             .orderByChild("authUid")
             .equalTo(authUid)
@@ -211,7 +202,8 @@ class PupilRepositoryImpl : PupilRepository {
         val uid = userSnapshot.key
             ?: return Response.Fail("UID is null", 404)
 
-        pupilsDB.child(uid).child("avatar").setValue(downloadUrl)
+        pupilsDB.child(uid).child("avatar").setValue(avatarUrl)
+        pupilsDB.child(uid).child("avatarPublicId").setValue(publicId)
 
         return Response.Success(Unit, 200)
     }

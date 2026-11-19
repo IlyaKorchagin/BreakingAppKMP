@@ -29,12 +29,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithCache
-import androidx.compose.ui.graphics.BlendMode
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
@@ -51,6 +50,10 @@ import breakingkmpapp.composeapp.generated.resources.camera_img
 import breakingkmpapp.composeapp.generated.resources.people
 import coil3.compose.AsyncImage
 import com.korchagin.presentation.viewModel.MainViewModel
+import io.github.vinceglb.filekit.dialogs.FileKitType
+import io.github.vinceglb.filekit.dialogs.compose.rememberFilePickerLauncher
+import io.github.vinceglb.filekit.readBytes
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -75,6 +78,24 @@ fun ProfileScreen() {
     val showShimmer = remember { mutableStateOf(true) }
 
     val isOwnProfile = clickedPupil?.id == currentPupil?.id || clickedPupil == null
+
+    val scope = rememberCoroutineScope()
+
+    val filePicker = rememberFilePickerLauncher(
+        type = FileKitType.Image,
+        title = "Выберите аватар"
+    ) { file ->
+        file?.let {
+            scope.launch {
+                val bytes = it.readBytes()
+
+                mainViewModel.uploadNewUserAvatar(
+                    authUid = pupil.authUid,
+                    bytes = bytes
+                )
+            }
+        }
+    }
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -104,8 +125,7 @@ fun ProfileScreen() {
                             )
                         } else {
                             AsyncImage(
-                               // model = pupil.avatar,
-                                model = "https://s453vla.storage.yandex.net/rdisk/95db9a7b8925041383afe31fc3bb7d7bcd34450ed20c206544773c2ea318102c/69d4f2d0/r8KVYBPTIwXxl316h8SKQzLPDip1HDXzZVVBpqaMEEi-kTOAIguDHCdQOJ6pJWYJoRca04Tq7WOIyFtAuJBGGw==?uid=69240487&filename=image1.jpg&disposition=attachment&hash=&limit=0&content_type=image%2Fjpeg&owner_uid=69240487&fsize=3213782&hid=598be1dd092275b0627c277c102e8a2e&media_type=image&tknv=v3&etag=4541d943678ec5380c59eab83435c21f&ts=64edd96065400&s=e78383fd46013b04070058ebc61741d0df82baf8c75432e6f933407583f6653f&pb=U2FsdGVkX197RXwAHv0TQOH8LxY8bg2g0Yk04gT1xbyhJMu9-U8RMntMsAJaYwN3jJPtDJyBpy7CM7JB6ZiLzx7aNDCz0YDQqgPTvh-Up3s",
+                                model = pupil.avatar,
                                 contentDescription = null,
                                 contentScale = ContentScale.Crop,
                                 modifier = Modifier.width(128.dp).aspectRatio(1.0f)
@@ -134,8 +154,8 @@ fun ProfileScreen() {
                                         shape = CircleShape
                                     )
                                     .clickable(onClick = {
-                                        // необходимо добавить реализацию
-                                    }),
+                                        filePicker.launch()
+                                        }),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Icon(

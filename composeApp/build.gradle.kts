@@ -103,6 +103,11 @@ kotlin {
             implementation(libs.firebase.firestore)
             implementation(libs.firebase.storage)
 
+            //fileKit
+            implementation(libs.filekit.core)
+            implementation(libs.filekit.dialogs)
+            implementation(libs.filekit.dialogs.compose)
+
 
 
             //Project modules
