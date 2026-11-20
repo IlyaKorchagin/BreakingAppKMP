@@ -1,5 +1,7 @@
 package org.korchagin.kmp.activity.auth
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -31,6 +33,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.KeyboardType
@@ -46,6 +50,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
+import org.korchagin.kmp.theme.colors.LocalAppColors
 import team.platforma.infoteam.theme.typography.FontWeights
 import team.platforma.infoteam.theme.typography.Typography
 
@@ -94,6 +99,7 @@ fun AuthScreen(
     }
 
     Scaffold(
+        containerColor = Color.Transparent,
         snackbarHost = { SnackbarHost(snackbarHostState) }
     ) { padding ->
         Box(
@@ -102,9 +108,21 @@ fun AuthScreen(
                 .padding(padding),
             contentAlignment = Alignment.Center
         ) {
+            val appColors = LocalAppColors.current
+
             Column(
                 modifier = Modifier
-                    .widthIn(max = 600.dp),
+                    .fillMaxWidth()
+                    .widthIn(max = 480.dp)
+                    .padding(horizontal = 8.dp)
+                    .clip(RoundedCornerShape(28.dp))
+                    .background(Color.White.copy(alpha = 0.88f))
+                    .border(
+                        width = 2.dp,
+                        color = appColors.mainGreen.copy(alpha = 0.7f),
+                        shape = RoundedCornerShape(28.dp)
+                    )
+                    .padding(24.dp),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -163,8 +181,7 @@ fun AuthScreen(
                     style = Typography.textLg(FontWeights.Medium),
                     modifier = Modifier.clickable {
                         onPasswordRecovery()
-                      //  fragmentNavigator.navigate(PasswordRecoveryFragment)
-                    })
+                       })
 
                 Button(
                     enabled = email.isNotEmpty() && password.isNotEmpty(),
@@ -196,10 +213,8 @@ fun AuthScreen(
 
                                         if (mainViewModel.currentPupil.value?.role == "admin") {
                                             onAdminSuccess()
-                                       //     findNavHost().navigateToActivitySingleTop(AdminActivity)
-                                        } else {
+                                       } else {
                                             onUserSuccess()
-                                       //     findNavHost().navigateToActivitySingleTop(MainActivity)
                                         }
                                     }
                                 },

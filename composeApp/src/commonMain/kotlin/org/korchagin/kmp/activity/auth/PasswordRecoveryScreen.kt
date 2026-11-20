@@ -1,5 +1,7 @@
 package org.korchagin.kmp.activity.auth
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,18 +31,23 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.korchagin.presentation_auth.viewModel.AuthViewModel
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
+import org.korchagin.kmp.theme.colors.LocalAppColors
 import team.platforma.infoteam.theme.typography.FontWeights
 import team.platforma.infoteam.theme.typography.Typography
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
-fun PasswordRecoveryScreen() {
+fun PasswordRecoveryScreen(
+    onBack: () -> Unit
+){
     val authViewModel = koinViewModel<AuthViewModel>()
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
@@ -48,6 +55,7 @@ fun PasswordRecoveryScreen() {
     var email by rememberSaveable { mutableStateOf("") }
 
     Scaffold(
+        containerColor = Color.Transparent,
         snackbarHost = { SnackbarHost(snackbarHostState) }
     ) { padding ->
         Box(
@@ -56,9 +64,21 @@ fun PasswordRecoveryScreen() {
                 .padding(padding),
             contentAlignment = Alignment.Center
         ) {
+            val appColors = LocalAppColors.current
+
             Column(
                 modifier = Modifier
-                    .widthIn(max = 600.dp),
+                    .fillMaxWidth()
+                    .widthIn(max = 480.dp)
+                    .padding(horizontal = 16.dp)
+                    .clip(RoundedCornerShape(28.dp))
+                    .background(Color.White.copy(alpha = 0.88f))
+                    .border(
+                        width = 2.dp,
+                        color = appColors.mainGreen.copy(alpha = 0.7f),
+                        shape = RoundedCornerShape(28.dp)
+                    )
+                    .padding(24.dp),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -98,7 +118,7 @@ fun PasswordRecoveryScreen() {
                             authViewModel.sendResetEmail(
                                 email = email,
                                 onSuccess = {
-                                  //  fragmentNavigator.navigate(AuthFragment)
+                                  onBack()
                                             },
                                 onError = { e ->
                                     coroutineScope.launch { snackbarHostState.showSnackbar("Что-то пошло не так!") }
@@ -118,7 +138,7 @@ fun PasswordRecoveryScreen() {
                 }
                 Button(
                     onClick = {
-                      //  fragmentNavigator.navigateBack()
+                     onBack()
                     },
                     modifier = Modifier
                         .fillMaxWidth()

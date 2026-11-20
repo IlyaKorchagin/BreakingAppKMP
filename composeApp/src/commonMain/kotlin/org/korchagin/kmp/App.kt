@@ -1,5 +1,6 @@
 package org.korchagin.kmp
 
+import AppBackground
 import AppRoute
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -24,9 +25,11 @@ fun App(
     }
 
     AppTheme {
-        AppNavigation(
-            navigator = navigator
-        )
+        AppBackground {
+            AppNavigation(
+                navigator = navigator
+            )
+        }
 
         LaunchedEffect(notificationEvent) {
 

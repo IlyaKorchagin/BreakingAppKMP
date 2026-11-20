@@ -7,7 +7,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import com.korchagin.presentation.viewModel.MainViewModel
 import com.korchagin.presentation_auth.viewModel.AuthViewModel
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
@@ -16,6 +15,7 @@ import org.korchagin.kmp.activity.adminMain.navigation.AdminDestination
 import org.korchagin.kmp.activity.adminMain.navigation.AdminScaffold
 import org.korchagin.kmp.activity.editUser.EditUserScreen
 import org.korchagin.kmp.activity.events.EventsRoute
+import org.korchagin.kmp.activity.events.navigation.EventsDestination
 import org.korchagin.kmp.activity.profile.ProfileScreen
 
 @OptIn(KoinExperimentalAPI::class)
@@ -34,8 +34,46 @@ fun AdminRoute(
     }
     val listState = rememberLazyListState()
 
+    var eventsDestination by remember {
+        mutableStateOf<EventsDestination>(EventsDestination.Events)
+    }
+
+    val isEvents = currentDestination == AdminDestination.Events
+
     AdminScaffold(
         currentDestination = currentDestination,
+
+        title = if (isEvents) {
+            eventsDestination.title
+        } else {
+            currentDestination.title
+        },
+
+        isBackEnabled = if (isEvents) {
+            true
+        } else {
+            currentDestination != AdminDestination.Home
+        },
+
+        onBack = {
+            if (isEvents) {
+                when (eventsDestination) {
+                    EventsDestination.Events -> {
+                        currentDestination = previousDestination
+                    }
+
+                    EventsDestination.Selection -> {
+                        eventsDestination = EventsDestination.Events
+                    }
+
+                    EventsDestination.Battle -> {
+                        eventsDestination = EventsDestination.Selection
+                    }
+                }
+            } else {
+                currentDestination = previousDestination
+            }
+        },
         onProfileClick = {
             previousDestination = currentDestination
             currentDestination = AdminDestination.Profile
@@ -43,9 +81,6 @@ fun AdminRoute(
         onEventsClick = {
             previousDestination = currentDestination
             currentDestination = AdminDestination.Events
-        },
-        onBack = {
-            currentDestination = previousDestination
         },
         onLogoutClick = {
             scope.launch {
@@ -67,8 +102,9 @@ fun AdminRoute(
 
             AdminDestination.Events -> {
                 EventsRoute(
-                    onExit = {
-                        currentDestination = previousDestination
+                    currentDestination = eventsDestination,
+                    onDestinationChange = {
+                        eventsDestination = it
                     }
                 )
             }

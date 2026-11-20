@@ -1,4 +1,4 @@
-package org.korchagin.kmp.activity.userMain.ratings.topBar
+package org.korchagin.kmp.activity.userMain.ranking
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Switch

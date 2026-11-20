@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,7 +16,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -76,28 +76,31 @@ fun MainAdminScreen(
         val showShimmer = remember { mutableStateOf(true) }
         LazyColumn(
             state = listState,
-            modifier = Modifier
-                .widthIn(max = 900.dp)
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(
+                top = 12.dp,
+                bottom = 24.dp
+            ),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             itemsIndexed(pupilsList.filter { it.coach.contains(currentPupil!!.name) }) { index, pupil ->
-                val startBackgroundColor = Color.White
-                val endBackgroundColor = setPositionBackgroundColor(index)
-
+                val positionColor = setPositionBackgroundColor(index)
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(
-                            brush = Brush.horizontalGradient(
-                                listOf(
-                                    startBackgroundColor, endBackgroundColor
-                                ), startX = 300.0f
-                            )
+                        .padding(horizontal = 12.dp, vertical = 5.dp)
+                        .clip(RoundedCornerShape(18.dp))
+                        .background(Color.White.copy(alpha = 0.78f))
+                        .border(
+                            width = 1.dp,
+                            color = positionColor.copy(alpha = 0.55f),
+                            shape = RoundedCornerShape(18.dp)
                         )
-                        .padding(5.dp)
                         .clickable {
                             mainViewModel.setClickedPupil(pupil)
                             onStudentClick(pupil)
-                        },
+                        }
+                        .padding(10.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
@@ -136,11 +139,11 @@ fun MainAdminScreen(
                                     color = Color.Gray,
                                     shape = RoundedCornerShape(5.dp)
                                 ),
-                            Color.White,
+                            Color.White.copy(alpha = 0.45f),
                             Brush.horizontalGradient(
                                 listOf(
-                                    Color.White,
-                                    LocalAppColors.current.progress
+                                    Color.White.copy(alpha = 0.25f),
+                                    LocalAppColors.current.progress.copy(alpha = 0.85f)
                                 )
                             ),
                             pupil.rating.toInt(),

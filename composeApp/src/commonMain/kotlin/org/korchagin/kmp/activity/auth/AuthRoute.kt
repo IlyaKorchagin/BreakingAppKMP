@@ -17,27 +17,6 @@ fun AuthRoute(
         mutableStateOf<AuthDestination>(AuthDestination.Login)
     }
 
-    AuthScreen(
-        onBack = {
-            when (currentDestination) {
-                AuthDestination.Registration,
-                AuthDestination.PasswordRecovery -> {
-                    currentDestination = AuthDestination.Login
-                }
-
-                AuthDestination.Login -> onBack()
-            }
-        },
-        onRegistration = {
-            currentDestination = AuthDestination.Registration
-        },
-        onPasswordRecovery = {
-            currentDestination = AuthDestination.PasswordRecovery
-        },
-        onAdminSuccess = onAdminSuccess,
-        onUserSuccess = onUserSuccess
-    )
-
     when (currentDestination) {
         AuthDestination.Login -> {
             AuthScreen(
@@ -54,11 +33,21 @@ fun AuthRoute(
         }
 
         AuthDestination.Registration -> {
-           RegistrationScreen()
+            RegistrationScreen(
+                onBack = {
+                    currentDestination = AuthDestination.Login
+                },
+                onAdminSuccess = onAdminSuccess,
+                onUserSuccess = onUserSuccess,
+            )
         }
 
         AuthDestination.PasswordRecovery -> {
-           PasswordRecoveryScreen()
+            PasswordRecoveryScreen(
+                onBack = {
+                    currentDestination = AuthDestination.Login
+                }
+            )
         }
     }
 }

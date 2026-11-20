@@ -3,6 +3,7 @@ package org.korchagin.kmp
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -17,6 +18,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.google.firebase.FirebaseApp
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -27,6 +30,28 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Edge-to-Edge: разрешаем рисовать под системными панелями
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        // Делаем системные панели прозрачными
+        window.statusBarColor = Color.TRANSPARENT
+        window.navigationBarColor = Color.TRANSPARENT
+
+        // Убираем контрастную подложку Android
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            window.isNavigationBarContrastEnforced = false
+            window.isStatusBarContrastEnforced = false
+        }
+
+        // Тёмные иконки времени, батареи и системной навигации
+        WindowInsetsControllerCompat(
+            window,
+            window.decorView
+        ).apply {
+            isAppearanceLightStatusBars = true
+            isAppearanceLightNavigationBars = true
+        }
+
         Log.d(
             "FCM_TEST",
             "MainActivity onCreate, extras=${intent?.extras}"
@@ -34,19 +59,17 @@ class MainActivity : ComponentActivity() {
 
         handleNotificationIntent(intent)
 
-        // Остальной существующий код:
         FirebaseApp.initializeApp(this)
 
         setContent {
-            val notificationEvent by
-            MainActivity.notificationEvent.collectAsState()
+            val notificationEvent by notificationEvent.collectAsState()
 
             RequestNotificationPermission()
 
             App(
                 notificationEvent = notificationEvent,
                 onNotificationHandled = {
-                    MainActivity.clearNotificationEvent()
+                    clearNotificationEvent()
                 }
             )
         }
@@ -104,7 +127,7 @@ private fun RequestNotificationPermission() {
         val permissionLauncher = rememberLauncherForActivityResult(
             contract = ActivityResultContracts.RequestPermission()
         ) { isGranted ->
-            android.util.Log.d(
+            Log.d(
                 "FCM_TEST",
                 "Notification permission granted: $isGranted"
             )

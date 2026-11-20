@@ -1,9 +1,8 @@
 package org.korchagin.kmp.activity.editUser
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.widthIn
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -19,6 +18,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import breakingkmpapp.composeapp.generated.resources.Res
 import breakingkmpapp.composeapp.generated.resources.airflare
@@ -32,6 +32,7 @@ import breakingkmpapp.composeapp.generated.resources.pushups
 import breakingkmpapp.composeapp.generated.resources.stretch_title
 import breakingkmpapp.composeapp.generated.resources.twin
 import com.korchagin.presentation.models.ElementsTab
+import com.korchagin.presentation.models.HomeUiState
 import com.korchagin.presentation.models.ImageWithText
 import com.korchagin.presentation.viewModel.MainViewModel
 import kotlinx.coroutines.delay
@@ -40,6 +41,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
+import org.korchagin.kmp.activity.userMain.homeScreen.CollapsibleProfile
 import org.korchagin.kmp.activity.userMain.homeScreen.screenItems.ProfileSection
 import org.korchagin.kmp.uiElements.AnimatedTabWithHorizontalPager
 
@@ -53,17 +55,9 @@ fun EditUserScreen() {
         mainViewModel.loadData()
     }
     val clickedPupil by mainViewModel.clickedPupil.collectAsState(null)
-    val freezeElements by mainViewModel.freezeElements.collectAsState(null)
-    val powerElements by mainViewModel.powerElements.collectAsState(null)
-    val ofpElements by mainViewModel.ofpElements.collectAsState(null)
-    val stretchElements by mainViewModel.stretchElements.collectAsState(null)
-    val footWorkElements by mainViewModel.footWorkElements.collectAsState(null)
     val pupil = clickedPupil ?: return
-    val freezes = freezeElements ?: return
-    val powerMoves = powerElements ?: return
-    val ofp = ofpElements ?: return
-    val stretch = stretchElements ?: return
-    val footWork = footWorkElements?: return
+    val homeState by mainViewModel.homeUiState.collectAsState()
+
     var selectedTabIndex by remember {
         mutableIntStateOf(ElementsTab.FREEZE.ordinal)
     }
@@ -94,6 +88,7 @@ fun EditUserScreen() {
     val scope = rememberCoroutineScope()
 
     Scaffold(
+        containerColor = Color.Transparent,
         snackbarHost = { SnackbarHost(snackbarHostState) },
         floatingActionButton = {
             FloatingActionButton(
@@ -108,36 +103,51 @@ fun EditUserScreen() {
             }
         }
     ) { padding ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            Column(
-                modifier = Modifier
-                    .widthIn(max = 900.dp) // Ограничиваем максимальную ширину
-            ) {
+        when (val state = homeState) {
 
-                ProfileSection(
-                    pupil,
-                    selectedTabIndex
-                )
+            HomeUiState.Loading -> {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
+                }
+            }
 
-                AnimatedTabWithHorizontalPager(
-                    freeze = freezes,
-                    power = powerMoves,
-                    ofp = ofp,
-                    stretch = stretch,
-                    footWork = footWork,
-                    pupil = pupil,
-                    //   navController = navController,
-                    tabs = imageWithTexts,
-                    onTabSelected = { selectedTabIndex = it },
-                    editMode = true,
-                    onElementClick = {}
+            is HomeUiState.Content -> {
+
+                CollapsibleProfile(
+                    profileHeight = 150.dp,
+
+                    header = { modifier ->
+                        ProfileSection(
+                            curPupil = pupil,
+                            selectedTabIndex = selectedTabIndex,
+                            modifier = modifier
+                        )
+                    },
+
+                    content = {
+                        AnimatedTabWithHorizontalPager(
+                            freeze = state.freezes,
+                            power = state.powerMoves,
+                            ofp = state.ofp,
+                            stretch = state.stretch,
+                            footWork = state.footWork,
+                            pupil = state.pupil,
+                            tabs = imageWithTexts,
+                            onTabSelected = {
+                                selectedTabIndex = it
+                            },
+                            onElementClick = {}
+                        )
+                    }
                 )
             }
         }
     }
 
 }
+
+
+

@@ -82,6 +82,7 @@ class EventRepositoryImpl(
         val participant = EventParticipantsEntry(
             user_id = pupil.id,
             name = pupil.name,
+            avatar = pupil.avatar,
             event_id = event.id,
             phone = pupil.email,
             timestamp = "",

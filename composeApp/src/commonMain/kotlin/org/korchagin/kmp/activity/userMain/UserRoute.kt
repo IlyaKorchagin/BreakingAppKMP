@@ -15,11 +15,13 @@ import org.koin.core.annotation.KoinExperimentalAPI
 import org.korchagin.kmp.activity.bboysDetails.BboysDetailScreen
 import org.korchagin.kmp.activity.elementDetails.ElementDetailsScreen
 import org.korchagin.kmp.activity.events.EventsRoute
+import org.korchagin.kmp.activity.events.navigation.EventsDestination
 import org.korchagin.kmp.activity.profile.ProfileScreen
+import org.korchagin.kmp.activity.userMain.homeScreen.HomeScreen
 import org.korchagin.kmp.activity.userMain.navigation.UserDestination
 import org.korchagin.kmp.activity.userMain.navigation.UserScaffold
-import org.korchagin.kmp.activity.userMain.homeScreen.HomeScreen
-import org.korchagin.kmp.activity.userMain.ratings.screen.RatingsScreen
+import org.korchagin.kmp.activity.userMain.ranking.RatingsScreen
+import org.korchagin.kmp.activity.userMain.ranking.RecordsScreen
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
@@ -39,7 +41,20 @@ fun UserRoute(
     val ratingslistState = rememberLazyListState()
     val recordslistState = rememberLazyListState()
 
+    var eventsDestination by remember {
+        mutableStateOf<EventsDestination>(EventsDestination.Events)
+    }
+
+
     UserScaffold(
+        title = if (currentDestination == UserDestination.Events) {
+            eventsDestination.title
+        } else {
+            currentDestination.title
+        },
+
+        isBackEnabled = currentDestination != UserDestination.Home,
+
         currentDestination = currentDestination,
         onDestinationSelected = { destination ->
             currentDestination = destination
@@ -49,7 +64,27 @@ fun UserRoute(
             currentDestination = UserDestination.Profile
         },
         onBack = {
-            currentDestination = previousDestination
+            when (currentDestination) {
+                UserDestination.Events -> {
+                    when (eventsDestination) {
+                        EventsDestination.Events -> {
+                            currentDestination = previousDestination
+                        }
+
+                        EventsDestination.Selection -> {
+                            eventsDestination = EventsDestination.Events
+                        }
+
+                        EventsDestination.Battle -> {
+                            eventsDestination = EventsDestination.Selection
+                        }
+                    }
+                }
+
+                else -> {
+                    currentDestination = previousDestination
+                }
+            }
         },
         onLogoutClick = {
             scope.launch {
@@ -102,8 +137,9 @@ fun UserRoute(
 
             UserDestination.Events -> {
                 EventsRoute(
-                    onExit = {
-                        currentDestination = previousDestination
+                    currentDestination = eventsDestination,
+                    onDestinationChange = {
+                        eventsDestination = it
                     }
                 )
             }

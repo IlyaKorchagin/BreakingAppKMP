@@ -5,7 +5,10 @@ import dev.gitlive.firebase.storage.Data
 
 
 @Composable
-expect fun GifImage(drawable: String)
+expect fun GifImage(
+    drawable: String,
+    onLoaded: () -> Unit = {}
+)
 
 expect val currentPlatform: PlatformType
 enum class PlatformType {

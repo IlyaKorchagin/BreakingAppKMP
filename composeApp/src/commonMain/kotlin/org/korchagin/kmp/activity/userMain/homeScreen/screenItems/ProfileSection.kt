@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -52,14 +53,26 @@ fun ProfileSection(
         )
     )
     val showShimmer = remember { mutableStateOf(true) }
+    val colors = LocalAppColors.current
+
     Column(
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 12.dp, vertical = 6.dp)
+            .clip(RoundedCornerShape(20.dp))
+            .background(
+                color = Color.White.copy(alpha = 0.25f)
+            )
+            .border(
+                width = 1.dp,
+                color = colors.mainGreen.copy(alpha = 0.45f),
+                shape = RoundedCornerShape(20.dp)
+            )
+            .padding(10.dp)
     ) {
         Row(
-         //   verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp)
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Start
         ) {
             val avatarBorderColor = setAvatarBorder(curPupil)
             Column(verticalArrangement = Arrangement.Center) {
@@ -78,7 +91,7 @@ fun ProfileSection(
                         model = curPupil.avatar,
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
-                        modifier = Modifier.width(64.dp).aspectRatio(1.0f)
+                        modifier = Modifier.width(88.dp).aspectRatio(1.0f)
                             .clip(CircleShape)
                             .drawBehind {
                                 rotate(rotationValue.value) {
@@ -99,20 +112,7 @@ fun ProfileSection(
                         onSuccess = { showShimmer.value = false }
                     )
                 }
-                /* Text(
-                     modifier = Modifier
-                         .align(Alignment.CenterHorizontally)
-                         .padding(vertical = 5.dp),
-                     text = "Изменить аватар",
-                     fontFamily = FontFamily.Serif,
-                     color = Color.Gray,
-                     style = TextStyle(
-                         textAlign = TextAlign.Center,
-                         fontSize = 10.sp,
-                         fontWeight = FontWeight.Bold
-                     ),
-                     textDecoration = TextDecoration.Underline,
-                 )*/
+
             }
 
             Spacer(modifier = Modifier.width(8.dp))
