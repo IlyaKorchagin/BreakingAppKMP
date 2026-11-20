@@ -4,7 +4,7 @@ sealed class EventsDestination(
     val title: String
 ) {
     data object Events : EventsDestination(
-        title = "Главная"
+        title = "События"
     )
 
     data object Selection : EventsDestination(

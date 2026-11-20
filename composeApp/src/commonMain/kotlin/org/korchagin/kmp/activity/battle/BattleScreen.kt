@@ -29,6 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -46,6 +47,11 @@ import com.korchagin.presentation.viewModel.MainViewModel
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
+import org.korchagin.kmp.activity.battle.components.BattleHeader
+import org.korchagin.kmp.activity.battle.components.BattleParticipantCard
+import org.korchagin.kmp.activity.battle.components.BattleVsBadge
+import org.korchagin.kmp.activity.battle.components.CompetitorScoreCard
+import org.korchagin.kmp.activity.battle.components.WinnerCard
 import org.korchagin.kmp.theme.colors.LocalAppColors
 import team.platforma.infoteam.theme.typography.FontWeights
 import team.platforma.infoteam.theme.typography.Typography
@@ -54,7 +60,7 @@ import team.platforma.infoteam.theme.typography.Typography
 @OptIn(KoinExperimentalAPI::class)
 @Composable
 fun BattleScreen(
-    onBack:()-> Unit
+    onBack: () -> Unit
 ) {
 
     val mainViewModel = koinViewModel<MainViewModel>()
@@ -208,253 +214,162 @@ fun BattleScreen(
 
         if (pair != null) {
 
-            LazyColumn(
+            val colors = LocalAppColors.current
+
+            Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(16.dp),
-
-                verticalArrangement =
-                    Arrangement.spacedBy(16.dp),
-
-                horizontalAlignment =
-                    Alignment.CenterHorizontally
+                    .background(
+                        Brush.verticalGradient(
+                            colors = listOf(
+                                colors.backgroundGradientStart,
+                                colors.backgroundGradientEnd
+                            )
+                        )
+                    )
+                    .padding(horizontal = 12.dp, vertical = 8.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
 
-                item {
+                // HEADER
+                BattleHeader(
+                    round = getRoundTitle(
+                        mainViewModel.currentRound.value.name
+                    ),
+                    pairNumber = currentPairIndex + 1,
+                    totalPairs = pairs.size
+                )
 
-                    // -------------------------------------------------
-                    // ROUND TITLE
-                    // -------------------------------------------------
-
-                    Text(
-                        text = getRoundTitle(
-                            mainViewModel.currentRound.value.name
-                        ),
-
-                        style = Typography.text3xl(
-                            weights = FontWeights.SemiBold
-                        )
+                // PARTICIPANTS
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    BattleParticipantCard(
+                        participant = pair.left,
+                        accentColor = Color(0xFF3299F2),
+                        modifier = Modifier.weight(1f)
                     )
 
+                    BattleVsBadge()
 
-                    Spacer(
-                        modifier = Modifier.height(16.dp)
+                    BattleParticipantCard(
+                        participant = pair.right,
+                        accentColor = Color(0xFFFF654F),
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+
+                // SCORES
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.Top
+                ) {
+                    CompetitorScoreCard(
+                        name = "BLUE",
+                        accentColor = Color(0xFF3299F2),
+                        power = firstBboyPower,
+                        onPowerChange = { firstBboyPower = it },
+                        musicality = firstBboyMusicality,
+                        onMusicalityChange = { firstBboyMusicality = it },
+                        creativity = firstBboyCreativity,
+                        onCreativityChange = { firstBboyCreativity = it },
+                        modifier = Modifier.weight(1f)
                     )
 
-
-                    // -------------------------------------------------
-                    // PAIR NUMBER
-                    // -------------------------------------------------
-
-                    Text(
-                        text =
-                            "Пара ${currentPairIndex + 1} из ${pairs.size}",
-
-                        style = Typography.text3xl(
-                            weights = FontWeights.SemiBold
-                        )
+                    CompetitorScoreCard(
+                        name = "RED",
+                        accentColor = Color(0xFFF05252),
+                        power = secondBboyPower,
+                        onPowerChange = { secondBboyPower = it },
+                        musicality = secondBboyMusicality,
+                        onMusicalityChange = { secondBboyMusicality = it },
+                        creativity = secondBboyCreativity,
+                        onCreativityChange = { secondBboyCreativity = it },
+                        modifier = Modifier.weight(1f)
                     )
+                }
 
+                val firstTotal = firstBboyPower +
+                        firstBboyMusicality +
+                        firstBboyCreativity
 
-                    Spacer(
-                        modifier = Modifier.height(16.dp)
-                    )
+                val secondTotal = secondBboyPower +
+                        secondBboyMusicality +
+                        secondBboyCreativity
 
+                val winnerName = when {
+                    firstTotal > secondTotal -> pair.left.name
+                    secondTotal > firstTotal -> pair.right.name
+                    else -> "НИЧЬЯ"
+                }
 
-                    // -------------------------------------------------
-                    // PARTICIPANTS
-                    // -------------------------------------------------
+                WinnerCard(
+                    winnerName = winnerName,
+                    leftScore = firstTotal,
+                    rightScore = secondTotal
+                )
 
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
+                Spacer(modifier = Modifier.weight(1f))
 
-                        Box(
-                            modifier = Modifier.weight(1f),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            PupilImage(
-                                url = "",
-                                showShimmer = showShimmer,
-                                participants = pair.left,
-                                color = Color(0xFF1976D2)
+                // ACTION
+                if (!isCurrentBattleComplete) {
+
+                    Button(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(48.dp),
+                        onClick = {
+                            val pairId = listOf(
+                                pair.left.userId,
+                                pair.right.userId
                             )
-                        }
+                                .sorted()
+                                .joinToString("_")
 
+                            val result = BattleResult(
+                                pairId = pairId,
+                                left = pair.left,
+                                right = pair.right,
+                                leftScore = firstBboyPower +
+                                        firstBboyMusicality +
+                                        firstBboyCreativity,
+                                rightScore = secondBboyPower +
+                                        secondBboyMusicality +
+                                        secondBboyCreativity
+                            )
+
+                            mainViewModel.addBattleResult(result)
+                        }
+                    ) {
+                        Text("ПОДТВЕРДИТЬ РЕЗУЛЬТАТ")
+                    }
+
+                } else {
+
+                    Button(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(48.dp),
+                        onClick = {
+                            if (!isFullBattleRoundComplete) {
+                                mainViewModel.nextPair()
+                            } else {
+                                mainViewModel.buildNextRound()
+                            }
+                        }
+                    ) {
                         Text(
-                            text = "VS",
-                            modifier = Modifier.padding(horizontal = 12.dp),
-                            style = Typography.text3xl(FontWeights.SemiBold)
-                                .copy(
-                                    color = LocalAppColors.current.primaryColor
-                                )
+                            if (!isFullBattleRoundComplete)
+                                "СЛЕДУЮЩАЯ ПАРА"
+                            else
+                                "СЛЕДУЮЩИЙ РАУНД"
                         )
-
-                        Box(
-                            modifier = Modifier.weight(1f),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            PupilImage(
-                                url = "",
-                                showShimmer = showShimmer,
-                                participants = pair.right,
-                                color = Color(0xFFD32F2F)
-                            )
-                        }
-                    }
-
-
-                    Spacer(
-                        modifier = Modifier.height(24.dp)
-                    )
-
-
-                    // -------------------------------------------------
-                    // SCORES
-                    // -------------------------------------------------
-
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-
-                        verticalAlignment =
-                            Alignment.CenterVertically,
-
-                        horizontalArrangement =
-                            Arrangement.SpaceBetween
-                    ) {
-
-                        Column(
-                            Modifier.weight(1f)
-                        ) {
-
-                            ProgressSlider(
-                                progress = firstBboyPower,
-                                onProgressChange = {
-                                    firstBboyPower = it
-                                },
-                                title = "Сила"
-                            )
-
-
-                            ProgressSlider(
-                                progress = firstBboyMusicality,
-                                onProgressChange = {
-                                    firstBboyMusicality = it
-                                },
-                                title = "Музыкальность"
-                            )
-
-
-                            ProgressSlider(
-                                progress = firstBboyCreativity,
-                                onProgressChange = {
-                                    firstBboyCreativity = it
-                                },
-                                title = "Оригинальность"
-                            )
-                        }
-
-
-                        Column(
-                            Modifier.weight(1f)
-                        ) {
-
-                            ProgressSlider(
-                                progress = secondBboyPower,
-                                onProgressChange = {
-                                    secondBboyPower = it
-                                },
-                                title = "Сила"
-                            )
-
-
-                            ProgressSlider(
-                                progress = secondBboyMusicality,
-                                onProgressChange = {
-                                    secondBboyMusicality = it
-                                },
-                                title = "Музыкальность"
-                            )
-
-
-                            ProgressSlider(
-                                progress = secondBboyCreativity,
-                                onProgressChange = {
-                                    secondBboyCreativity = it
-                                },
-                                title = "Оригинальность"
-                            )
-                        }
-                    }
-
-
-                    Spacer(
-                        modifier = Modifier.height(24.dp)
-                    )
-
-
-                    // -------------------------------------------------
-                    // CURRENT BATTLE STATUS
-                    // -------------------------------------------------
-
-                    if (!isCurrentBattleComplete) {
-
-                        Button(
-                            modifier = Modifier.fillMaxWidth(),
-                            onClick = {
-                                val pairId = listOf(
-                                    pair.left.userId,
-                                    pair.right.userId
-                                )
-                                    .sorted()
-                                    .joinToString("_")
-
-                                val result = BattleResult(
-                                    pairId = pairId,
-                                    left = pair.left,
-                                    right = pair.right,
-                                    leftScore =
-                                        firstBboyPower +
-                                                firstBboyMusicality +
-                                                firstBboyCreativity,
-                                    rightScore =
-                                        secondBboyPower +
-                                                secondBboyMusicality +
-                                                secondBboyCreativity
-                                )
-
-                                mainViewModel.addBattleResult(result)
-                            }
-                        ) {
-                            Text("Готово")
-                        }
-
-                    } else {
-                        if (!isFullBattleRoundComplete) {
-                            Button(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = {
-                                    mainViewModel.nextPair()
-                                }
-                            ) {
-                                Text("Следующая пара")
-                            }
-                        }
-                        else{
-                            Button(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = {
-                                    mainViewModel.buildNextRound()
-                                }
-                            ) {
-                                Text("Следующий раунд")
-                            }
-                        }
                     }
                 }
             }
-
         } else {
 
             CircularProgressIndicator()
@@ -475,14 +390,22 @@ fun BattleScreen(
             val judgeResults =
                 mainViewModel.getJudgeResults(pair)
 
-
+            val colors = LocalAppColors.current
             LazyColumn(
+
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(16.dp),
+                    .background(
+                        Brush.verticalGradient(
+                            colors = listOf(
+                                colors.backgroundGradientStart,
+                                colors.backgroundGradientEnd
+                            )
+                        )
+                    )
+                    .padding(horizontal = 12.dp, vertical = 8.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
 
-                verticalArrangement =
-                    Arrangement.spacedBy(16.dp)
             ) {
 
                 item {
@@ -509,7 +432,7 @@ fun BattleScreen(
 
                     Text(
                         text =
-                            "Пара ${currentPairIndexForUser + 1} из ${pairs.size-1}",
+                            "Пара ${currentPairIndexForUser + 1} из ${pairs.size - 1}",
 
                         style =
                             Typography.text3xl(
@@ -535,10 +458,10 @@ fun BattleScreen(
                             contentAlignment = Alignment.Center
                         ) {
                             PupilImage(
-                                url = "",
+                                url = pair.left.avatar,
                                 showShimmer = showShimmer,
                                 participants = pair.left,
-                                color = Color(0xFF1976D2)
+                                color = Color(0xFF3299F2)
                             )
                         }
 
@@ -782,7 +705,7 @@ fun JudgeResultsRow(
                             }
                         ),
                     contentAlignment = Alignment.Center
-                ){} /*{
+                ) {} /*{
                     Text(
                         text = when {
                             leftWin -> left.name

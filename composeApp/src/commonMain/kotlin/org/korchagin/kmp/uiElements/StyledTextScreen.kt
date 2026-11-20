@@ -20,10 +20,18 @@ import kotlinx.datetime.toLocalDateTime
 @Composable
 fun StyledTextScreen(title: String, description: String) {
     val styledText = buildAnnotatedString {
-        withStyle(style = SpanStyle(fontSize = 11.sp)) {
+        withStyle(SpanStyle(
+            fontWeight = FontWeight.SemiBold,
+            fontSize = 11.sp)) {
             append(title)
         }
-        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold, fontSize = 14.sp)) {
+        append("  ")
+        withStyle(
+            SpanStyle(
+                fontWeight = FontWeight.ExtraBold,
+                fontSize = 13.sp
+            )
+        ) {
             append(description)
         }
     }
@@ -32,8 +40,9 @@ fun StyledTextScreen(title: String, description: String) {
         text = styledText,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 8.dp),
-        textAlign = TextAlign.Center
+            .padding(horizontal = 4.dp, vertical = 2.dp),
+        textAlign = TextAlign.Center,
+        lineHeight = 15.sp
     )
 }
 

@@ -8,7 +8,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,7 +29,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
@@ -87,8 +85,6 @@ fun AnimatedTabWithHorizontalPager(
                 }
             }
             Tab(
-                modifier = Modifier
-                    .background(Color.White),
                 selected = selected,
                 onClick = {
                     scope.launch {
@@ -114,7 +110,7 @@ fun AnimatedTabWithHorizontalPager(
                             .graphicsLayer(scaleX = scale.value, scaleY = scale.value)
                             .border(
                                 width = 1.dp,
-                                color = if (selected) LocalAppColors.current.mainGreen else Color.LightGray,
+                                color = if (selected) LocalAppColors.current.mainGreen else  LocalAppColors.current.textDefault.copy(alpha = 0.7f),
                                 shape = CircleShape
                             )
                     )
@@ -124,7 +120,7 @@ fun AnimatedTabWithHorizontalPager(
                         style = TextStyle(
                             color = if (selected)
                                 LocalAppColors.current.mainGreen
-                            else Color.Gray,
+                            else  LocalAppColors.current.textDefault.copy(alpha = 0.7f),
                             fontSize = 11.sp
                         ),
                         maxLines = 1

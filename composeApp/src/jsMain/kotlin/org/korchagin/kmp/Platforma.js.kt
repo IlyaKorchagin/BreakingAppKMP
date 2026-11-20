@@ -9,7 +9,10 @@ import org.khronos.webgl.set
 import org.w3c.dom.HTMLImageElement
 
 @Composable
-actual fun GifImage(drawable: String) {
+actual fun GifImage(
+    drawable: String,
+    onLoaded: () -> Unit
+) {
 
     DisposableEffect(drawable) {
         val img = document.createElement("img") as HTMLImageElement

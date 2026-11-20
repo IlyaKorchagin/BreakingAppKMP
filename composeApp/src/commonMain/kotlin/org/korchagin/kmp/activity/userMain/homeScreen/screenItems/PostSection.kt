@@ -29,6 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -69,13 +70,15 @@ fun PostSection(
     onElementClick: (ElementModel) -> Unit
 ) {
     val mainViewModel = koinViewModel<MainViewModel>()
-    val showShimmer = remember { mutableStateOf(true) }
     val scope = rememberCoroutineScope()
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
     ) {
         itemsIndexed(posts) { index, value ->
+            var showShimmer by remember(value.title) {
+                mutableStateOf(true)
+            }
          //   var progress by remember { mutableStateOf(value.progress ?: 0f) }
             var progress by remember(pupil, value.title) {
                 mutableStateOf(
@@ -87,59 +90,67 @@ fun PostSection(
                     pupil.getRecord(value.title)
                 )
             }
-            val startBackgroundColor = Color.White
-            val endBackgroundColor = setElementColor(value.title)
+
+            val borderColor = setElementColor(value.title)
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(horizontal = 12.dp, vertical = 7.dp)
+                    .shadow(
+                        elevation = 5.dp,
+                        shape = RoundedCornerShape(22.dp)
+                    )
+                    .clip(RoundedCornerShape(22.dp))
                     .background(
                         brush = Brush.horizontalGradient(
-                            listOf(
-                                startBackgroundColor,
-                                endBackgroundColor
-                            ),
-                            startX = 300.0f
+                            colors = listOf(
+                                Color.White.copy(alpha = 0.96f),
+                                borderColor.copy(alpha = 0.25f)
+                            )
                         )
                     )
-                    .padding(5.dp),
+                    .border(
+                        width = 2.dp,
+                        color = borderColor.copy(alpha = 0.85f),
+                        shape = RoundedCornerShape(22.dp)
+                    )
+                    .padding(10.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                val borderColor = setElementColor(value.title)
-
                 AsyncImage(
                     model = value.icon,
-                    /*   model = ImageRequest.Builder(LocalContext.current)
-                           .data(value.icon)
-                           .crossfade(true)
-                           .build(),*/
-                    contentDescription = "default crossfade example",
+                    contentDescription = null,
                     modifier = Modifier
-                        .size(80.dp)
+                        .size(78.dp)
+                        .shadow(4.dp, CircleShape)
                         .clip(CircleShape)
-                        .background(
-                            ShimmerBrush(
-                                targetValue = 1300f,
-                                showShimmer = showShimmer.value
-                            )
+                        .background(Color.White)
+                        .border(
+                            width = 4.dp,
+                            color = Color.White,
+                            shape = CircleShape
                         )
-                        .border(3.dp, borderColor, CircleShape)
+                        .border(
+                            width = 2.dp,
+                            color = borderColor,
+                            shape = CircleShape
+                        )
                         .clickable {
                             if (!footWork) {
                                 scope.launch {
                                     mainViewModel.addElement(stateElement[index])
                                     mainViewModel.addElementRating(
-                                        pupil.getProgress(
-                                            stateElement[index].title
-                                        ).toInt()
+                                        pupil.getProgress(stateElement[index].title).toInt()
                                     )
-
                                 }
-                                if (value.icon != LOCK)   onElementClick(stateElement[index])
-                                //    findNavHost().navigateToActivity(ElementDetailsActivity)
+                                if (value.icon != LOCK) {
+                                    onElementClick(stateElement[index])
+                                }
                             }
                         },
-                    onSuccess = { showShimmer.value = false },
+                    onSuccess = { showShimmer = false },
                     contentScale = ContentScale.Crop
                 )
                 Spacer(modifier = Modifier.width(10.dp))
@@ -150,7 +161,7 @@ fun PostSection(
                     // --- Название элемента --->
                     Text(
                         text = setElementTitle(value.title),
-                        color = Color.Black,
+                        color = LocalAppColors.current.textDefault,
                         letterSpacing = 1.sp
                     )
                     // <--- Название элемента ---
@@ -160,29 +171,29 @@ fun PostSection(
                             Spacer(modifier = Modifier.height(5.dp))
                             CustomProgressBar(
                                 Modifier
-                                    .clip(shape = RoundedCornerShape(5.dp))
+                                    .clip(RoundedCornerShape(12.dp))
                                     .height(25.dp)
                                     .border(
-                                        width = 1.dp,
-                                        color = Color.Gray,
-                                        shape = RoundedCornerShape(5.dp)
+                                        width = 2.dp,
+                                        color = borderColor.copy(alpha = 0.65f),
+                                        shape = RoundedCornerShape(12.dp)
                                     ),
-                                Color.White,
+                                Color.White.copy(alpha = 0.7f),
                                 Brush.horizontalGradient(
                                     listOf(
-                                        Color.White,
-                                        LocalAppColors.current.progress
+                                        Color.White.copy(alpha = 0.3f),
+                                        borderColor.copy(alpha = 0.9f)
                                     )
                                 ),
                                 progress.toInt(),
-                               true
+                                true
                             )
                         }
                         if (value.icon == LOCK) {
                             Spacer(modifier = Modifier.height(5.dp))
                             Text(
                                 text = value.block_description,
-                                color = Color.Black,
+                                color = LocalAppColors.current.textDefault,
                                 fontSize = 12.sp
                             )
                         }
@@ -194,7 +205,7 @@ fun PostSection(
                                 style = Typography.textLg(
                                     FontWeights.SemiBold
                                 )
-                                    .copy(color = Color.Black)
+                                    .copy(color = LocalAppColors.current.textDefault)
                             )
                         }
                     } else {
@@ -239,7 +250,7 @@ fun PostSection(
                     HorizontalDivider(
                         modifier = Modifier.fillMaxWidth(0.78f),
                         thickness = 1.dp,
-                        color = Color.LightGray
+                        color = LocalAppColors.current.textDefault.copy(alpha = 0.15f)
                     )
                 }
             }

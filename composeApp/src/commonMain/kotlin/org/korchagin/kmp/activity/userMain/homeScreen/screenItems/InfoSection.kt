@@ -23,6 +23,7 @@ import com.korchagin.presentation.models.ElementsTab
 import com.korchagin.presentation.models.PupilModel
 import org.jetbrains.compose.resources.stringResource
 import org.korchagin.kmp.helper.setLevel
+import org.korchagin.kmp.theme.colors.LocalAppColors
 import org.korchagin.kmp.uiElements.RatingProgreesBar
 
 @Composable
@@ -33,6 +34,8 @@ fun InfoSection(
 
     var text = ""
     var rating = 0
+
+    val appColors = LocalAppColors.current
 
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -46,21 +49,6 @@ fun InfoSection(
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold
             ),
-            /*modifier = Modifier
-                .graphicsLayer(alpha = 0.8f)
-                .drawWithCache {
-                    onDrawWithContent {
-                        drawContent()
-                        drawRect(
-                            Brush.horizontalGradient(
-                                listOf(
-                                    LocalAppColors.current.default,
-                                    if (theme.isDark()) Color.White else Color.Black)
-                                )
-                            ), blendMode = BlendMode.SrcAtop
-                        )
-                    }
-                }*/
         )
         Text(
             curPupil.nick,

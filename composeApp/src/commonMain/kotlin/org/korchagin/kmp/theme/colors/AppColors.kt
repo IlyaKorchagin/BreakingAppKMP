@@ -58,6 +58,9 @@ private object AppColorsDefined {
         val ratingFistPlaceColor = Color(0xFFEFB000)
         val ratingSecondPlaceColor = Color(0xFF61688D)
         val ratingThirdPlaceColor = Color(0xFFCC7C4A)
+
+        val backgroundGradientStart = Color(0xFFF5F6F7)
+        val backgroundGradientEnd = Color(0xFFE1E4E8)
     }
 
     object DarkTheme {
@@ -116,6 +119,8 @@ private object AppColorsDefined {
         val ratingFistPlaceColor = Color(0xFFEFB000)
         val ratingSecondPlaceColor = Color(0xFF61688D)
         val ratingThirdPlaceColor = Color(0xFFCC7C4A)
+        val backgroundGradientStart = Color(0xFF17232D)
+        val backgroundGradientEnd = Color(0xFF0B1118)
     }
 }
 
@@ -167,7 +172,9 @@ class AppColorsTheme() {
 
             ratingFistPlaceColor = AppColorsDefined.LightTheme.ratingFistPlaceColor,
             ratingSecondPlaceColor = AppColorsDefined.LightTheme.ratingSecondPlaceColor,
-            ratingThirdPlaceColor = AppColorsDefined.LightTheme.ratingThirdPlaceColor
+            ratingThirdPlaceColor = AppColorsDefined.LightTheme.ratingThirdPlaceColor,
+            backgroundGradientStart = AppColorsDefined.LightTheme.backgroundGradientStart,
+            backgroundGradientEnd = AppColorsDefined.LightTheme.backgroundGradientEnd,
         )
     }
 
@@ -217,7 +224,9 @@ class AppColorsTheme() {
 
             ratingFistPlaceColor = AppColorsDefined.DarkTheme.ratingFistPlaceColor,
             ratingSecondPlaceColor = AppColorsDefined.DarkTheme.ratingSecondPlaceColor,
-            ratingThirdPlaceColor = AppColorsDefined.DarkTheme.ratingThirdPlaceColor
+            ratingThirdPlaceColor = AppColorsDefined.DarkTheme.ratingThirdPlaceColor,
+            backgroundGradientStart = AppColorsDefined.DarkTheme.backgroundGradientStart,
+            backgroundGradientEnd = AppColorsDefined.DarkTheme.backgroundGradientEnd,
         )
     }
 
@@ -269,5 +278,7 @@ data class Colors(
 
     val ratingFistPlaceColor: Color = Color(0xFFFFFFFF),
     val ratingSecondPlaceColor: Color = Color(0xFFFFFFFF),
-    val ratingThirdPlaceColor: Color = Color(0xFFFFFFFF)
+    val ratingThirdPlaceColor: Color = Color(0xFFFFFFFF),
+    val backgroundGradientStart: Color = Color.White,
+    val backgroundGradientEnd: Color = Color.White,
 )

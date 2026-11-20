@@ -7,6 +7,7 @@ data class EventParticipantsEntry(
     val timestamp: String,
     val user_id: String,
     val name: String,
+    val avatar: String,
     val phone: String,
     val event_id: String,
     val selectionOrder: Int = 0,

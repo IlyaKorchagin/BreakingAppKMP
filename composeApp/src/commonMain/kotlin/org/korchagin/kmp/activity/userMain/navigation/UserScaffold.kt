@@ -1,5 +1,6 @@
 package org.korchagin.kmp.activity.userMain.navigation
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Row
@@ -21,18 +22,22 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.unit.dp
 import breakingkmpapp.composeapp.generated.resources.Res
 import breakingkmpapp.composeapp.generated.resources.logout
 import org.jetbrains.compose.resources.painterResource
-import org.korchagin.kmp.activity.userMain.ratings.topBar.TopBarRatingActions
+import org.korchagin.kmp.activity.userMain.ranking.TopBarRatingActions
 import org.korchagin.kmp.theme.colors.LocalAppColors
 
 private val userDestinations = listOf(
     UserDestination.Home,
     UserDestination.Ratings,
     UserDestination.Records,
-    UserDestination.Bboys
+    UserDestination.Bboys,
+    UserDestination.Events
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -43,37 +48,52 @@ fun UserScaffold(
     onProfileClick: () -> Unit,
     onBack: () -> Unit,
     onLogoutClick: () -> Unit,
+    title: String = currentDestination.title,
+    isBackEnabled: Boolean = currentDestination !in setOf(
+        UserDestination.Home,
+        UserDestination.Records,
+        UserDestination.Ratings,
+        UserDestination.Bboys,
+        UserDestination.Events
+    ),
     content: @Composable () -> Unit
 ) {
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val colors = LocalAppColors.current
-    val isBackEnabled = currentDestination in setOf(
-        UserDestination.Profile,
-        UserDestination.ElementDetails,
-        UserDestination.BboysDetails,
-        UserDestination.OtherProfile
-    )
+
     BoxWithConstraints(
         modifier = Modifier.fillMaxSize()
     ) {
         // Определяем ориентацию доступного пространства
         val isLandscape = maxWidth > maxHeight
 
+        val isMainDestination = currentDestination in userDestinations
+        val showBottomBar = !isLandscape && isMainDestination
+        val showBackButton = !isMainDestination
+
         Scaffold(
+            containerColor = Color.Transparent,
             modifier = Modifier
                 .fillMaxSize()
                 .nestedScroll(scrollBehavior.nestedScrollConnection),
 
             topBar = {
                 TopAppBar(
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = Color.Transparent,
+                        scrolledContainerColor = Color.Transparent,
+                        navigationIconContentColor = colors.textDefault,
+                        titleContentColor = colors.textDefault,
+                        actionIconContentColor = colors.textDefault
+                    ),
                     title = {
                         Text(
-                            text = currentDestination.title,
+                            text = title,
                             color = colors.textDefault
                         )
                     },
                     navigationIcon = {
-                        if (isBackEnabled) {
+                        if (showBackButton) {
                             IconButton(onClick = onBack) {
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -116,25 +136,23 @@ fun UserScaffold(
                     scrollBehavior = scrollBehavior
                 )
             },
-
             bottomBar = {
-                if (!isLandscape && !isBackEnabled) {
-                    NavigationBar {
+                if (showBottomBar) {
+                    NavigationBar(
+                        containerColor = colors.defaultBackground.copy(alpha = 0.35f),
+                        tonalElevation = 0.dp
+                    ) {
                         userDestinations.forEach { destination ->
                             NavigationBarItem(
                                 selected = currentDestination == destination,
-                                onClick = {
-                                    onDestinationSelected(destination)
-                                },
+                                onClick = { onDestinationSelected(destination) },
                                 icon = {
                                     Icon(
-                                        painter = painterResource(destination.icon),
+                                        painterResource(destination.icon),
                                         contentDescription = destination.title
                                     )
                                 },
-                                label = {
-                                    Text(destination.title)
-                                }
+                                label = { Text(destination.title) }
                             )
                         }
                     }
@@ -148,7 +166,9 @@ fun UserScaffold(
                         .fillMaxSize()
                         .padding(innerPadding)
                 ) {
-                    NavigationRail {
+                    NavigationRail(
+                        containerColor = colors.defaultBackground.copy(alpha = 0.35f)
+                    ) {
                         userDestinations.forEach { destination ->
                             NavigationRailItem(
                                 selected = currentDestination == destination,
@@ -176,6 +196,14 @@ fun UserScaffold(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(innerPadding)
+                        .background(
+                            brush = Brush.verticalGradient(
+                                colors = listOf(
+                                    colors.backgroundGradientStart.copy(alpha = 0.25f),
+                                    colors.backgroundGradientEnd.copy(alpha = 0.25f)
+                                )
+                            )
+                        )
                 ) {
                     content()
                 }

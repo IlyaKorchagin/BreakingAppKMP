@@ -77,6 +77,7 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.firebase.database)
             implementation(libs.kotlinx.coroutines.core)
+            implementation(compose.materialIconsExtended)
 
             //Ktor
             implementation(libs.ktor.client.core)

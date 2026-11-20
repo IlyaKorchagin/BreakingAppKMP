@@ -1,6 +1,8 @@
+
 package org.korchagin.kmp.activity.auth
 
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,27 +11,37 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -40,185 +52,356 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.korchagin.presentation.viewModel.MainViewModel
 import com.korchagin.presentation_auth.viewModel.AuthViewModel
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
+import org.korchagin.kmp.theme.colors.LocalAppColors
 import team.platforma.infoteam.theme.typography.FontWeights
 import team.platforma.infoteam.theme.typography.Typography
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
 fun RegistrationScreen(
-
+    onBack: () -> Unit,
+    onAdminSuccess: () -> Unit,
+    onUserSuccess: () -> Unit
 ) {
     val authViewModel = koinViewModel<AuthViewModel>()
     val mainViewModel = koinViewModel<MainViewModel>()
+
+    val appColors = LocalAppColors.current
     val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
 
     val coaches by mainViewModel.coaches.collectAsState(null)
-    val coachesList = coaches?.map { it.name } ?: return
+    val coachesList = coaches?.map { it.name } ?: emptyList()
+
     var name by rememberSaveable { mutableStateOf("") }
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
-    val scope = rememberCoroutineScope()
-    var selected by remember { mutableStateOf(listOf<String>()) }
+    var passwordVisible by rememberSaveable { mutableStateOf(false) }
+    var selected by rememberSaveable {
+        mutableStateOf(listOf<String>())
+    }
+    var isSubmitting by remember { mutableStateOf(false) }
 
+    val isEmailValid = remember(email) {
+        Regex("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")
+            .matches(email)
+    }
+
+    val isFormValid =
+        name.isNotBlank() &&
+                isEmailValid &&
+                password.length >= 6 &&
+                selected.isNotEmpty()
 
     Scaffold(
-        snackbarHost = { SnackbarHost(snackbarHostState) }
+        containerColor = Color.Transparent,
+        snackbarHost = {
+            SnackbarHost(snackbarHostState)
+        }
     ) { padding ->
+
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding),
             contentAlignment = Alignment.Center
         ) {
+
             Column(
                 modifier = Modifier
-                    .widthIn(max = 600.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+                    .fillMaxWidth()
+                    .widthIn(max = 480.dp)
+                    .padding(horizontal = 16.dp)
+                    .clip(RoundedCornerShape(28.dp))
+                    .background(Color.White.copy(alpha = 0.90f))
+                    .border(
+                        width = 2.dp,
+                        color = appColors.mainGreen.copy(alpha = 0.65f),
+                        shape = RoundedCornerShape(28.dp)
+                    )
+                    .padding(24.dp)
+                    .verticalScroll(rememberScrollState()),
+
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
 
                 Text(
-                    text = "Регистрация",//stringResource(R.string.enterToAppTitle),
-                    style = Typography.text2xl(FontWeights.SemiBold)
+                    text = "Создай свой профиль",
+                    style = Typography.text2xl(FontWeights.SemiBold),
+                    color = appColors.textDefault
                 )
 
-                Spacer(modifier = Modifier.height(20.dp))
+                Text(
+                    text = "Присоединяйся к BreakingApp!",
+                    style = Typography.textSm(FontWeights.SemiBold),
+                    color = appColors.textDefault.copy(alpha = 0.65f)
+                )
 
+                Spacer(modifier = Modifier.height(8.dp))
+
+                // Имя и фамилия
+                OutlinedTextField(
+                    value = name,
+                    onValueChange = { name = it },
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = !isSubmitting,
+                    singleLine = true,
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Person,
+                            contentDescription = null
+                        )
+                    },
+                    label = {
+                        Text("Фамилия и имя")
+                    },
+                    placeholder = {
+                        Text("Введите ваше имя")
+                    },
+                    shape = RoundedCornerShape(16.dp),
+                    colors = registrationFieldColors()
+                )
+
+                // Email
                 OutlinedTextField(
                     value = email,
+                    onValueChange = {
+                        email = it.trim().lowercase()
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = !isSubmitting,
+                    singleLine = true,
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Email,
                             contentDescription = null
                         )
                     },
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .fillMaxWidth(),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                    label = { Text(text = "Электронная почта"/*stringResource(id = R.string.email)*/) },
-                    placeholder = { Text(text = "Ваша электронная почта"/* stringResource(id = R.string.yourEmail)*/) },
-                    onValueChange = {
-                        email = it.trim().lowercase()
-                    }
+                    label = {
+                        Text("Электронная почта")
+                    },
+                    placeholder = {
+                        Text("example@mail.com")
+                    },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Email
+                    ),
+                    isError = email.isNotEmpty() && !isEmailValid,
+                    shape = RoundedCornerShape(16.dp),
+                    colors = registrationFieldColors()
                 )
 
-
-                OutlinedTextField(
-                    value = name,
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .fillMaxWidth(),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                    label = { Text(text = "Фамилия и имя"/*stringResource(id = R.string.email)*/) },
-                    placeholder = { Text(text = "Ваша фамилия и имя"/* stringResource(id = R.string.yourEmail)*/) },
-                    onValueChange = {
-                        name = it
-                    }
-                )
-
-                MultiSelectDropdown(items = coachesList,
-                    selectedItems = selected,
-                    onSelectionChange = {selected = it }
-                )
-
+                // Пароль
                 OutlinedTextField(
                     value = password,
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .fillMaxWidth(),
+                    onValueChange = { password = it },
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = !isSubmitting,
+                    singleLine = true,
                     leadingIcon = {
                         Icon(
-                            imageVector = Icons.Default.Edit,
+                            imageVector = Icons.Default.Lock,
                             contentDescription = null
                         )
                     },
-                    label = { Text(text = "Пароль"/*stringResource(id = R.string.password)*/) },
-                    placeholder = { Text(text = "Ваш пароль"/*stringResource(id = R.string.yourPassword)*/) },
-                    visualTransformation = PasswordVisualTransformation(),
-                    onValueChange = {
-                        password = it
-                    },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
-                )
-
-                Spacer(modifier = Modifier.height(20.dp))
-
-
-                Button(
-                    enabled = email.isNotEmpty() && password.isNotEmpty() && name.isNotEmpty() && selected.isNotEmpty(),
-                    onClick = {
-                        scope.launch {
-                            authViewModel.signIn(
-                                email,
-                                password,
-                                name,
-                                selected,
-                                onSuccess = {
-                                    scope.launch {
-                                        val authUid = authViewModel.authState.value?.uid
-
-                                        if (authUid != null) {
-                                            try {
-                                                mainViewModel.saveCurrentFcmToken(authUid)
-                                            } catch (e: Exception) {
-                                                println(
-                                                    "❌ Ошибка сохранения FCM-токена: ${e.message}"
-                                                )
-                                            }
-                                        } else {
-                                            snackbarHostState.showSnackbar(
-                                                "Не удалось получить UID пользователя"
-                                            )
-                                        }
-
-                                        mainViewModel.loadCurrentUser(
-                                            currentUser = email
-                                        )
-
-         //                               findNavHost().navigateToActivitySingleTop(MainActivity)
-                                    }
+                    trailingIcon = {
+                        IconButton(
+                            onClick = {
+                                passwordVisible = !passwordVisible
+                            }
+                        ) {
+                            Icon(
+                                imageVector = if (passwordVisible) {
+                                    Icons.Default.VisibilityOff
+                                } else {
+                                    Icons.Default.Visibility
                                 },
-                                onError = {
-                                    scope.launch {
-                                        snackbarHostState.showSnackbar(
-                                            "Что-то пошло не так!"
-                                        )
-                                    }
+                                contentDescription = if (passwordVisible) {
+                                    "Скрыть пароль"
+                                } else {
+                                    "Показать пароль"
                                 }
                             )
                         }
                     },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 20.dp, start = 30.dp, end = 30.dp),
-                    shape = RoundedCornerShape(15.dp)
-                ) {
+                    label = {
+                        Text("Пароль")
+                    },
+                    placeholder = {
+                        Text("Не менее 6 символов")
+                    },
+                    visualTransformation = if (passwordVisible) {
+                        VisualTransformation.None
+                    } else {
+                        PasswordVisualTransformation()
+                    },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Password
+                    ),
+                    isError = password.isNotEmpty() && password.length < 6,
+                    shape = RoundedCornerShape(16.dp),
+                    colors = registrationFieldColors()
+                )
+
+                // Выбор тренеров
+                MultiSelectDropdown(
+                    items = coachesList,
+                    selectedItems = selected,
+                    onSelectionChange = { selected = it },
+                    enabled = !isSubmitting && coaches != null &&
+                            coachesList.isNotEmpty()
+                )
+
+                if (coaches == null) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        CircularProgressIndicator(
+                            modifier = Modifier
+                                .width(18.dp)
+                                .height(18.dp),
+                            color = appColors.mainGreen,
+                            strokeWidth = 2.dp
+                        )
+
+                        Spacer(modifier = Modifier.width(8.dp))
+
+                        Text(
+                            text = "Загружаем список тренеров...",
+                            style = Typography.textSm(FontWeights.SemiBold)
+                        )
+                    }
+                } else if (coachesList.isEmpty()) {
                     Text(
-                        text = "Создать"/*stringResource(R.string.enter)*/,
-                        style = Typography.text2xl(FontWeights.SemiBold)
+                        text = "Список тренеров пока пуст",
+                        color = MaterialTheme.colorScheme.error,
+                        style = Typography.textSm(FontWeights.SemiBold)
                     )
                 }
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                // Создать аккаунт
                 Button(
                     onClick = {
-                   //     fragmentNavigator.navigateBack()
+                        if (!isFormValid || isSubmitting) return@Button
+
+                        scope.launch {
+                            isSubmitting = true
+
+                            try {
+                                authViewModel.signIn(
+                                    email,
+                                    password,
+                                    name.trim(),
+                                    selected,
+                                    onSuccess = {
+                                        scope.launch {
+                                            try {
+                                                val authUid =
+                                                    authViewModel.authState.value?.uid
+
+                                                if (authUid != null) {
+                                                    try {
+                                                        mainViewModel.saveCurrentFcmToken(
+                                                            authUid
+                                                        )
+                                                    } catch (e: Exception) {
+                                                        println(
+                                                            "Ошибка сохранения FCM-токена: ${e.message}"
+                                                        )
+                                                    }
+                                                } else {
+                                                    snackbarHostState.showSnackbar(
+                                                        "Не удалось получить UID пользователя"
+                                                    )
+                                                }
+
+                                                mainViewModel.loadCurrentUser(
+                                                    currentUser = email
+                                                )
+
+                                                if (
+                                                    mainViewModel.currentPupil.value?.role == "admin"
+                                                ) {
+                                                    onAdminSuccess()
+                                                } else {
+                                                    onUserSuccess()
+                                                }
+                                            } catch (e: Exception) {
+                                                snackbarHostState.showSnackbar(
+                                                    e.message ?: "Ошибка загрузки пользователя"
+                                                )
+                                                isSubmitting = false
+                                            }
+                                        }
+                                    },
+                                    onError = {
+                                        scope.launch {
+                                            snackbarHostState.showSnackbar(
+                                                "Не удалось создать аккаунт. Проверьте введённые данные."
+                                            )
+                                            isSubmitting = false
+                                        }
+                                    }
+                                )
+                            } catch (e: Exception) {
+                                snackbarHostState.showSnackbar(
+                                    e.message ?: "Ошибка регистрации"
+                                )
+                                isSubmitting = false
+                            }
+                        }
                     },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 20.dp, start = 30.dp, end = 30.dp),
-                    shape = RoundedCornerShape(15.dp)
+                        .height(54.dp),
+                    enabled = isFormValid && !isSubmitting &&
+                            coaches != null && coachesList.isNotEmpty(),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = appColors.mainGreen
+                    )
+                ) {
+                    if (isSubmitting) {
+                        CircularProgressIndicator(
+                            modifier = Modifier
+                                .width(22.dp)
+                                .height(22.dp),
+                            color = Color.White,
+                            strokeWidth = 2.dp
+                        )
+                    } else {
+                        Text(
+                            text = "Создать аккаунт",
+                            style = Typography.textLg(FontWeights.SemiBold)
+                        )
+                    }
+                }
+
+                // Возврат к авторизации
+                TextButton(
+                    onClick = onBack,
+                    enabled = !isSubmitting
                 ) {
                     Text(
-                        text = "Войти",
-                        style = Typography.text2xl(FontWeights.SemiBold)
+                        text = "Уже есть аккаунт? Войти",
+                        color = appColors.mainGreen,
+                        style = Typography.textSm(FontWeights.SemiBold)
                     )
                 }
             }
@@ -227,68 +410,100 @@ fun RegistrationScreen(
 }
 
 @Composable
+private fun registrationFieldColors() =
+    OutlinedTextFieldDefaults.colors(
+        focusedBorderColor = LocalAppColors.current.mainGreen,
+        focusedLabelColor = LocalAppColors.current.mainGreen,
+        cursorColor = LocalAppColors.current.mainGreen,
+        unfocusedBorderColor = LocalAppColors.current.mainGreen.copy(alpha = 0.35f)
+    )
+
+@Composable
 fun MultiSelectDropdown(
     items: List<String>,
     selectedItems: List<String>,
-    onSelectionChange: (List<String>) -> Unit
+    onSelectionChange: (List<String>) -> Unit,
+    enabled: Boolean = true
 ) {
     var expanded by remember { mutableStateOf(false) }
 
+    val appColors = LocalAppColors.current
+
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 8.dp, vertical = 8.dp)
+        modifier = Modifier.fillMaxWidth()
     ) {
 
         OutlinedTextField(
             value = selectedItems.joinToString(", "),
             onValueChange = {},
             readOnly = true,
-            label = { Text("Выберите тренеров") },
+            enabled = enabled,
+            modifier = Modifier.fillMaxWidth(),
+            label = {
+                Text("Ваши тренеры")
+            },
+            placeholder = {
+                Text("Выберите одного или нескольких")
+            },
+            supportingText = {
+                Text(
+                    text = when {
+                        items.isEmpty() -> "Нет доступных тренеров"
+                        selectedItems.isEmpty() -> "Можно выбрать несколько тренеров"
+                        else -> "Выбрано тренеров: ${selectedItems.size}"
+                    }
+                )
+            },
             trailingIcon = {
-                IconButton(onClick = { expanded = !expanded }) {
+                IconButton(
+                    onClick = { expanded = !expanded },
+                    enabled = enabled
+                ) {
                     Icon(
                         imageVector = Icons.Default.ArrowDropDown,
-                        contentDescription = null
+                        contentDescription = "Выбрать тренеров"
                     )
                 }
             },
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable { expanded = true }
+            shape = RoundedCornerShape(16.dp),
+            colors = registrationFieldColors()
         )
 
         DropdownMenu(
             expanded = expanded,
             onDismissRequest = { expanded = false },
+            modifier = Modifier
+                .heightIn(max = 280.dp),
             containerColor = MaterialTheme.colorScheme.surface
         ) {
             items.forEach { item ->
+
+                val isSelected = item in selectedItems
+
                 DropdownMenuItem(
                     onClick = {
-                        val newList = selectedItems.toMutableList().apply {
-                            if (contains(item)) remove(item)
-                            else add(item)
+                        val newList = if (isSelected) {
+                            selectedItems - item
+                        } else {
+                            selectedItems + item
                         }
+
                         onSelectionChange(newList)
                     },
                     text = {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
                             Checkbox(
-                                checked = selectedItems.contains(item),
-                                onCheckedChange = { checked ->
-                                    val newList = selectedItems.toMutableList().apply {
-                                        if (checked) add(item) else remove(item)
-                                    }
-                                    onSelectionChange(newList)
-                                }
+                                checked = isSelected,
+                                onCheckedChange = null
                             )
 
                             Spacer(modifier = Modifier.width(8.dp))
 
                             Text(
                                 text = item,
-                                color = MaterialTheme.colorScheme.onSurface
+                                color = appColors.textDefault
                             )
                         }
                     }
